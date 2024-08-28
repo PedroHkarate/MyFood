@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyFood</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <h1 class="center">Projeto de Programação 2</h1>
+
+    <div class="container-imagem-texto">
+        <img src="img/logo.jpg" alt="Imagem do Produto" width="200" height="200" class="imagem-lado-texto">
+        <div class="texto-container">
+            <h1 class="blue">Sistema de Delivery de Produtos (MyFood)</h1>
+            <div>
+                O projeto desse semestre será um sistema simples de delivery (baseado no iFood).
+                Vocês deverão implementar esse sistema baseando-se na ideia de testes de aceitação. 
+                Para aqueles que não tentaram o projeto enviado para treino, os testes de aceitação
+                são um modo de avaliar se a sua implimentação atende aos requesitos para o sistema que 
+                queremos que vocês desenvolvam. Mas não se mantenham somente a isso.
+            </div>
+            <br>
+            Informações indispensaveis:
+            <ul>
+              <li><a href="#descricao">Descrição</a></li>
+              <li><a href="#userstories">User stories</a></li>
+              <li><a href="#milestones">Milestones</a></li>
+              <li><a href="#testes">Testes de aceitação</a></li>
+              <li><a href="#script">Linguagem de script</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <p>
+      Os testes de aceitação acessam apenas a lógica do negócio, não a interface com o usuário.
+      Em um sistema qualquer, interfaces bonitas e fáceis de usar são uma característica muito importante.
+      Entretanto, para facilitar a vida de vocês, só faremos a lógica de negócio do sistema, sem implementação 
+      alguma de interface visual com o usuário. Também é uma regra importante separar a interface com o usuário da 
+      lógica de negócio e fazer com que seu projeto não tenha interface com o usuário é uma forma de você 
+      sacar esse ponto arquitetural importante.
+    </p>
+
+    <p>
+      Como no projeto "teste", aqui vocês terão que projetar e implementar o sistema de uma forma incremental. 
+      Haverá alguns milestones e, em cada um, novas funcionalidades serão adicionadas ao sistema. As funcionalidades 
+      estão descritas dentro de User Stories. Uma User Story (us) consiste de duas partes: 
+
+      <ul>
+        <li>uma descrição do que se deseja em termos de funcionalidade e das interações que o sistema deve suportar</li>
+        <li>um conjunto formal de testes que, se executarem sem erros inesperados, comprovam que a funcionalidade foi implementada 
+          como desejada.</li>
+      </ul>
+      
+      <p>
+        Em cada um dos milestones no <a href="https://github.com/arturfarias/MyFood">repositorio do GitHub</a>, haverá um conjunto de user stories que deverá ser implementado.
+      </p>
+    </p>
+    
+    <a name="descricao"><h1 class="blue">Descrição do Projeto</h1></a>
+    <h2>Descrição geral</h2>
+    <p>
+      O propósito do projeto é de construir um sistema de delivery. O sistema consiste de um aplicativo onde seja possível realizar 
+      cadatro de empresas (restaurantes, mercados, farmacias, etc...), clientes (usuários) e entregadores. Além dos seus 
+      dados associados tais como produtos e pedidos. O sistema deve ser capaz de atender a demanda de usuários famintos.
+    </p>
+    
+    <a name="userstories">
+      <h1 class="blue">User Stories</h1>
+    </a>
+    <table>
+        <thead>
+          <tr>
+            <th>User Story</th>
+            <th>Título</th>
+            <th>Breve Descrição</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>Criação de contas</td>
+            <td>Permita a um usuário criar uma conta no MyFood, O usuário poderá ser de dois tipos, Cliente e Dono de Restaurante.</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>Criação de Restaurantes</td>
+            <td>Permita que um usuário do tipo dono de empresa crie seu restaurante, mercado ou farmacia no MyFood.</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>Criação de Produtos</td>
+            <td>Permita que um usuário do tipo dono de restaurante crie produtos para sua empresa. </td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td>Criação de Pedidos</td>
+            <td>Permita que clientes adicionem produtos de uma empresa a seu carrinho e realizem a compra.</td>
+          </tr>
+        </tbody>
+      </table>
+
+    <a name="testes">
+      <h1 class="blue">Testes de Aceitação</h1>
+    </a>
+    <p> 
+      Você pode baixar os testes de aceitação pelo <a href="https://github.com/arturfarias/MyFood">repositorio do GitHub</a>. Os quais você deve rodar para saber se o seu sistema está atendendo direitinho os 
+      requisitos. Você usará o EasyAccept para rodar os testes. Para poder rodar os testes, vocês precisarão criar uma 
+      Facade que acessa a logica do seu sistema segundo uma linguagem de script que foi criada para os testes de aceitação.
+      <p>
+        <a href="https://github.com/arturfarias/MyFood/tree/c1f0a6841ab8ad049ded50db832a1c46759ea5e9/Milestone%2001">Milestone 1</a><br>
+        <a href="https://github.com/arturfarias/MyFood/tree/c1f0a6841ab8ad049ded50db832a1c46759ea5e9/Milestone%2002">Milestone 2</a><br>
+      </p>
+    </p>
+    <h2>Persistencia de dados</h2>
+    <p>
+      Num sistema de informação real, a persistência dos dados usaria provavelmente um banco de dados. Não faremos isso aqui. 
+      A informação persistente pode ser feita em arquivo XML (vejam java.beans.XMLEncoder e java.beans.XMLDecoder).
+    </p>
+    <a name="script">
+      <h1 class="blue">Linguagem de Script</h1>
+    </a>
+    <p>
+      Para acessar a business logic de seu programa e poder realizar os testes de aceitação, você precisará implementar uma 
+      linguagem de script que consiste nos comandos abaixo. Esses são os comandos usados nos testes de aceitação.
+      (us1.txt, us2.txt, etc.) Cada um deles deve corresponder a um método na sua facade. Observem que nos proprios testes existem algumas explicações sobre
+       as variáveis, atributos e metodos correspondentes.
+    </p>
+    <p>
+      Obs: estão listados apenas os comandos usados nos testes das User Stories 1 a 4 (será atualizado a maneira que avançamos na disciplina).
+      <br>
+    </p>
+    <pre>
+      &lt;void&gt; zerarSistema
+      &lt;void&gt; encerrarSistema
+      &lt;void&gt; criarUsuario nome=&lt;String&gt; email=&lt;String&gt; senha=&lt;String&gt; endereco=&lt;String&gt;
+      &lt;int&gt; login email=&lt;String&gt; senha=&lt;String&gt;
+      &lt;String&gt; getAtributoUsuario id=&lt;int&gt; atributo=&lt;String&gt;
+      &lt;int&gt; criarEmpresa tipoEmpresa=&lt;String&gt; dono=&lt;int&gt; nome=&lt;String&gt; endereco=&lt;String&gt; tipoCozinha=&lt;String&gt;
+      &lt;List&lt;List&gt;&gt; getEmpresasDoUsuario idDono=&lt;int&gt;
+      &lt;String&gt; getAtributoEmpresa empresa=&lt;int&gt; atributo=&lt;String&gt;
+      &lt;int&gt; getIdEmpresa idDono=&lt;int&gt; nome=&lt;String&gt; indice=&lt;int&gt;
+      &lt;int&gt; criarProduto empresa=&lt;int&gt; nome=&lt;String&gt; valor=&lt;Float&gt; categoria=&lt;String&gt;
+      &lt;void&gt; editarProduto produto=&lt;int&gt; nome=&lt;String&gt; valor=&lt;Float&gt; categoria=&lt;String&gt;
+      &lt;String&gt; getProduto nome=&lt;String&gt; empresa=&lt;int&gt; atributo=&lt;String&gt;
+      &lt;List&gt; listarProdutos empresa=&lt;int&gt;
+      &lt;int&gt; criarPedido cliente=&lt;int&gt; empresa=&lt;int&gt;
+      &lt;void&gt; adcionarProduto numero=&lt;int&gt; produto=&lt;int&gt;
+      &lt;String&gt; getPedidos numero=&lt;int&gt; atributo=&lt;String&gt;
+      &lt;void&gt; fecharPedido numero=&lt;int&gt;
+      &lt;void&gt; removerProduto pedido=&lt;int&gt; produto=&lt;String&gt;
+      &lt;int&gt; getNumeroPedido cliente=&lt;int&gt; empresa=&lt;int&gt; indice=&lt;int&gt;
+    </pre>
+
+    <a name="milestones">
+      <h1 class="blue">Milestones</h1>
+    </a>
+    <p>
+      Teremos 2 milestones.
+      <br>
+      Vocês vão observar que não pedi interface gráfica (Swing ou Web). Tem dois motivos:
+      <ul>
+        <li>Não quero que você gaste tempo com GUI</li>
+        <li>Não haverá perigo de colocar lógica de negócio na interface se não tiver GUI</li>
+      </ul>
+    </p>
+    <a name="glossario">
+      <h1 class="blue">Glossário</h1>
+    </a>
+   <!-- <div class="definition">
+        <strong>Texto:</strong> descrição.
+    </div>
+  -->
+
+</body>
+</html>

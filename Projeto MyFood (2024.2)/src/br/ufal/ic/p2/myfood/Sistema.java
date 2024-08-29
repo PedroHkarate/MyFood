@@ -9,16 +9,24 @@ public class Sistema {
         super(nome, email, senha, endereco);
     }*/
 
+    //conferir linhas 14-23 estão certas
+
     private ArrayList<Usuario> usuarios;
+    private ArrayList<Restaurante> restaurantes;
+    private ArrayList<Produto> produtos;
     private ArrayList<String> secoesAtivas;
 
     public Sistema(){
         usuarios = new ArrayList<>();
+        restaurantes = new ArrayList<>();
+        produtos = new ArrayList<>();
         secoesAtivas = new ArrayList<>();
     }
 
     public void zerarSistema(){
         this.usuarios.clear();
+        this.restaurantes.clear();
+        this.produtos.clear();
         secoesAtivas.clear();
     }
 

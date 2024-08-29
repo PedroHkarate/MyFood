@@ -13,19 +13,35 @@ public class Restaurante {
         this.tipoCozinha = tipoCozinha;
     }
 
-    public static int getId(){
+    public static int getId() {
         return id;
+    }
+
+    public static void setId(int id) {
+        Restaurante.id = id;
     }
 
     public static String getNome() {
         return nome;
     }
 
+    public static void setNome(String nome) {
+        Restaurante.nome = nome;
+    }
+
     public static String getEndereco() {
         return endereco;
     }
 
+    public static void setEndereco(String endereco) {
+        Restaurante.endereco = endereco;
+    }
+
     public static String getTipoCozinha() {
         return tipoCozinha;
+    }
+
+    public static void setTipoCozinha(String tipoCozinha) {
+        Restaurante.tipoCozinha = tipoCozinha;
     }
 }

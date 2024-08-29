@@ -14,6 +14,7 @@ public class Facade {
     public void zerarSistema() {
 
     }
+
     public void criarUsuario(String nome, String email, String senha, String endereco){
 
     }
@@ -25,7 +26,7 @@ public class Facade {
         else new UsuarioNaoCadastradoException();
     }
 
-    public int login(String email, String senha){
+    public int login(String email, String senha) {
         return 0;
     }
 

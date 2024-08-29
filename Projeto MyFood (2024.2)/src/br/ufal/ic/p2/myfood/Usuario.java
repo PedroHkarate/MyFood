@@ -31,5 +31,7 @@ public class Usuario {
         return senha;
     }
 
-    public static String getEndereco() { return endereco; }
+    public static String getEndereco() {
+        return endereco;
+    }
 }

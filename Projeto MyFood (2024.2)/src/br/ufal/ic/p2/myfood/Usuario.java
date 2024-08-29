@@ -1,5 +1,7 @@
 package br.ufal.ic.p2.myfood;
 
+// id, nome, email, senha e endereço NÃO deveriam ser estaticos(?) ja que são atributos compartilhados
+
 public class Usuario {
     private static int id;
     private static String nome;

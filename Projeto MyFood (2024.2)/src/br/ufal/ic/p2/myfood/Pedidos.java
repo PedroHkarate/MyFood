@@ -1,12 +1,12 @@
 package br.ufal.ic.p2.myfood;
 
 public class Pedidos {
-    private static int numero;
-    private static String cliente;
-    private static String empresa;
-    private static String estado;
-    //private static  produtos;
-    private static float valor;
+    private int numero;
+    private String cliente;
+    private String empresa;
+    private String estado;
+    //private produtos;
+    private float valor;
 
     public Pedidos(int numero, String cliente, String empresa, String estado) {
         this.numero = numero;
@@ -16,43 +16,43 @@ public class Pedidos {
         this.valor = valor;
     }
 
-    public static int getNumero() {
+    public int getNumero() {
         return numero;
     }
 
-    public static void setNumero(int numero) {
-        Pedidos.numero = numero;
+    public void setNumero(int numero) {
+        this.numero = numero;
     }
 
-    public static String getCliente() {
+    public String getCliente() {
         return cliente;
     }
 
-    public static void setCliente(String cliente) {
-        Pedidos.cliente = cliente;
+    public void setCliente(String cliente) {
+        this.cliente = cliente;
     }
 
-    public static String getEmpresa() {
+    public String getEmpresa() {
         return empresa;
     }
 
-    public static void setEmpresa(String empresa) {
-        Pedidos.empresa = empresa;
+    public void setEmpresa(String empresa) {
+        this.empresa = empresa;
     }
 
-    public static String getEstado() {
+    public String getEstado() {
         return estado;
     }
 
-    public static void setEstado(String estado) {
-        Pedidos.estado = estado;
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
 
-    public static float getValor() {
+    public float getValor() {
         return valor;
     }
 
-    public static void setValor(float valor) {
-        Pedidos.valor = valor;
+    public void setValor(float valor) {
+        this.valor = valor;
     }
 }

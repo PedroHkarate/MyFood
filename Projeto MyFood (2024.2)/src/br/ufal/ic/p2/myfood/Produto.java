@@ -1,10 +1,10 @@
 package br.ufal.ic.p2.myfood;
 
 public class Produto {
-    private static int id;
-    private static String nome;
-    private static float valor;
-    private static String categoria;
+    private int id;
+    private String nome;
+    private float valor;
+    private String categoria;
 
     public Produto(int id, String nome, float valor, String categoria) {
         this.id = id;
@@ -13,35 +13,35 @@ public class Produto {
         this.categoria = categoria;
     }
 
-    public static int getId() {
+    public int getId() {
         return id;
     }
 
-    public static void setId(int id) {
-        Produto.id = id;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public static String getNome() {
+    public String getNome() {
         return nome;
     }
 
-    public static void setNome(String nome) {
-        Produto.nome = nome;
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
-    public static float getValor() {
+    public float getValor() {
         return valor;
     }
 
-    public static void setValor(float valor) {
-        Produto.valor = valor;
+    public void setValor(float valor) {
+        this.valor = valor;
     }
 
-    public static String getCategoria() {
+    public String getCategoria() {
         return categoria;
     }
 
-    public static void setCategoria(String categoria) {
-        Produto.categoria = categoria;
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
     }
 }

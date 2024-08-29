@@ -1,10 +1,10 @@
 package br.ufal.ic.p2.myfood;
 
 public class Restaurante {
-    private static int id;
-    private static String nome;
-    private static String endereco;
-    private static String tipoCozinha;
+    private int id;
+    private String nome;
+    private String endereco;
+    private String tipoCozinha;
 
     public Restaurante(int id, String nome, String endereco, String tipoCozinha) {
         this.id = id;
@@ -13,35 +13,35 @@ public class Restaurante {
         this.tipoCozinha = tipoCozinha;
     }
 
-    public static int getId() {
+    public int getId() {
         return id;
     }
 
-    public static void setId(int id) {
-        Restaurante.id = id;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public static String getNome() {
+    public String getNome() {
         return nome;
     }
 
-    public static void setNome(String nome) {
-        Restaurante.nome = nome;
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
-    public static String getEndereco() {
+    public String getEndereco() {
         return endereco;
     }
 
-    public static void setEndereco(String endereco) {
-        Restaurante.endereco = endereco;
+    public void setEndereco(String endereco) {
+        this.endereco = endereco;
     }
 
-    public static String getTipoCozinha() {
+    public String getTipoCozinha() {
         return tipoCozinha;
     }
 
-    public static void setTipoCozinha(String tipoCozinha) {
-        Restaurante.tipoCozinha = tipoCozinha;
+    public void setTipoCozinha(String tipoCozinha) {
+        this.tipoCozinha = tipoCozinha;
     }
 }

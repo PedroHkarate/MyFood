@@ -9,7 +9,7 @@ public class Sistema {
         super(nome, email, senha, endereco);
     }*/
 
-    //conferir linhas 14-23 estão certas
+    //conferir se as linhas 14-23 estão certas
 
     private ArrayList<Usuario> usuarios;
     private ArrayList<Restaurante> restaurantes;

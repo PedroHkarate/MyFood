@@ -11,12 +11,14 @@ public class Sistema {
 
     //conferir se as linhas 14-23 estão certas
 
+    private final Usuario usuario;
     private ArrayList<Usuario> usuarios;
     private ArrayList<Restaurante> restaurantes;
     private ArrayList<Produto> produtos;
     private ArrayList<String> secoesAtivas;
 
     public Sistema(){
+        this.usuario = new Usuario(0, "", "", "", "");
         usuarios = new ArrayList<>();
         restaurantes = new ArrayList<>();
         produtos = new ArrayList<>();
@@ -30,7 +32,7 @@ public class Sistema {
         secoesAtivas.clear();
     }
 
-    public void criarUsuario(String nome, String email, String senha, String endereco) throws NomeInvalidoException, EmailInvalidoException,
+    public String criarUsuario(String nome, String email, String senha, String endereco) throws NomeInvalidoException, EmailInvalidoException,
             SenhaInvalidaException, EnderecoInvalidoException{
         int id = Usuario.getId();
         if(!usuarios.contains(nome)){
@@ -49,28 +51,35 @@ public class Sistema {
             if(endereco == null) throw new EnderecoInvalidoException();
             else endereco = Usuario.getEndereco();
         }
-        usuarios.add(new Usuario(id, nome, email, senha, endereco));
+        String usuario1 = String.valueOf(usuarios.add(new Usuario(id, nome, email, senha, endereco)));
 
-        System.out.println(usuarios);
+        if(usuario1 != null) return usuario1;
+        else return null;
+
+        //System.out.println(usuarios);
     }
 
     public String getAtributoUsuario(int id, String atributo) throws UsuarioNaoCadastradoException{
         if(usuarios.contains(id)){
             if(atributo == "nome"){
-                if(usuarios.contains(atributo)) atributo = Usuario.getNome();
+                if(Usuario.getNome() == atributo) atributo = Usuario.getNome();
+                else throw new UsuarioNaoCadastradoException();
             }
             if(atributo == "email"){
                 if(usuarios.contains(atributo)) atributo = Usuario.getEmail();
+                else throw new UsuarioNaoCadastradoException();
             }
             if(atributo == "senha"){
                 if(usuarios.contains(atributo)) atributo = Usuario.getSenha();
+                else throw new UsuarioNaoCadastradoException();
             }
             if(atributo == "endereco"){
                 if(usuarios.contains(atributo)) atributo = Usuario.getEndereco();
+                else throw new UsuarioNaoCadastradoException();
             }
             return atributo;
         }
-        else return null;
+        else throw new UsuarioNaoCadastradoException();
     }
 
     /*public void criarUsuario(String nome, String email, String senha, String endereco, String cpf) throws NomeInvalidoException, EmailInvalidoException,

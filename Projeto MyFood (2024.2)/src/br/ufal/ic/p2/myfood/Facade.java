@@ -1,6 +1,6 @@
 package br.ufal.ic.p2.myfood;
 
-import br.ufal.ic.p2.myfood.Exceptions.UsuarioNaoCadastradoException;
+import br.ufal.ic.p2.myfood.Exceptions.*;
 
 public class Facade {
 
@@ -15,15 +15,16 @@ public class Facade {
 
     }
 
-    public void criarUsuario(String nome, String email, String senha, String endereco){
-
+    public void criarUsuario(String nome, String email, String senha, String endereco)throws NomeInvalidoException, EmailInvalidoException,
+    SenhaInvalidaException, EnderecoInvalidoException {
+        new Sistema().criarUsuario(nome, email, senha, endereco);
     }
 
     public void getAtributoUsuario(int id, String atributo) throws UsuarioNaoCadastradoException {
-        String usuario1 = new Sistema().getAtributoUsuario(id, atributo);
+        System.out.println(new Sistema().getAtributoUsuario(id, atributo));
 
-        if(usuario1 != null) System.out.println(usuario1);
-        else new UsuarioNaoCadastradoException();
+        /*if(usuario1 != null) System.out.println(usuario1);
+        else new UsuarioNaoCadastradoException();*/
     }
 
     public int login(String email, String senha) {

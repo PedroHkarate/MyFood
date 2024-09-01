@@ -1,6 +1,8 @@
 package br.ufal.ic.p2.myfood;
 
 import java.util.ArrayList;
+import java.util.Objects;
+
 import br.ufal.ic.p2.myfood.Exceptions.*;
 
 public class Sistema {
@@ -9,14 +11,16 @@ public class Sistema {
         super(nome, email, senha, endereco);
     }*/
 
-    private final Usuario usuario;
+    //conferir se as linhas 14-23 estão certas
+
+    private Usuario usuario;
     private ArrayList<Usuario> usuarios;
     private ArrayList<Restaurante> restaurantes;
     private ArrayList<Produto> produtos;
     private ArrayList<String> secoesAtivas;
 
     public Sistema(){
-        this.usuario = new Usuario(0, "", "", "", "");
+        this.usuario = new Usuario("", "", "", "");
         usuarios = new ArrayList<>();
         restaurantes = new ArrayList<>();
         produtos = new ArrayList<>();
@@ -30,102 +34,101 @@ public class Sistema {
         secoesAtivas.clear();
     }
 
-    // possivel solução pra não usar parametros estaticos (36-74), as funções originais estão comentadas em baixo
+    public void criarUsuario(String nome, String email, String senha, String endereco) throws Exception{
+        Usuario usuario1 = new UsuarioCliente(nome, email, senha, endereco);
+        if (nome == null || nome.isEmpty()) {
+            throw new NomeInvalidoException();
+        }
+        if (email == null) {
+            throw new EmailInvalidoException();
+        }
+        if (!email.contains("@")) {
+            throw new EmailInvalidoException();
+        }
+        if (senha == null || senha.isEmpty()) {
+            throw new SenhaInvalidaException();
+        }
+        if (endereco == null || endereco.isEmpty()) {
+            throw new EnderecoInvalidoException();
+        }
 
-    public String criarUsuario(String nome, String email, String senha, String endereco)
-            throws NomeInvalidoException, EmailInvalidoException,
-            SenhaInvalidaException, EnderecoInvalidoException {
+        for (Usuario usuario2 : usuarios) {
+            if (usuario2.getEmail().equals(email)) throw new EmailJaExisteException();
+        }
 
-        if (nome == null) throw new NomeInvalidoException();
-        if (email == null) throw new EmailInvalidoException();
-        if (senha == null) throw new SenhaInvalidaException();
-        if (endereco == null) throw new EnderecoInvalidoException();
+        Usuario usuarioC = new UsuarioCliente(nome, email, senha, endereco);
+        usuarios.add(usuarioC);
 
-        Usuario usuario = new Usuario(usuarios.size() + 1, nome, email, senha, endereco);
-
-        boolean adicionado = usuarios.add(usuario);
-        return nome;
     }
 
-    public String getAtributoUsuario(int id, String atributo) throws UsuarioNaoCadastradoException {
-        Usuario usuario = null;
-        for (Usuario u : usuarios) {
-            if (u.getId() == id) {
-                usuario = u;
-                break;
+    public void criarUsuario(String nome, String email, String senha, String endereco, String cpf) throws Exception{
+        Usuario usuario1 = new UsuarioCliente(nome, email, senha, endereco);
+        if (nome == null || nome.isEmpty()) {
+            throw new NomeInvalidoException();
+        }
+        if (email == null) {
+            throw new EmailInvalidoException();
+        }
+        if (!email.contains("@")) {
+            throw new EmailInvalidoException();
+        }
+        if (senha == null || senha.isEmpty()) {
+            throw new SenhaInvalidaException();
+        }
+        if (endereco == null || endereco.isEmpty()) {
+            throw new EnderecoInvalidoException();
+        }
+        if (cpf == null || cpf.length() != 14){
+            throw new CpfInvalidoException();
+        }
+
+        for (Usuario usuario2 : usuarios) {
+            if (usuario2.getEmail().equals(email)) throw new EmailJaExisteException();
+        }
+
+        Usuario usuarioD = new UsuarioDono(nome, email, senha, endereco, cpf);
+        usuarios.add(usuarioD);
+
+    }
+
+    public String getAtributoUsuario(int id, String atributo) throws Exception {
+
+        Usuario usuario1 = null;
+
+        for (Usuario usuario2 : usuarios) {
+            if (usuario2.getId() == id) {
+                usuario1 = usuario2;
+                break; // Podemos sair do loop assim que encontrarmos o usuário
             }
         }
-        if (usuario == null) {
-            throw new UsuarioNaoCadastradoException();
-        }
-        if (atributo.equalsIgnoreCase("nome")) {
-            return usuario.getNome();
-        } else if (atributo.equalsIgnoreCase("email")) {
-            return usuario.getEmail();
-        } else if (atributo.equalsIgnoreCase("senha")) {
-            return usuario.getSenha();
-        } else if (atributo.equalsIgnoreCase("endereco")) {
-            return usuario.getEndereco();
+
+        if (usuario1 != null) {
+            switch (atributo) {
+                case "nome":
+                    return usuario1.getNome();
+                case "email":
+                    return usuario1.getEmail();
+                case "senha":
+                    return usuario1.getSenha();
+                case "endereco":
+                    return usuario1.getEndereco();
+                case "cpf":
+                    if (usuario1.getTemCpf()){
+                        UsuarioDono usuarioD = (UsuarioDono) usuario1;
+                        return usuarioD.getCpf();
+                    } else {
+                        throw new AtributoInvalidoException();
+                    }
+                default:
+                    throw new AtributoInvalidoException();
+            }
         } else {
             throw new UsuarioNaoCadastradoException();
         }
     }
 
-/*
-    public String criarUsuario(String nome, String email, String senha, String endereco) throws NomeInvalidoException, EmailInvalidoException,
-            SenhaInvalidaException, EnderecoInvalidoException{
-        int id = Usuario.getId();
-        if(!usuarios.contains(nome)){
-            if(nome == null) throw new NomeInvalidoException();
-            else nome = Usuario.getNome();
-        }
-        if(!usuarios.contains(email)){
-            if(email == null) throw new EmailInvalidoException();
-            else email = Usuario.getEmail();
-        }
-        if(!usuarios.contains(senha)){
-            if(senha == null) throw new SenhaInvalidaException();
-            else senha = Usuario.getSenha();
-        }
-        if(!usuarios.contains(endereco)){
-            if(endereco == null) throw new EnderecoInvalidoException();
-            else endereco = Usuario.getEndereco();
-        }
-        String usuario1 = String.valueOf(usuarios.add(new Usuario(id, nome, email, senha, endereco)));
 
-        if(usuario1 != null) return usuario1;
-        else return null;
-
-        //System.out.println(usuarios);
-    }
-
-    public String getAtributoUsuario(int id, String atributo) throws UsuarioNaoCadastradoException{
-        if(usuarios.contains(id)){
-            if(atributo == "nome"){
-                if(Usuario.getNome() == atributo) atributo = Usuario.getNome();
-                else throw new UsuarioNaoCadastradoException();
-            }
-            if(atributo == "email"){
-                if(usuarios.contains(atributo)) atributo = Usuario.getEmail();
-                else throw new UsuarioNaoCadastradoException();
-            }
-            if(atributo == "senha"){
-                if(usuarios.contains(atributo)) atributo = Usuario.getSenha();
-                else throw new UsuarioNaoCadastradoException();
-            }
-            if(atributo == "endereco"){
-                if(usuarios.contains(atributo)) atributo = Usuario.getEndereco();
-                else throw new UsuarioNaoCadastradoException();
-            }
-            return atributo;
-        }
-        else throw new UsuarioNaoCadastradoException();
-    }
-*/
-
-    /*
-
-    public void criarUsuario(String nome, String email, String senha, String endereco, String cpf) throws NomeInvalidoException, EmailInvalidoException,
+    /*public void criarUsuario(String nome, String email, String senha, String endereco, String cpf) throws NomeInvalidoException, EmailInvalidoException,
             SenhaInvalidaException, EnderecoInvalidoException, CpfInvalidoException{
         if(!usuarios.contains(nome)){
             if(nome == null) throw new NomeInvalidoException();

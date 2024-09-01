@@ -82,22 +82,22 @@ expectError "Nome invalido" criarUsuario nome=  email="carlos@ufal.com.br" senha
 expectError "Nome invalido" criarUsuario nome=""  email="carlos@ufal.com.br" senha="123senha" endereco="Rua Exemplo N 123"
 
 expectError "Email invalido" criarUsuario nome="Carlos" email=  senha="123senha" endereco="Rua Exemplo N 123"
+expectError "Email invalido" criarUsuario nome="Carlos" email=""  senha="123senha" endereco="Rua Exemplo N 123"
 
 expectError "Senha invalido" criarUsuario nome="Carlos" email="carlos@ufal.com.br" senha=  endereco="Rua Exemplo N 123"
 expectError "Senha invalido" criarUsuario nome="Carlos" email="carlos@ufal.com.br" senha=""  endereco="Rua Exemplo N 123"
 
-expectError "Endereco invalido" criarUsuario nome="Carlos" email="carlos@ufal.com.br" senha="123senha" endereco=  
-expectError "Endereco invalido" criarUsuario nome="Carlos" email="carlos@ufal.com.br" senha="123senha" endereco=""  
+expectError "Endereco invalido" criarUsuario nome="Carlos" email="carlos@ufal.com.br" senha="123senha" endereco=
+expectError "Endereco invalido" criarUsuario nome="Carlos" email="carlos@ufal.com.br" senha="123senha" endereco=""
 
-expectError "CPF invalido" criarUsuario nome="CarlosDono" email="carlos2@ufal.com.br" senha="123senha", endereco="Rua Exemplo N 123" cpf=  
-expectError "CPF invalido" criarUsuario nome="CarlosDono" email="carlos2@ufal.com.br" senha="123senha", endereco="Rua Exemplo N 123" cpf=""  
+expectError "CPF invalido" criarUsuario nome="CarlosDono" email="carlos2@ufal.com.br" senha="123senha", endereco="Rua Exemplo N 123" cpf=
+expectError "CPF invalido" criarUsuario nome="CarlosDono" email="carlos2@ufal.com.br" senha="123senha", endereco="Rua Exemplo N 123" cpf=""
 
 expectError "Endereco invalido" criarUsuario nome="CarlosDono" email="carlos2@ufal.com.br" senha="123senha" endereco="" cpf="544.732.410-68"
 
 
 # Valida se o email esta no formato correto.
-expectError "Formato de email invalido" criarUsuario nome="CarlosDono" email="carlos2" senha="123senha" endereco="Rua Exemplo N 321" cpf="544.732.410-68"
-expectError "Formato de email invalido" criarUsuario nome="CarlosDono" email="" senha="123senha" endereco="Rua Exemplo N 321" cpf="544.732.410-68"
+expectError "Email invalido" criarUsuario nome="CarlosDono" email="carlos2" senha="123senha" endereco="Rua Exemplo N 321" cpf="544.732.410-68"
 
 ###################
 # testes de todas as outras combinações importantes para o comando login
@@ -105,7 +105,7 @@ expectError "Formato de email invalido" criarUsuario nome="CarlosDono" email="" 
 expectError "Login ou senha invalidos" login email="carlos@ufal.com.br" senha="abc"
 expectError "Login ou senha invalidos" login email="abc" senha="abc"
 expectError "Login ou senha invalidos" login email=  senha="abc"
-expectError "Login ou senha invalidos" login email="carlos@ufal.com.br" senha=  
+expectError "Login ou senha invalidos" login email="carlos@ufal.com.br" senha=
 
 encerrarSistema
 quit

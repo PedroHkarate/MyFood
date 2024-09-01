@@ -15,16 +15,19 @@ public class Facade {
 
     }
 
-    public void criarUsuario(String nome, String email, String senha, String endereco)throws NomeInvalidoException, EmailInvalidoException,
-    SenhaInvalidaException, EnderecoInvalidoException {
-        new Sistema().criarUsuario(nome, email, senha, endereco);
+    public void criarUsuario(String nome, String email, String senha, String endereco) throws Exception {
+        sistema.criarUsuario(nome, email, senha, endereco);
     }
 
-    public void getAtributoUsuario(int id, String atributo) throws UsuarioNaoCadastradoException {
-        System.out.println(new Sistema().getAtributoUsuario(id, atributo));
+    public void criarUsuario(String nome, String email, String senha, String endereco, String cpf) throws Exception {
+        sistema.criarUsuario(nome, email, senha, endereco);
+    }
 
-        /*if(usuario1 != null) System.out.println(usuario1);
-        else new UsuarioNaoCadastradoException();*/
+    public String getAtributoUsuario(int id, String atributo) throws Exception {
+        return sistema.getAtributoUsuario(id, atributo);
+
+        /*if(atributo1 != null) return atributo1;
+        else throw new UsuarioNaoCadastradoException();*/
     }
 
     public int login(String email, String senha) {

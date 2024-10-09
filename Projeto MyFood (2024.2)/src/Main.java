@@ -15,3 +15,5 @@ public class Main {
         EasyAccept.main(args2);
     }
 }
+
+/* foi??????? */

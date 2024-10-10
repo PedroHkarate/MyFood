@@ -6,13 +6,6 @@ import java.util.Objects;
 import br.ufal.ic.p2.myfood.Exceptions.*;
 
 public class Sistema {
-
-    /*public Sistema(String nome, String email, String senha, String endereco) {
-        super(nome, email, senha, endereco);
-    }*/
-
-    //conferir se as linhas 14-23 estão certas
-
     private Usuario usuario;
     private ArrayList<Usuario> usuarios;
     private ArrayList<Restaurante> restaurantes;
@@ -34,15 +27,11 @@ public class Sistema {
         secoesAtivas.clear();
     }
 
-    public void criarUsuario(String nome, String email, String senha, String endereco) throws Exception{
-        Usuario usuario1 = new UsuarioCliente(nome, email, senha, endereco);
+    public void criarUsuario(String nome, String email, String senha, String endereco) throws Exception {
         if (nome == null || nome.isEmpty()) {
             throw new NomeInvalidoException();
         }
-        if (email == null) {
-            throw new EmailInvalidoException();
-        }
-        if (!email.contains("@")) {
+        if (email == null || !email.contains("@")) {
             throw new EmailInvalidoException();
         }
         if (senha == null || senha.isEmpty()) {
@@ -58,18 +47,14 @@ public class Sistema {
 
         Usuario usuarioC = new UsuarioCliente(nome, email, senha, endereco);
         usuarios.add(usuarioC);
-
     }
 
-    public void criarUsuario(String nome, String email, String senha, String endereco, String cpf) throws Exception{
-        Usuario usuario1 = new UsuarioCliente(nome, email, senha, endereco);
+
+    public void criarUsuario(String nome, String email, String senha, String endereco, String cpf) throws Exception {
         if (nome == null || nome.isEmpty()) {
             throw new NomeInvalidoException();
         }
-        if (email == null) {
-            throw new EmailInvalidoException();
-        }
-        if (!email.contains("@")) {
+        if (email == null || !email.contains("@")) {
             throw new EmailInvalidoException();
         }
         if (senha == null || senha.isEmpty()) {
@@ -78,7 +63,7 @@ public class Sistema {
         if (endereco == null || endereco.isEmpty()) {
             throw new EnderecoInvalidoException();
         }
-        if (cpf == null || cpf.length() != 14){
+        if (cpf == null || cpf.length() != 14) {
             throw new CpfInvalidoException();
         }
 
@@ -86,10 +71,23 @@ public class Sistema {
             if (usuario2.getEmail().equals(email)) throw new EmailJaExisteException();
         }
 
-        Usuario usuarioD = new UsuarioDono(nome, email, senha, endereco, cpf);
-        usuarios.add(usuarioD);
-
+        Usuario usuarioDono = new UsuarioDono(nome, email, senha, endereco, cpf);
+        usuarios.add(usuarioDono);
     }
+
+
+    public int login(String email, String senha) throws Exception {
+        if (email == null || email.isEmpty() || senha == null || senha.isEmpty()) {
+            throw new LoginOuSenhaInvalidosException();
+        }
+        for (Usuario usuario : usuarios) {
+            if (usuario.getEmail().equals(email) && usuario.getSenha().equals(senha)) {
+                return usuario.getId();
+            }
+        }
+        throw new LoginOuSenhaInvalidosException();
+    }
+
 
     public String getAtributoUsuario(int id, String atributo) throws Exception {
 
@@ -98,10 +96,9 @@ public class Sistema {
         for (Usuario usuario2 : usuarios) {
             if (usuario2.getId() == id) {
                 usuario1 = usuario2;
-                break; // Podemos sair do loop assim que encontrarmos o usuário
+                break;
             }
         }
-
         if (usuario1 != null) {
             switch (atributo) {
                 case "nome":
@@ -113,9 +110,9 @@ public class Sistema {
                 case "endereco":
                     return usuario1.getEndereco();
                 case "cpf":
-                    if (usuario1.getTemCpf()){
-                        UsuarioDono usuarioD = (UsuarioDono) usuario1;
-                        return usuarioD.getCpf();
+                    if (usuario1 instanceof UsuarioDono){
+                        UsuarioDono UsuarioDono = (UsuarioDono) usuario1;
+                        return UsuarioDono.getCpf();
                     } else {
                         throw new AtributoInvalidoException();
                     }
@@ -126,26 +123,4 @@ public class Sistema {
             throw new UsuarioNaoCadastradoException();
         }
     }
-
-
-    /*public void criarUsuario(String nome, String email, String senha, String endereco, String cpf) throws NomeInvalidoException, EmailInvalidoException,
-            SenhaInvalidaException, EnderecoInvalidoException, CpfInvalidoException{
-        if(!usuarios.contains(nome)){
-            if(nome == null) throw new NomeInvalidoException();
-        }
-        if(!usuarios.contains(email)){
-            if(email == null) throw new EmailInvalidoException();
-        }
-        if(!usuarios.contains(senha)){
-            if(senha == null) throw new SenhaInvalidaException();
-        }
-        if(!usuarios.contains(endereco)){
-            if(endereco == null) throw new EnderecoInvalidoException();
-        }
-        if(!usuarios.contains(cpf)){
-            if(cpf == null) throw new CpfInvalidoException();
-        }
-
-    }*/
-
 }

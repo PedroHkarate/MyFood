@@ -1,7 +1,5 @@
 package br.ufal.ic.p2.myfood;
 
-// id, nome, email, senha e endereço NÃO deveriam ser estaticos(?) ja que são atributos compartilhados
-
 public class Usuario {
     private static int counterId = 0;
     private int id;
@@ -9,7 +7,6 @@ public class Usuario {
     private String email;
     private String senha;
     private String endereco;
-    protected boolean temCpf = false;
 
     public Usuario(String nome, String email, String senha, String endereco){
         this.id = counterId++;
@@ -38,9 +35,4 @@ public class Usuario {
     public String getEndereco() {
         return endereco;
     }
-
-    public boolean getTemCpf(){
-        return temCpf;
-    }
-
 }

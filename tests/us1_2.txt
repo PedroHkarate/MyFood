@@ -12,7 +12,3 @@ expect "CarlosDono" getAtributoUsuario id=${id2} atributo="nome"
 expect "carlos2@ufal.com.br" getAtributoUsuario id=${id2} atributo="email"
 expect "123senha" getAtributoUsuario id=${id2} atributo="senha"
 expect "544.732.410-68" getAtributoUsuario id=${id2} atributo="cpf"
-
-
-encerrarSistema
-quit

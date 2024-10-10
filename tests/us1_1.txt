@@ -1,5 +1,5 @@
 # User Story 1 - Criação de contas
-# Permita a um usuário criar uma conta no MyFood, O usuário poderá ser de dois tipos, Cliente e Dono de Restaurante.
+# Permita a um usuário criar uma conta no MyFood, O usuário poderá ser de dois tipos, Cliente e Dono de Empresa.
 #
 # Os dados gerais para os usuários são:
 # id -> Que deve ser do tipo int e único gerado pelo sistema.
@@ -10,7 +10,7 @@
 # Os usuários do tipo cliente devem além dos dados gerais possuir os seguintes dados:
 # endereco -> o endereço do usuário no tipo String, a qual as entregas são realizadas.
 #
-# Os usuários do tipo Dono de Restaurante devem além dos dados gerais possuir os seguintes dados:
+# Os usuários do tipo Dono de Empresa devem além dos dados gerais possuir os seguintes dados:
 # endereco -> o endereço do usuário no tipo String, a qual as entregas são realizadas.
 # cpf -> Aceitando uma String que representa o CPF.
 #
@@ -49,7 +49,7 @@ expectError "Usuario nao cadastrado." getAtributoUsuario id=9999 atributo="nome"
 
 criarUsuario nome="Carlos" email="carlos@ufal.com.br" senha="123senha" endereco="Rua Exemplo N 123"
 
-# Se a senha estiver correta, a sessão é aberta e o teste passa sem erros. 
+# Se a senha estiver correta, a sessão é aberta e o teste passa sem erros.
 # Se existir algum erro, o programa vai lançar uma exceção e o EasyAccept vai acusar erro nessa linha.
 id1=login email="carlos@ufal.com.br" senha="123senha"
 
@@ -67,7 +67,7 @@ id2=login email="carlos2@ufal.com.br" senha="123senha"
 
 expect "Carlos" getAtributoUsuario id=${id1} atributo="nome"
 expect "carlos@ufal.com.br" getAtributoUsuario id=${id1} atributo="email"
-expect "Rua Exemplo N 123" getAtributoUsuario id=${id1} atributo="endereco" 
+expect "Rua Exemplo N 123" getAtributoUsuario id=${id1} atributo="endereco"
 
 expect "CarlosDono" getAtributoUsuario id=${id2} atributo="nome"
 expect "carlos2@ufal.com.br" getAtributoUsuario id=${id2} atributo="email"
@@ -106,6 +106,3 @@ expectError "Login ou senha invalidos" login email="carlos@ufal.com.br" senha="a
 expectError "Login ou senha invalidos" login email="abc" senha="abc"
 expectError "Login ou senha invalidos" login email=  senha="abc"
 expectError "Login ou senha invalidos" login email="carlos@ufal.com.br" senha=
-
-encerrarSistema
-quit

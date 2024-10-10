@@ -1,5 +1,5 @@
 # User Story 1 - Criação de contas
-# Permita a um usuário criar uma conta no MyFood, O usuário poderá ser de dois tipos, Cliente e Dono de Restaurante.
+# Permita a um usuário criar uma conta no MyFood, O usuário poderá ser de dois tipos, Cliente e Dono de Empresa.
 #
 # Os dados gerais para os usuários são:
 # id -> Que deve ser do tipo int e único gerado pelo sistema.
@@ -10,7 +10,7 @@
 # Os usuários do tipo cliente devem além dos dados gerais possuir os seguintes dados:
 # endereco -> o endereço do usuário no tipo String, a qual as entregas são realizadas.
 #
-# Os usuários do tipo Dono de Restaurante devem além dos dados gerais possuir os seguintes dados:
+# Os usuários do tipo Dono de Empresa devem além dos dados gerais possuir os seguintes dados:
 # endereco -> o endereço do usuário no tipo String, a qual as entregas são realizadas.
 # cpf -> Aceitando uma String que representa o CPF.
 #
@@ -87,11 +87,11 @@ expectError "Email invalido" criarUsuario nome="Carlos" email=""  senha="123senh
 expectError "Senha invalido" criarUsuario nome="Carlos" email="carlos@ufal.com.br" senha=  endereco="Rua Exemplo N 123"
 expectError "Senha invalido" criarUsuario nome="Carlos" email="carlos@ufal.com.br" senha=""  endereco="Rua Exemplo N 123"
 
-expectError "Endereco invalido" criarUsuario nome="Carlos" email="carlos@ufal.com.br" senha="123senha" endereco=
-expectError "Endereco invalido" criarUsuario nome="Carlos" email="carlos@ufal.com.br" senha="123senha" endereco=""
+expectError "Endereco invalido" criarUsuario nome="Carlos" email="carlos@ufal.com.br" senha="123senha" endereco=  
+expectError "Endereco invalido" criarUsuario nome="Carlos" email="carlos@ufal.com.br" senha="123senha" endereco=""  
 
-expectError "CPF invalido" criarUsuario nome="CarlosDono" email="carlos2@ufal.com.br" senha="123senha", endereco="Rua Exemplo N 123" cpf=
-expectError "CPF invalido" criarUsuario nome="CarlosDono" email="carlos2@ufal.com.br" senha="123senha", endereco="Rua Exemplo N 123" cpf=""
+expectError "CPF invalido" criarUsuario nome="CarlosDono" email="carlos2@ufal.com.br" senha="123senha", endereco="Rua Exemplo N 123" cpf=  
+expectError "CPF invalido" criarUsuario nome="CarlosDono" email="carlos2@ufal.com.br" senha="123senha", endereco="Rua Exemplo N 123" cpf=""  
 
 expectError "Endereco invalido" criarUsuario nome="CarlosDono" email="carlos2@ufal.com.br" senha="123senha" endereco="" cpf="544.732.410-68"
 
@@ -105,7 +105,7 @@ expectError "Email invalido" criarUsuario nome="CarlosDono" email="carlos2" senh
 expectError "Login ou senha invalidos" login email="carlos@ufal.com.br" senha="abc"
 expectError "Login ou senha invalidos" login email="abc" senha="abc"
 expectError "Login ou senha invalidos" login email=  senha="abc"
-expectError "Login ou senha invalidos" login email="carlos@ufal.com.br" senha=
+expectError "Login ou senha invalidos" login email="carlos@ufal.com.br" senha=  
 
 encerrarSistema
 quit

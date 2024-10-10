@@ -10,11 +10,11 @@ expect "Sorveteria do Roberto" getAtributoEmpresa empresa=${e1} atributo="nome"
 expect "Rua Segura N 987" getAtributoEmpresa empresa=${e1} atributo="endereco"
 expect "brasileira" getAtributoEmpresa empresa=${e1} atributo="tipoCozinha"
 expect "RobertoDono" getAtributoEmpresa empresa=${e1} atributo="dono"
-expectError"Atributo invalido" getAtributoEmpresa empresa=${e1} atributo="vizinhos"
+expectError "Atributo invalido" getAtributoEmpresa empresa=${e1} atributo="vizinhos"
 
-expectError "usuario nao pode criar uma empresa" getEmpresasDoUsuario idDono=${id1}
-expect "{[[Pastelaria do Carlos, Rua Segura N 987], [Sushi do Carlos, Rua Legal N 654 ], [Pastelaria do Carlos, Rua Divertida N 1973]]}" getEmpresasDoUsuario idDono=${id2}
-expect "{[]}" getEmpresasDoUsuario idDono=${id3}
+expectError "Usuario nao pode criar uma empresa" getEmpresasDoUsuario idDono=${id1}
+expect "{[[Pastelaria do Carlos, Rua Segura N 987], [Sushi do Carlos, Rua Legal N 654], [Pastelaria do Carlos, Rua Divertida N 1973]]}" getEmpresasDoUsuario idDono=${id2}
+expect "{[[Sorveteria do Roberto, Rua Segura N 987]]}" getEmpresasDoUsuario idDono=${id3}
 
 encerrarSistema
 quit

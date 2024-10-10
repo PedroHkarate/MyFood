@@ -11,6 +11,8 @@ public class Sistema {
     private ArrayList<Restaurante> restaurantes;
     private ArrayList<Produto> produtos;
     private ArrayList<String> secoesAtivas;
+    private ArrayList<Empresa> empresas;
+
 
     public Sistema(){
         this.usuario = new Usuario("", "", "", "");
@@ -18,7 +20,9 @@ public class Sistema {
         restaurantes = new ArrayList<>();
         produtos = new ArrayList<>();
         secoesAtivas = new ArrayList<>();
+        empresas = new ArrayList<>();
     }
+
 
     public void zerarSistema(){
         this.usuarios.clear();
@@ -26,6 +30,7 @@ public class Sistema {
         this.produtos.clear();
         secoesAtivas.clear();
     }
+
 
     public void criarUsuario(String nome, String email, String senha, String endereco) throws Exception {
         if (nome == null || nome.isEmpty()) {
@@ -44,7 +49,6 @@ public class Sistema {
         for (Usuario usuario2 : usuarios) {
             if (usuario2.getEmail().equals(email)) throw new EmailJaExisteException();
         }
-
         Usuario usuarioC = new UsuarioCliente(nome, email, senha, endereco);
         usuarios.add(usuarioC);
     }
@@ -122,5 +126,134 @@ public class Sistema {
         } else {
             throw new UsuarioNaoCadastradoException();
         }
+    }
+
+
+    public int criarEmpresa(String tipoEmpresa, int donoId, String nome, String endereco, String tipoCozinha) throws Exception {
+        Usuario dono = null;
+        for (Usuario usuario : usuarios) {
+            if (usuario.getId() == donoId) {
+                if (usuario instanceof UsuarioDono) {
+                    dono = usuario;
+                    break;
+                } else {
+                    throw new Exception("Usuario nao pode criar uma empresa");
+                }
+            }
+        }
+
+        if (dono == null) {
+            throw new UsuarioNaoCadastradoException();
+        }
+
+        for (Empresa empresa : empresas) {
+            if (empresa.getNome().equals(nome)) {
+                Usuario donoEmpresa = getDonoEmpresa(empresa);
+                if (donoEmpresa != null && donoEmpresa.getId() != donoId) {
+                    throw new EmpresaComMesmoNomeDonoDiferenteException();
+                }
+                if (donoEmpresa != null && donoEmpresa.getId() == donoId && empresa.getEndereco().equals(endereco)) {
+                    throw new EmpresaComMesmoNomeEEnderecoException();
+                }
+            }
+        }
+        Empresa novaEmpresa;
+        if (tipoEmpresa.equalsIgnoreCase("restaurante")) {
+            novaEmpresa = new Restaurante(nome, endereco, tipoCozinha);
+        } else {
+            throw new TipoEmpresaInvalidoException();
+        }
+        empresas.add(novaEmpresa);
+        return novaEmpresa.getEid();
+    }
+
+    private Usuario getDonoEmpresa(Empresa empresa) {
+        for (Usuario usuario : usuarios) {
+            if (usuario instanceof UsuarioDono) {
+                return usuario;
+            }
+        }
+        return null;
+    }
+
+
+    public String getEmpresasDoUsuario(int idDono) throws Exception {
+        Usuario dono = null;
+        for (Usuario usuario : usuarios) {
+            if (usuario.getId() == idDono && usuario instanceof UsuarioDono) {
+                dono = usuario;
+                break;
+            }
+        }
+        if (dono == null) {
+            throw new UsuarioNaoCadastradoException();
+        }
+        StringBuilder resultado = new StringBuilder("{[");
+        for (Empresa empresa : empresas) {
+            if (empresa instanceof Restaurante) {
+                if (((Restaurante) empresa).getEid() == idDono) {
+                    resultado.append("[").append(empresa.getNome()).append(", ").append(empresa.getEndereco()).append("], ");
+                }
+            }
+        }
+        if (resultado.length() > 2) {
+            resultado.setLength(resultado.length() - 2);
+        }
+        resultado.append("]}");
+        return resultado.toString();
+    }
+
+
+    public String getAtributoEmpresa(int empresaId, String atributo) throws Exception {
+        Empresa empresa = null;
+        for (Empresa e : empresas) {
+            if (e.getEid() == empresaId) {
+                empresa = e;
+                break;
+            }
+        }
+        if (empresa == null) {
+            throw new EmpresaNaoCadastradaException();
+        }
+        switch (atributo) {
+            case "nome":
+                return empresa.getNome();
+            case "endereco":
+                return empresa.getEndereco();
+            case "tipoCozinha":
+                if (empresa instanceof Restaurante) {
+                    return ((Restaurante) empresa).getTipoCozinha();
+                } else {
+                    throw new AtributoInvalidoException();
+                }
+            default:
+                throw new AtributoInvalidoException();
+        }
+    }
+
+
+    public int getIdEmpresa(int idDono, String nome, int indice) throws Exception {
+        Usuario dono = null;
+        for (Usuario usuario : usuarios) {
+            if (usuario.getId() == idDono && usuario instanceof UsuarioDono) {
+                dono = usuario;
+                break;
+            }
+        }
+        if (dono == null) {
+            throw new UsuarioNaoCadastradoException();
+        }
+        ArrayList<Empresa> empresasDoDono = new ArrayList<>();
+        for (Empresa empresa : empresas) {
+            if (empresa instanceof Restaurante) {
+                if (((Restaurante) empresa).getEid() == idDono && empresa.getNome().equals(nome)) {
+                    empresasDoDono.add(empresa);
+                }
+            }
+        }
+        if (indice < 0 || indice >= empresasDoDono.size()) {
+            throw new Exception("Indice invalido");
+        }
+        return empresasDoDono.get(indice).getEid();
     }
 }

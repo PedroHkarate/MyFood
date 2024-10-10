@@ -29,6 +29,22 @@ public class Facade {
         return sistema.login(email, senha);
     }
 
+    public int criarEmpresa(String tipoEmpresa, int donoId, String nome, String endereco, String tipoCozinha) throws Exception {
+        return sistema.criarEmpresa(tipoEmpresa, donoId, nome, endereco, tipoCozinha);
+    }
+
+    public String getEmpresasDoUsuario(int idDono) throws Exception {
+        return sistema.getEmpresasDoUsuario(idDono);
+    }
+
+    public String getAtributoEmpresa(int empresaId, String atributo) throws Exception {
+        return sistema.getAtributoEmpresa(empresaId, atributo);
+    }
+
+    public int getIdEmpresa(int idDono, String nome, int indice) throws Exception {
+        return sistema.getIdEmpresa(idDono, nome, indice);
+    }
+
     public void encerrarSistema(){
 
     }

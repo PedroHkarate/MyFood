@@ -5,11 +5,13 @@ public class Empresa {
     private int eid;
     private String nome;
     private String endereco;
+    private Usuario dono;
 
-    public Empresa(String nome, String endereco) {
+    public Empresa(String nome, String endereco, Usuario dono) {
         this.eid = counterId++;
         this.nome = nome;
         this.endereco = endereco;
+        this.dono = dono;
     }
 
     public int getEid() {
@@ -22,5 +24,9 @@ public class Empresa {
 
     public String getEndereco() {
         return endereco;
+    }
+
+    public Usuario getDono() {
+        return dono;
     }
 }

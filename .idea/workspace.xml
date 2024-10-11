@@ -4,10 +4,23 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dc10fdcd-3ee1-4acf-9691-ec1ea0dee54e" name="Changes" comment="1/8 (15 erros)">
+    <list default="true" id="dc10fdcd-3ee1-4acf-9691-ec1ea0dee54e" name="Changes" comment="1/8 (11 erros)">
+      <change afterPath="$PROJECT_DIR$/Projeto MyFood (2024.2)/src/br/ufal/ic/p2/myfood/Exceptions/IndiceInvalidoException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Projeto MyFood (2024.2)/src/br/ufal/ic/p2/myfood/Exceptions/NaoExisteEmpresaComEsseNomeException.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Projeto MyFood (2024.2)/src/br/ufal/ic/p2/myfood/Exceptions/AtributoInvalidoException.java" beforeDir="false" afterPath="$PROJECT_DIR$/Projeto MyFood (2024.2)/src/br/ufal/ic/p2/myfood/Exceptions/AtributoInvalidoException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Projeto MyFood (2024.2)/src/br/ufal/ic/p2/myfood/Empresa.java" beforeDir="false" afterPath="$PROJECT_DIR$/Projeto MyFood (2024.2)/src/br/ufal/ic/p2/myfood/Empresa.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Projeto MyFood (2024.2)/src/br/ufal/ic/p2/myfood/Exceptions/EmpresaNaoCadastradaException.java" beforeDir="false" afterPath="$PROJECT_DIR$/Projeto MyFood (2024.2)/src/br/ufal/ic/p2/myfood/Exceptions/EmpresaNaoCadastradaException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Projeto MyFood (2024.2)/src/br/ufal/ic/p2/myfood/Exceptions/NomeInvalidoException.java" beforeDir="false" afterPath="$PROJECT_DIR$/Projeto MyFood (2024.2)/src/br/ufal/ic/p2/myfood/Exceptions/NomeInvalidoException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Projeto MyFood (2024.2)/src/br/ufal/ic/p2/myfood/Farmacia.java" beforeDir="false" afterPath="$PROJECT_DIR$/Projeto MyFood (2024.2)/src/br/ufal/ic/p2/myfood/Farmacia.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Projeto MyFood (2024.2)/src/br/ufal/ic/p2/myfood/Mercado.java" beforeDir="false" afterPath="$PROJECT_DIR$/Projeto MyFood (2024.2)/src/br/ufal/ic/p2/myfood/Mercado.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Projeto MyFood (2024.2)/src/br/ufal/ic/p2/myfood/Restaurante.java" beforeDir="false" afterPath="$PROJECT_DIR$/Projeto MyFood (2024.2)/src/br/ufal/ic/p2/myfood/Restaurante.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Projeto MyFood (2024.2)/src/br/ufal/ic/p2/myfood/Sistema.java" beforeDir="false" afterPath="$PROJECT_DIR$/Projeto MyFood (2024.2)/src/br/ufal/ic/p2/myfood/Sistema.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/MyFood/br/ufal/ic/p2/myfood/Empresa.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MyFood/br/ufal/ic/p2/myfood/Empresa.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/MyFood/br/ufal/ic/p2/myfood/Exceptions/EmpresaNaoCadastradaException.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MyFood/br/ufal/ic/p2/myfood/Exceptions/EmpresaNaoCadastradaException.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/MyFood/br/ufal/ic/p2/myfood/Farmacia.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MyFood/br/ufal/ic/p2/myfood/Farmacia.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/MyFood/br/ufal/ic/p2/myfood/Mercado.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MyFood/br/ufal/ic/p2/myfood/Mercado.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/MyFood/br/ufal/ic/p2/myfood/Restaurante.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MyFood/br/ufal/ic/p2/myfood/Restaurante.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/MyFood/br/ufal/ic/p2/myfood/Sistema.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MyFood/br/ufal/ic/p2/myfood/Sistema.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -86,7 +99,8 @@
       <updated>1728586927633</updated>
       <workItem from="1728586928776" duration="7567000" />
       <workItem from="1728594811198" duration="5369000" />
-      <workItem from="1728607988473" duration="1352000" />
+      <workItem from="1728607988473" duration="1566000" />
+      <workItem from="1728618112122" duration="3486000" />
     </task>
     <task id="LOCAL-00001" summary="0,5/8">
       <option name="closed" value="true" />
@@ -112,7 +126,15 @@
       <option name="project" value="LOCAL" />
       <updated>1728600146808</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="1/8 (11 erros)">
+      <option name="closed" value="true" />
+      <created>1728609547693</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1728609547693</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -122,6 +144,7 @@
     <MESSAGE value="0,5/8" />
     <MESSAGE value="1/8" />
     <MESSAGE value="1/8 (15 erros)" />
-    <option name="LAST_COMMIT_MESSAGE" value="1/8 (15 erros)" />
+    <MESSAGE value="1/8 (11 erros)" />
+    <option name="LAST_COMMIT_MESSAGE" value="1/8 (11 erros)" />
   </component>
 </project>

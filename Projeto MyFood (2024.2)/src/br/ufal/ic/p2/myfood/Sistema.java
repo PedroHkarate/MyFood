@@ -94,9 +94,7 @@ public class Sistema {
 
 
     public String getAtributoUsuario(int id, String atributo) throws Exception {
-
         Usuario usuario1 = null;
-
         for (Usuario usuario2 : usuarios) {
             if (usuario2.getId() == id) {
                 usuario1 = usuario2;
@@ -137,37 +135,33 @@ public class Sistema {
                     dono = usuario;
                     break;
                 } else {
-                    throw new Exception("Usuario nao pode criar uma empresa");
+                    throw new UsuarioNaoPodeCriarEmpresaException();
                 }
             }
         }
-
         if (dono == null) {
             throw new UsuarioNaoCadastradoException();
         }
-
         for (Empresa empresa : empresas) {
             if (empresa.getNome().equals(nome)) {
-                Usuario donoEmpresa = getDonoEmpresa(empresa);
-                if (donoEmpresa != null && donoEmpresa.getId() != donoId) {
+                if (empresa.getDono().getId() != donoId) {
                     throw new EmpresaComMesmoNomeDonoDiferenteException();
                 }
-                if (donoEmpresa != null && donoEmpresa.getId() == donoId && empresa.getEndereco().equals(endereco)) {
+                if (empresa.getDono().getId() == donoId && empresa.getEndereco().equals(endereco)) {
                     throw new EmpresaComMesmoNomeEEnderecoException();
                 }
             }
         }
-
         Empresa novaEmpresa;
         if (tipoEmpresa.equalsIgnoreCase("restaurante")) {
-            novaEmpresa = new Restaurante(nome, endereco, tipoCozinha);
+            novaEmpresa = new Restaurante(nome, endereco, tipoCozinha, dono);
         } else {
             throw new TipoEmpresaInvalidoException();
         }
-
         empresas.add(novaEmpresa);
         return novaEmpresa.getEid();
     }
+
 
     public String getEmpresasDoUsuario(int idDono) throws Exception {
         Usuario dono = null;
@@ -177,15 +171,13 @@ public class Sistema {
                     dono = usuario;
                     break;
                 } else {
-                    throw new Exception("Usuario nao pode criar uma empresa");
+                    throw new UsuarioNaoPodeCriarEmpresaException();
                 }
             }
         }
-
         if (dono == null) {
             throw new UsuarioNaoCadastradoException();
         }
-
         StringBuilder resultado = new StringBuilder("{[");
         for (Empresa empresa : empresas) {
             Usuario donoEmpresa = getDonoEmpresa(empresa);
@@ -193,7 +185,6 @@ public class Sistema {
                 resultado.append("[").append(empresa.getNome()).append(", ").append(empresa.getEndereco()).append("], ");
             }
         }
-
         if (resultado.length() > 3) {
             resultado.setLength(resultado.length() - 2); // Remove a última vírgula e espaço
         }
@@ -201,6 +192,7 @@ public class Sistema {
 
         return resultado.toString();
     }
+
 
     private Usuario getDonoEmpresa(Empresa empresa) {
         for (Usuario usuario : usuarios) {
@@ -223,6 +215,9 @@ public class Sistema {
         if (empresa == null) {
             throw new EmpresaNaoCadastradaException();
         }
+        if (atributo == null || atributo.isEmpty()) {
+            throw new AtributoInvalidoException();
+        }
         switch (atributo) {
             case "nome":
                 return empresa.getNome();
@@ -234,6 +229,8 @@ public class Sistema {
                 } else {
                     throw new AtributoInvalidoException();
                 }
+            case "dono":
+                return empresa.getDono().getNome();
             default:
                 throw new AtributoInvalidoException();
         }
@@ -243,25 +240,37 @@ public class Sistema {
     public int getIdEmpresa(int idDono, String nome, int indice) throws Exception {
         Usuario dono = null;
         for (Usuario usuario : usuarios) {
-            if (usuario.getId() == idDono && usuario instanceof UsuarioDono) {
-                dono = usuario;
-                break;
+            if (usuario.getId() == idDono) {
+                if (usuario instanceof UsuarioDono) {
+                    dono = usuario;
+                    break;
+                } else {
+                    throw new UsuarioNaoPodeCriarEmpresaException();
+                }
             }
         }
         if (dono == null) {
             throw new UsuarioNaoCadastradoException();
         }
+        if (nome == null || nome.isEmpty()) {
+            throw new NomeInvalidoException();
+        }
         ArrayList<Empresa> empresasDoDono = new ArrayList<>();
         for (Empresa empresa : empresas) {
-            if (empresa instanceof Restaurante) {
-                if (((Restaurante) empresa).getEid() == idDono && empresa.getNome().equals(nome)) {
-                    empresasDoDono.add(empresa);
-                }
+            if (empresa.getDono().getId() == idDono && empresa.getNome().equals(nome)) {
+                empresasDoDono.add(empresa);
             }
         }
-        if (indice < 0 || indice >= empresasDoDono.size()) {
-            throw new Exception("Indice invalido");
+        if (empresasDoDono.isEmpty()) {
+            throw new NaoExisteEmpresaComEsseNomeException();
+        }
+        if (indice < 0) {
+            throw new IndiceInvalidoException();
+        }
+        if (indice >= empresasDoDono.size()) {
+            throw new IndiceMaiorException();
         }
         return empresasDoDono.get(indice).getEid();
     }
+
 }

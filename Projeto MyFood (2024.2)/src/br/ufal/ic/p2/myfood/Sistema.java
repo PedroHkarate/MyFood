@@ -157,14 +157,49 @@ public class Sistema {
                 }
             }
         }
+
         Empresa novaEmpresa;
         if (tipoEmpresa.equalsIgnoreCase("restaurante")) {
             novaEmpresa = new Restaurante(nome, endereco, tipoCozinha);
         } else {
             throw new TipoEmpresaInvalidoException();
         }
+
         empresas.add(novaEmpresa);
         return novaEmpresa.getEid();
+    }
+
+    public String getEmpresasDoUsuario(int idDono) throws Exception {
+        Usuario dono = null;
+        for (Usuario usuario : usuarios) {
+            if (usuario.getId() == idDono) {
+                if (usuario instanceof UsuarioDono) {
+                    dono = usuario;
+                    break;
+                } else {
+                    throw new Exception("Usuario nao pode criar uma empresa");
+                }
+            }
+        }
+
+        if (dono == null) {
+            throw new UsuarioNaoCadastradoException();
+        }
+
+        StringBuilder resultado = new StringBuilder("{[");
+        for (Empresa empresa : empresas) {
+            Usuario donoEmpresa = getDonoEmpresa(empresa);
+            if (donoEmpresa != null && donoEmpresa.getId() == idDono) {
+                resultado.append("[").append(empresa.getNome()).append(", ").append(empresa.getEndereco()).append("], ");
+            }
+        }
+
+        if (resultado.length() > 3) {
+            resultado.setLength(resultado.length() - 2); // Remove a última vírgula e espaço
+        }
+        resultado.append("]}");
+
+        return resultado.toString();
     }
 
     private Usuario getDonoEmpresa(Empresa empresa) {
@@ -174,33 +209,6 @@ public class Sistema {
             }
         }
         return null;
-    }
-
-
-    public String getEmpresasDoUsuario(int idDono) throws Exception {
-        Usuario dono = null;
-        for (Usuario usuario : usuarios) {
-            if (usuario.getId() == idDono && usuario instanceof UsuarioDono) {
-                dono = usuario;
-                break;
-            }
-        }
-        if (dono == null) {
-            throw new UsuarioNaoCadastradoException();
-        }
-        StringBuilder resultado = new StringBuilder("{[");
-        for (Empresa empresa : empresas) {
-            if (empresa instanceof Restaurante) {
-                if (((Restaurante) empresa).getEid() == idDono) {
-                    resultado.append("[").append(empresa.getNome()).append(", ").append(empresa.getEndereco()).append("], ");
-                }
-            }
-        }
-        if (resultado.length() > 2) {
-            resultado.setLength(resultado.length() - 2);
-        }
-        resultado.append("]}");
-        return resultado.toString();
     }
 
 

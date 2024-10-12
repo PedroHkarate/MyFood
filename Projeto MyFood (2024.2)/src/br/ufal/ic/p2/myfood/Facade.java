@@ -1,12 +1,22 @@
 package br.ufal.ic.p2.myfood;
 
 import br.ufal.ic.p2.myfood.Exceptions.*;
+import java.io.IOException;
+
 
 public class Facade {
-    private final Sistema sistema;
+    private Sistema sistema;
 
-    public Facade(){
+    /*public Facade(){
         this.sistema = new Sistema();
+    }*/
+
+    public Facade() {
+        try {
+            this.sistema = Sistema.carregarDados("sistema.xml");
+        } catch (IOException e) {
+            this.sistema = new Sistema();
+        }
     }
 
     public void zerarSistema() {
@@ -45,7 +55,7 @@ public class Facade {
         return sistema.getIdEmpresa(idDono, nome, indice);
     }
 
-    public void encerrarSistema(){
-
+    public void encerrarSistema() throws IOException {
+        sistema.salvarDados("sistema.xml");
     }
 }

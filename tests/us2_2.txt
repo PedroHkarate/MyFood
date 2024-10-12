@@ -15,6 +15,3 @@ expectError "Atributo invalido" getAtributoEmpresa empresa=${e1} atributo="vizin
 expectError "Usuario nao pode criar uma empresa" getEmpresasDoUsuario idDono=${id1}
 expect "{[[Pastelaria do Carlos, Rua Segura N 987], [Sushi do Carlos, Rua Legal N 654], [Pastelaria do Carlos, Rua Divertida N 1973]]}" getEmpresasDoUsuario idDono=${id2}
 expect "{[[Sorveteria do Roberto, Rua Segura N 987]]}" getEmpresasDoUsuario idDono=${id3}
-
-encerrarSistema
-quit

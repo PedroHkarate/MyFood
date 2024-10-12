@@ -2,7 +2,13 @@ package br.ufal.ic.p2.myfood;
 
 import java.util.ArrayList;
 import java.util.Objects;
-
+import java.beans.XMLEncoder;
+import java.beans.XMLDecoder;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import br.ufal.ic.p2.myfood.Exceptions.*;
 
 public class Sistema {
@@ -29,6 +35,20 @@ public class Sistema {
         this.restaurantes.clear();
         this.produtos.clear();
         secoesAtivas.clear();
+    }
+
+
+    public void salvarDados(String caminhoArquivo) throws IOException {
+        try (XMLEncoder encoder = new XMLEncoder(new BufferedOutputStream(new FileOutputStream(caminhoArquivo)))) {
+            encoder.writeObject(this);
+        }
+    }
+
+
+    public static Sistema carregarDados(String caminhoArquivo) throws IOException {
+        try (XMLDecoder decoder = new XMLDecoder(new BufferedInputStream(new FileInputStream(caminhoArquivo)))) {
+            return (Sistema) decoder.readObject();
+        }
     }
 
 
@@ -180,16 +200,14 @@ public class Sistema {
         }
         StringBuilder resultado = new StringBuilder("{[");
         for (Empresa empresa : empresas) {
-            Usuario donoEmpresa = getDonoEmpresa(empresa);
-            if (donoEmpresa != null && donoEmpresa.getId() == idDono) {
+            if (empresa.getDono().getId() == idDono) {
                 resultado.append("[").append(empresa.getNome()).append(", ").append(empresa.getEndereco()).append("], ");
             }
         }
-        if (resultado.length() > 3) {
+        if (resultado.length() > 2) {
             resultado.setLength(resultado.length() - 2); // Remove a última vírgula e espaço
         }
         resultado.append("]}");
-
         return resultado.toString();
     }
 
@@ -272,5 +290,4 @@ public class Sistema {
         }
         return empresasDoDono.get(indice).getEid();
     }
-
 }

@@ -98,3 +98,8 @@ expectError "Nao existe empresa com esse nome" getIdEmpresa idDono=${id2} nome="
 expectError "Nome invalido" getIdEmpresa idDono=${id2} nome=  indice=2
 expectError "Nome invalido" getIdEmpresa idDono=${id2} nome=""  indice=2
 expectError "Indice invalido" getIdEmpresa idDono=${id2} nome="Pastelaria do Carlos" indice=-1
+
+
+
+encerrarSistema
+quit

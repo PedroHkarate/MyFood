@@ -1,30 +1,30 @@
 package br.ufal.ic.p2.myfood;
 
-import br.ufal.ic.p2.myfood.Exceptions.*;
 import java.io.IOException;
-
 
 public class Facade {
     private Sistema sistema;
 
-    /*public Facade(){
-        this.sistema = new Sistema();
-    }*/
-
-    public Facade() { this.sistema = new Sistema(); }
+    public Facade() {
+        try {
+            this.sistema = Sistema.carregarDados("users.json");
+        } catch (IOException e) {
+            this.sistema = new Sistema();
+        }
+    }
 
     public void zerarSistema() {
         sistema.zerarSistema();
     }
 
     public void criarUsuario(String nome, String email, String senha, String endereco) throws Exception {
-        sistema.criarUsuario(nome, email, senha, endereco);
-        sistema.adicionarUsuario(sistema.criarUsuario(nome, email, senha, endereco));
+        Usuario usuario = sistema.criarUsuario(nome, email, senha, endereco);
+        sistema.adicionarUsuario(usuario);
     }
 
     public void criarUsuario(String nome, String email, String senha, String endereco, String cpf) throws Exception {
-        sistema.criarUsuario(nome, email, senha, endereco, cpf);
-        sistema.adicionarUsuario(sistema.criarUsuario(nome, email, senha, endereco, cpf));
+        Usuario usuario = sistema.criarUsuario(nome, email, senha, endereco, cpf);
+        sistema.adicionarUsuario(usuario);
     }
 
     public String getAtributoUsuario(int id, String atributo) throws Exception {
@@ -53,5 +53,9 @@ public class Facade {
 
     public void encerrarSistema() throws IOException {
         sistema.salvarUsuarios();
+    }
+
+    public Sistema getSistema() {
+        return sistema;
     }
 }

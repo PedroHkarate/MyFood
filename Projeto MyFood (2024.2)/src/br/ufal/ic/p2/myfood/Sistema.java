@@ -1,93 +1,139 @@
 package br.ufal.ic.p2.myfood;
 
-import java.util.ArrayList;
-/*import java.beans.XMLEncoder;
-import java.beans.XMLDecoder;
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;*/
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import java.io.*;
 import java.lang.reflect.Type;
-import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import br.ufal.ic.p2.myfood.Exceptions.*;
+import java.util.ArrayList;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonSerializer;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.GsonBuilder;
+import java.util.List;
+import java.io.IOException;
+
+
+
 
 public class Sistema {
-    private Usuario usuario;
-    private ArrayList<Usuario> usuarios;
-    private ArrayList<Restaurante> restaurantes;
-    private ArrayList<Produto> produtos;
-    private ArrayList<String> secoesAtivas;
-    private ArrayList<Empresa> empresas;
-    private ArrayList<Usuario> users;
+    private static Gson gson;
     private static final String FILE_PATH = "users.json";
-    private Gson gson;
+    private int nextUserId;
+    private int nextEmpresaId;
+    private Map<Integer, Usuario> usuarios;
+    private Map<Integer, Empresa> empresas;
 
 
-    public Sistema(){
-        this.usuario = new Usuario("", "", "", "");
-        usuarios = new ArrayList<>();
-        restaurantes = new ArrayList<>();
-        produtos = new ArrayList<>();
-        secoesAtivas = new ArrayList<>();
-        empresas = new ArrayList<>();
-        gson = new Gson();
-        users = carregarUsuarios();
+    public Sistema() {
+        usuarios = new HashMap<>();
+        empresas = new HashMap<>();
+        nextUserId = 1;
+        nextEmpresaId = 1;
+        configurarGson();
     }
 
 
-    public void zerarSistema(){
+    public void zerarSistema() {
+        this.nextUserId = 1;
+        this.nextEmpresaId = 1;
         this.usuarios.clear();
-        this.restaurantes.clear();
-        this.produtos.clear();
-        secoesAtivas.clear();
+        this.empresas.clear();
+        salvarUsuarios();
     }
 
 
-    /*public void salvarDados(String caminhoArquivo) throws IOException {
-        try (XMLEncoder encoder = new XMLEncoder(new BufferedOutputStream(new FileOutputStream(caminhoArquivo)))) {
-            encoder.writeObject(this);
+    private void configurarGson() {
+        if (gson == null) {
+            gson = new GsonBuilder()
+                    .registerTypeAdapter(Usuario.class, new UsuarioTypeAdapter())
+                    .registerTypeAdapter(Empresa.class, new EmpresaTypeAdapter())
+                    .create();
         }
     }
 
 
-    public static Sistema carregarDados(String caminhoArquivo) throws IOException {
-        try (XMLDecoder decoder = new XMLDecoder(new BufferedInputStream(new FileInputStream(caminhoArquivo)))) {
-            return (Sistema) decoder.readObject();
-        }
-    }*/
+    public class UsuarioTypeAdapter implements JsonDeserializer<Usuario>, JsonSerializer<Usuario> {
+        @Override
+        public Usuario deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+            JsonObject jsonObject = json.getAsJsonObject();
+            String tipo = jsonObject.get("tipo").getAsString();
 
-    private ArrayList<Usuario> carregarUsuarios() {
-        try (Reader reader = new FileReader(FILE_PATH)) {
-            Type listType = new TypeToken<ArrayList<Usuario>>() {}.getType();
-            ArrayList<Usuario> lista = gson.fromJson(reader, listType);
-            return lista != null ? lista : new ArrayList<>();
+            switch (tipo) {
+                case "Cliente":
+                    return context.deserialize(json, UsuarioCliente.class);
+                case "Dono":
+                    return context.deserialize(json, UsuarioDono.class);
+                case "Entregador":
+                    return context.deserialize(json, UsuarioEntregador.class);
+                default:
+                    throw new JsonParseException("Unknown element type: " + tipo);
+            }
+        }
+        @Override
+        public JsonElement serialize(Usuario src, Type typeOfSrc, JsonSerializationContext context) {
+            JsonObject jsonObject = context.serialize(src).getAsJsonObject();
+            jsonObject.addProperty("tipo", src.getTipo());
+            return jsonObject;
+        }
+    }
+
+
+    public static Sistema carregarDados(String caminhoArquivoUsuarios) throws IOException {
+        Sistema sistema = new Sistema();
+        sistema.configurarGson();
+        try (Reader reader = new FileReader(caminhoArquivoUsuarios)) {
+            Type mapType = new TypeToken<Map<Integer, Usuario>>() {}.getType();
+            Map<Integer, Usuario> loadedUsers = gson.fromJson(reader, mapType);
+            if (loadedUsers != null) {
+                for (Usuario usuario : loadedUsers.values()) {
+                    sistema.usuarios.put(usuario.getId(), usuario);
+                }
+                sistema.nextUserId = loadedUsers.keySet().stream().max(Integer::compare).orElse(0) + 1;
+            }
         } catch (FileNotFoundException e) {
-            // Arquivo não existe, retorna lista vazia
-            return new ArrayList<>();
+        }
+        try (Reader reader = new FileReader("empresas.json")) {
+            Type mapType = new TypeToken<Map<Integer, Empresa>>() {}.getType();
+            Map<Integer, Empresa> loadedEmpresas = gson.fromJson(reader, mapType);
+            if (loadedEmpresas != null) {
+                for (Empresa empresa : loadedEmpresas.values()) {
+                    sistema.empresas.put(empresa.getId(), empresa);
+                }
+                sistema.nextEmpresaId = loadedEmpresas.keySet().stream().max(Integer::compare).orElse(0) + 1;
+            }
+        } catch (FileNotFoundException e) {
+        }
+        return sistema;
+    }
+
+
+    public void adicionarUsuario(Usuario user) {
+        usuarios.put(user.getId(), user);
+        salvarUsuarios();
+    }
+
+
+    public void salvarDados() {
+        try (Writer writer = new FileWriter(FILE_PATH)) {
+            gson.toJson(usuarios, writer);
         } catch (IOException e) {
             e.printStackTrace();
-            return new ArrayList<>();
         }
     }
 
     public void salvarUsuarios() {
         try (Writer writer = new FileWriter(FILE_PATH)) {
-            gson.toJson(users, writer);
+            gson.toJson(usuarios, writer);
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public void adicionarUsuario(Usuario user) {
-        users.add(user);
-        salvarUsuarios();
-    }
-
-    public ArrayList<Usuario> getUsuarios() {
-        return users;
     }
 
 
@@ -104,12 +150,18 @@ public class Sistema {
         if (endereco == null || endereco.isEmpty()) {
             throw new EnderecoInvalidoException();
         }
-
-        for (Usuario usuario2 : usuarios) {
-            if (usuario2.getEmail().equals(email)) throw new EmailJaExisteException();
+        for (Usuario usuarioExistente : usuarios.values()) {
+            if (usuarioExistente.getEmail().equals(email)) {
+                throw new EmailJaExisteException();
+            }
         }
-        Usuario usuarioC = new UsuarioCliente(nome, email, senha, endereco);
-        usuarios.add(usuarioC);
+        Usuario usuarioC = new UsuarioCliente(nextUserId++, nome, email, senha, endereco);
+        if (usuarios.containsKey(usuarioC.getId())) {
+            throw new Exception("ID duplicado encontrado durante a criação: " + usuarioC.getId());
+        }
+
+        usuarios.put(usuarioC.getId(), usuarioC);
+        salvarUsuarios();
         return usuarioC;
     }
 
@@ -130,13 +182,15 @@ public class Sistema {
         if (cpf == null || cpf.length() != 14) {
             throw new CpfInvalidoException();
         }
-
-        for (Usuario usuario2 : usuarios) {
-            if (usuario2.getEmail().equals(email)) throw new EmailJaExisteException();
+        for (Usuario usuario2 : usuarios.values()) {
+            if (usuario2.getEmail().equals(email)) {
+                throw new EmailJaExisteException();
+            }
         }
-
-        Usuario usuarioDono = new UsuarioDono(nome, email, senha, endereco, cpf);
-        usuarios.add(usuarioDono);
+        Usuario usuarioDono = new UsuarioDono(nextUserId++, nome, email, senha, endereco, cpf);
+        usuarios.put(usuarioDono.getId(), usuarioDono);
+        //imprimirUsuariosCadastrados();
+        salvarUsuarios();
         return usuarioDono;
     }
 
@@ -145,7 +199,7 @@ public class Sistema {
         if (email == null || email.isEmpty() || senha == null || senha.isEmpty()) {
             throw new LoginOuSenhaInvalidosException();
         }
-        for (Usuario usuario : usuarios) {
+        for (Usuario usuario : usuarios.values()) {
             if (usuario.getEmail().equals(email) && usuario.getSenha().equals(senha)) {
                 return usuario.getId();
             }
@@ -155,13 +209,7 @@ public class Sistema {
 
 
     public String getAtributoUsuario(int id, String atributo) throws Exception {
-        Usuario usuario1 = null;
-        for (Usuario usuario2 : usuarios) {
-            if (usuario2.getId() == id) {
-                usuario1 = usuario2;
-                break;
-            }
-        }
+        Usuario usuario1 = usuarios.get(id);
         if (usuario1 != null) {
             switch (atributo) {
                 case "nome":
@@ -173,9 +221,8 @@ public class Sistema {
                 case "endereco":
                     return usuario1.getEndereco();
                 case "cpf":
-                    if (usuario1 instanceof UsuarioDono){
-                        UsuarioDono UsuarioDono = (UsuarioDono) usuario1;
-                        return UsuarioDono.getCpf();
+                    if (usuario1 instanceof UsuarioDono) {
+                        return ((UsuarioDono) usuario1).getCpf();
                     } else {
                         throw new AtributoInvalidoException();
                     }
@@ -188,22 +235,72 @@ public class Sistema {
     }
 
 
-    public int criarEmpresa(String tipoEmpresa, int donoId, String nome, String endereco, String tipoCozinha) throws Exception {
-        Usuario dono = null;
-        for (Usuario usuario : usuarios) {
-            if (usuario.getId() == donoId) {
-                if (usuario instanceof UsuarioDono) {
-                    dono = usuario;
-                    break;
-                } else {
-                    throw new UsuarioNaoPodeCriarEmpresaException();
-                }
+/*
+    public void imprimirUsuariosCadastrados() {
+        if (usuarios.isEmpty()) {
+            System.out.println("Nenhum usuário cadastrado.");
+            return;
+        }
+        System.out.println("Usuários cadastrados:");
+        for (Usuario usuario : usuarios.values()) {
+            System.out.println("ID: " + usuario.getId());
+            System.out.println("Nome: " + usuario.getNome());
+            System.out.println("Email: " + usuario.getEmail());
+            System.out.println("Endereço: " + usuario.getEndereco());
+            System.out.println("Senha: " + usuario.getSenha());
+            System.out.println("Classe: " + usuario.getClass().getSimpleName());
+            if (usuario instanceof UsuarioDono) {
+                System.out.println("CPF: " + ((UsuarioDono) usuario).getCpf());
             }
+            System.out.println();
         }
-        if (dono == null) {
-            throw new UsuarioNaoCadastradoException();
+    }
+
+
+    public void imprimirEmpresasCadastradas() {
+        if (empresas.isEmpty()) {
+            System.out.println("Nenhuma empresa cadastrada.");
+            return;
         }
-        for (Empresa empresa : empresas) {
+        System.out.println("Empresas cadastradas:");
+        for (Empresa empresa : empresas.values()) {
+            System.out.println("ID: " + empresa.getId());
+            System.out.println("Nome: " + empresa.getNome());
+            System.out.println("Endereço: " + empresa.getEndereco());
+            System.out.println("Tipo: " + empresa.getTipo());
+            System.out.println("Dono: " + empresa.getDono().getNome());
+            System.out.println("Classe: " + empresa.getClass().getSimpleName());
+            if (empresa instanceof Restaurante) {
+                System.out.println("Tipo de Cozinha: " + ((Restaurante) empresa).getTipoCozinha());
+                System.out.println("Subclasse: Restaurante");
+            } else {
+                System.out.println("Subclasse: " + empresa.getClass().getSuperclass().getSimpleName());
+            }
+            System.out.println();
+        }
+    }
+*/
+
+
+    public class EmpresaTypeAdapter implements JsonDeserializer<Empresa> {
+        @Override
+        public Empresa deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+            JsonObject jsonObject = json.getAsJsonObject();
+            String tipo = jsonObject.get("tipo").getAsString();
+            if (tipo.equals("restaurante")) {
+                return context.deserialize(json, Restaurante.class);
+            }
+            return context.deserialize(json, Empresa.class);
+        }
+    }
+
+
+    public int criarEmpresa(String tipoEmpresa, int donoId, String nome, String endereco, String tipoCozinha) throws Exception {
+        Usuario dono = findUsuarioById(donoId);
+        if (!(dono instanceof UsuarioDono)) {
+            throw new UsuarioNaoPodeCriarEmpresaException();
+        }
+        for (Empresa empresa : empresas.values()) {
             if (empresa.getNome().equals(nome)) {
                 if (empresa.getDono().getId() != donoId) {
                     throw new EmpresaComMesmoNomeDonoDiferenteException();
@@ -213,64 +310,25 @@ public class Sistema {
                 }
             }
         }
-        Empresa novaEmpresa;
-        if (tipoEmpresa.equalsIgnoreCase("restaurante")) {
-            novaEmpresa = new Restaurante(nome, endereco, tipoCozinha, dono);
-        } else {
-            throw new TipoEmpresaInvalidoException();
-        }
-        empresas.add(novaEmpresa);
-        return novaEmpresa.getEid();
+
+        Restaurante novaEmpresa = new Restaurante(nextEmpresaId++, nome, endereco, tipoCozinha, dono);
+        empresas.put(novaEmpresa.getId(), novaEmpresa);
+        salvarEmpresas();
+        return novaEmpresa.getId();
     }
 
 
-    public String getEmpresasDoUsuario(int idDono) throws Exception {
-        Usuario dono = null;
-        for (Usuario usuario : usuarios) {
-            if (usuario.getId() == idDono) {
-                if (usuario instanceof UsuarioDono) {
-                    dono = usuario;
-                    break;
-                } else {
-                    throw new UsuarioNaoPodeCriarEmpresaException();
-                }
-            }
+    private void salvarEmpresas() {
+        try (Writer writer = new FileWriter("empresas.json")) {
+            gson.toJson(empresas, writer);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        if (dono == null) {
-            throw new UsuarioNaoCadastradoException();
-        }
-        StringBuilder resultado = new StringBuilder("{[");
-        for (Empresa empresa : empresas) {
-            if (empresa.getDono().getId() == idDono) {
-                resultado.append("[").append(empresa.getNome()).append(", ").append(empresa.getEndereco()).append("], ");
-            }
-        }
-        if (resultado.length() > 2) {
-            resultado.setLength(resultado.length() - 2); // Remove a última vírgula e espaço
-        }
-        resultado.append("]}");
-        return resultado.toString();
-    }
-
-
-    private Usuario getDonoEmpresa(Empresa empresa) {
-        for (Usuario usuario : usuarios) {
-            if (usuario instanceof UsuarioDono) {
-                return usuario;
-            }
-        }
-        return null;
     }
 
 
     public String getAtributoEmpresa(int empresaId, String atributo) throws Exception {
-        Empresa empresa = null;
-        for (Empresa e : empresas) {
-            if (e.getEid() == empresaId) {
-                empresa = e;
-                break;
-            }
-        }
+        Empresa empresa = findEmpresaById(empresaId);
         if (empresa == null) {
             throw new EmpresaNaoCadastradaException();
         }
@@ -296,26 +354,35 @@ public class Sistema {
     }
 
 
-    public int getIdEmpresa(int idDono, String nome, int indice) throws Exception {
-        Usuario dono = null;
-        for (Usuario usuario : usuarios) {
-            if (usuario.getId() == idDono) {
-                if (usuario instanceof UsuarioDono) {
-                    dono = usuario;
-                    break;
-                } else {
-                    throw new UsuarioNaoPodeCriarEmpresaException();
-                }
+    public String getEmpresasDoUsuario(int idDono) throws Exception {
+        Usuario dono = findUsuarioById(idDono);
+        if (!(dono instanceof UsuarioDono)) {
+            throw new UsuarioNaoPodeCriarEmpresaException();
+        }
+        StringBuilder resultado = new StringBuilder("{[");
+        for (Empresa empresa : empresas.values()) {
+            if (empresa.getDono().getId() == idDono) {
+                resultado.append("[").append(empresa.getNome()).append(", ").append(empresa.getEndereco()).append("], ");
             }
         }
-        if (dono == null) {
-            throw new UsuarioNaoCadastradoException();
+        if (resultado.length() > 2) {
+            resultado.setLength(resultado.length() - 2);
         }
+        resultado.append("]}");
+        return resultado.toString();
+    }
+
+
+    public int getIdEmpresa(int idDono, String nome, int indice) throws Exception {
         if (nome == null || nome.isEmpty()) {
             throw new NomeInvalidoException();
         }
-        ArrayList<Empresa> empresasDoDono = new ArrayList<>();
-        for (Empresa empresa : empresas) {
+        Usuario dono = findUsuarioById(idDono);
+        if (!(dono instanceof UsuarioDono)) {
+            throw new UsuarioNaoPodeCriarEmpresaException();
+        }
+        List<Empresa> empresasDoDono = new ArrayList<>();
+        for (Empresa empresa : empresas.values()) {
             if (empresa.getDono().getId() == idDono && empresa.getNome().equals(nome)) {
                 empresasDoDono.add(empresa);
             }
@@ -329,6 +396,25 @@ public class Sistema {
         if (indice >= empresasDoDono.size()) {
             throw new IndiceMaiorException();
         }
-        return empresasDoDono.get(indice).getEid();
+        return empresasDoDono.get(indice).getId();
+    }
+
+
+    private Usuario findUsuarioById(int id) throws UsuarioNaoCadastradoException {
+        Usuario usuario = usuarios.get(id);
+        if (usuario == null) {
+            throw new UsuarioNaoCadastradoException();
+        }
+        return usuario;
+    }
+
+
+    private Empresa findEmpresaById(int id) throws EmpresaNaoCadastradaException {
+        for (Empresa empresa : empresas.values()) {
+            if (empresa.getId() == id) {
+                return empresa;
+            }
+        }
+        throw new EmpresaNaoCadastradaException();
     }
 }

@@ -18,17 +18,20 @@ import com.google.gson.JsonDeserializationContext;
 import com.google.gson.GsonBuilder;
 import java.util.List;
 import java.io.IOException;
-
+import java.util.Locale;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 
 
 
 public class Sistema {
     private static Gson gson;
     private static final String FILE_PATH = "users.json";
-    private int nextUserId;
-    private int nextEmpresaId;
     private Map<Integer, Usuario> usuarios;
     private Map<Integer, Empresa> empresas;
+    private int nextUserId;
+    private int nextEmpresaId;
+    private int nextProdutoId;
 
 
     public Sistema() {
@@ -36,6 +39,7 @@ public class Sistema {
         empresas = new HashMap<>();
         nextUserId = 1;
         nextEmpresaId = 1;
+        nextProdutoId = 1;
         configurarGson();
     }
 
@@ -120,14 +124,6 @@ public class Sistema {
     }
 
 
-    public void salvarDados() {
-        try (Writer writer = new FileWriter(FILE_PATH)) {
-            gson.toJson(usuarios, writer);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     public void salvarUsuarios() {
         try (Writer writer = new FileWriter(FILE_PATH)) {
             gson.toJson(usuarios, writer);
@@ -156,10 +152,6 @@ public class Sistema {
             }
         }
         Usuario usuarioC = new UsuarioCliente(nextUserId++, nome, email, senha, endereco);
-        if (usuarios.containsKey(usuarioC.getId())) {
-            throw new Exception("ID duplicado encontrado durante a criação: " + usuarioC.getId());
-        }
-
         usuarios.put(usuarioC.getId(), usuarioC);
         salvarUsuarios();
         return usuarioC;
@@ -189,7 +181,6 @@ public class Sistema {
         }
         Usuario usuarioDono = new UsuarioDono(nextUserId++, nome, email, senha, endereco, cpf);
         usuarios.put(usuarioDono.getId(), usuarioDono);
-        //imprimirUsuariosCadastrados();
         salvarUsuarios();
         return usuarioDono;
     }
@@ -235,53 +226,6 @@ public class Sistema {
     }
 
 
-/*
-    public void imprimirUsuariosCadastrados() {
-        if (usuarios.isEmpty()) {
-            System.out.println("Nenhum usuário cadastrado.");
-            return;
-        }
-        System.out.println("Usuários cadastrados:");
-        for (Usuario usuario : usuarios.values()) {
-            System.out.println("ID: " + usuario.getId());
-            System.out.println("Nome: " + usuario.getNome());
-            System.out.println("Email: " + usuario.getEmail());
-            System.out.println("Endereço: " + usuario.getEndereco());
-            System.out.println("Senha: " + usuario.getSenha());
-            System.out.println("Classe: " + usuario.getClass().getSimpleName());
-            if (usuario instanceof UsuarioDono) {
-                System.out.println("CPF: " + ((UsuarioDono) usuario).getCpf());
-            }
-            System.out.println();
-        }
-    }
-
-
-    public void imprimirEmpresasCadastradas() {
-        if (empresas.isEmpty()) {
-            System.out.println("Nenhuma empresa cadastrada.");
-            return;
-        }
-        System.out.println("Empresas cadastradas:");
-        for (Empresa empresa : empresas.values()) {
-            System.out.println("ID: " + empresa.getId());
-            System.out.println("Nome: " + empresa.getNome());
-            System.out.println("Endereço: " + empresa.getEndereco());
-            System.out.println("Tipo: " + empresa.getTipo());
-            System.out.println("Dono: " + empresa.getDono().getNome());
-            System.out.println("Classe: " + empresa.getClass().getSimpleName());
-            if (empresa instanceof Restaurante) {
-                System.out.println("Tipo de Cozinha: " + ((Restaurante) empresa).getTipoCozinha());
-                System.out.println("Subclasse: Restaurante");
-            } else {
-                System.out.println("Subclasse: " + empresa.getClass().getSuperclass().getSimpleName());
-            }
-            System.out.println();
-        }
-    }
-*/
-
-
     public class EmpresaTypeAdapter implements JsonDeserializer<Empresa> {
         @Override
         public Empresa deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
@@ -310,7 +254,6 @@ public class Sistema {
                 }
             }
         }
-
         Restaurante novaEmpresa = new Restaurante(nextEmpresaId++, nome, endereco, tipoCozinha, dono);
         empresas.put(novaEmpresa.getId(), novaEmpresa);
         salvarEmpresas();
@@ -409,12 +352,105 @@ public class Sistema {
     }
 
 
-    private Empresa findEmpresaById(int id) throws EmpresaNaoCadastradaException {
-        for (Empresa empresa : empresas.values()) {
-            if (empresa.getId() == id) {
-                return empresa;
+    private Empresa findEmpresaById(int id) {
+        return empresas.get(id);
+    }
+
+
+    public int criarProduto(int empresaId, String nome, float valor, String categoria) throws Exception {
+        Empresa empresa = findEmpresaById(empresaId);
+        if (empresa == null) {
+            throw new EmpresaNaoCadastradaException();
+        }
+        if (nome == null || nome.isEmpty()) {
+            throw new NomeInvalidoException();
+        }
+        if (valor <= 0) {
+            throw new ValorInvalidoException();
+        }
+        if (categoria == null || categoria.isEmpty()) {
+            throw new CategoriaInvalidaException();
+        }
+        for (Produto produto : empresa.getProdutos()) {
+            if (produto.getNome().equals(nome)) {
+                throw new ProdutoJaExisteException();
             }
         }
-        throw new EmpresaNaoCadastradaException();
+        Produto novoProduto = new Produto(nextProdutoId++, nome, valor, categoria);
+        empresa.adicionarProduto(novoProduto);
+        salvarEmpresas();
+        return novoProduto.getId();
+    }
+
+
+    public void editarProduto(int produtoId, String nome, float valor, String categoria) throws Exception {
+        if (nome == null || nome.isEmpty()) {
+            throw new NomeInvalidoException();
+        }
+        if (valor <= 0) {
+            throw new ValorInvalidoException();
+        }
+        if (categoria == null || categoria.isEmpty()) {
+            throw new CategoriaInvalidaException();
+        }
+        boolean produtoEditado = false;
+        for (Empresa empresa : empresas.values()) {
+            Produto produto = empresa.findProdutoById(produtoId);
+            if (produto != null) {
+                empresa.editarProduto(produtoId, nome, valor, categoria);
+                produtoEditado = true;
+                break;
+            }
+        }
+        if (!produtoEditado) {
+            throw new ProdutoNaoCadastradoException();
+        }
+        salvarEmpresas();
+    }
+
+
+    public String getProduto(String nome, int empresaId, String atributo) throws Exception {
+        Empresa empresa = findEmpresaById(empresaId);
+        if (empresa == null) {
+            throw new EmpresaNaoCadastradaException();
+        }
+        Produto produto = empresa.getProduto(nome);
+        if (produto == null) {
+            throw new ProdutoNaoEncontradoException();
+        }
+        switch (atributo) {
+            case "nome":
+                return produto.getNome();
+            case "valor":
+                DecimalFormat df = new DecimalFormat("#.00", new DecimalFormatSymbols(Locale.US));
+                return df.format(produto.getValor());
+            case "categoria":
+                return produto.getCategoria();
+            case "empresa":
+                return empresa.getNome();
+            default:
+                throw new AtributoNaoExisteException();
+        }
+    }
+
+
+    public String listarProdutos(int empresaId) throws Exception {
+        Empresa empresa = findEmpresaById(empresaId);
+        if (empresa == null) {
+            throw new EmpresaNaoEncontradaException();
+        }
+        List<String> produtos = empresa.listarProdutos();
+        if (produtos.isEmpty()) {
+            return "{[]}";
+        }
+        StringBuilder resultado = new StringBuilder("{[");
+        for (String produto : produtos) {
+            resultado.append(produto).append(", ");
+        }
+        if (resultado.length() > 2) {
+            resultado.setLength(resultado.length() - 2);
+        }
+        resultado.append("]}");
+        return resultado.toString();
     }
 }

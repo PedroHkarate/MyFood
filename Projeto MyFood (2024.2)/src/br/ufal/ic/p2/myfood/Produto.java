@@ -28,4 +28,16 @@ public class Produto {
     public String getCategoria() {
         return categoria;
     }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public void setValor(float valor) {
+        this.valor = valor;
+    }
+
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
+    }
 }

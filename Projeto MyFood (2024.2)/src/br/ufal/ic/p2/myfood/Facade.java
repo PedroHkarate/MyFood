@@ -55,6 +55,22 @@ public class Facade {
         sistema.salvarUsuarios();
     }
 
+    public int criarProduto(int empresa, String nome, float valor, String categoria) throws Exception {
+        return sistema.criarProduto(empresa, nome, valor, categoria);
+    }
+
+    public void editarProduto(int produto, String nome, float valor, String categoria) throws Exception {
+        sistema.editarProduto(produto, nome, valor, categoria);
+    }
+
+    public String getProduto(String nome, int empresa, String atributo) throws Exception {
+        return sistema.getProduto(nome, empresa, atributo);
+    }
+
+    public String listarProdutos(int empresa) throws Exception {
+        return sistema.listarProdutos(empresa);
+    }
+
     public Sistema getSistema() {
         return sistema;
     }

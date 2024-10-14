@@ -87,6 +87,8 @@ public class Sistema {
             return jsonObject;
         }
     }
+
+
     public static Sistema carregarDados(String caminhoArquivoUsuarios) throws IOException {
         Sistema sistema = new Sistema();
         sistema.configurarGson();
@@ -112,8 +114,28 @@ public class Sistema {
             }
         } catch (FileNotFoundException e) {
         }
+
+        /*
+
+        se rodar essa parte, o 4_2 passa, mas o 4_1 não kkkkkkk
+
+        try (Reader reader = new FileReader("pedidos.json")) {
+            Type mapType = new TypeToken<Map<Integer, Pedido>>() {}.getType();
+            Map<Integer, Pedido> loadedPedidos = gson.fromJson(reader, mapType);
+            if (loadedPedidos != null) {
+                for (Pedido pedido : loadedPedidos.values()) {
+                    sistema.pedidos.put(pedido.getNumero(), pedido);
+                }
+                sistema.nextPedidoId = loadedPedidos.keySet().stream().max(Integer::compare).orElse(0) + 1;
+            }
+        } catch (FileNotFoundException e) {
+        }
+         */
+
         return sistema;
     }
+
+
     public void adicionarUsuario(Usuario user) {
         usuarios.put(user.getId(), user);
         salvarUsuarios();
@@ -524,7 +546,7 @@ public class Sistema {
                     produtosStr.append(produto.getNome()).append(", ");
                 }
                 if (produtosStr.length() > 2) {
-                    produtosStr.setLength(produtosStr.length() - 2);  // Remove a última vírgula e espaço
+                    produtosStr.setLength(produtosStr.length() - 2);
                 }
                 produtosStr.append("]}");
                 return produtosStr.toString();
@@ -554,6 +576,5 @@ public class Sistema {
         }
         return pedidosDoCliente.get(indice).getNumero();
     }
-
 
 }

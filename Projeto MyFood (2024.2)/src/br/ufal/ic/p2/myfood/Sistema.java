@@ -115,9 +115,7 @@ public class Sistema {
         } catch (FileNotFoundException e) {
         }
 
-        /*
-
-        se rodar essa parte, o 4_2 passa, mas o 4_1 não kkkkkkk
+        //se der problema no 4_1 ou 4_2 verificar isso aq e verificar zerarSistema
 
         try (Reader reader = new FileReader("pedidos.json")) {
             Type mapType = new TypeToken<Map<Integer, Pedido>>() {}.getType();
@@ -130,7 +128,7 @@ public class Sistema {
             }
         } catch (FileNotFoundException e) {
         }
-         */
+
 
         return sistema;
     }

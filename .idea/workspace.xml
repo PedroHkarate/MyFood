@@ -4,24 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dc10fdcd-3ee1-4acf-9691-ec1ea0dee54e" name="Changes" comment="3/8">
-      <change afterPath="$PROJECT_DIR$/Projeto MyFood (2024.2)/src/br/ufal/ic/p2/myfood/Exceptions/AdicionarPedidoFechado.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Projeto MyFood (2024.2)/src/br/ufal/ic/p2/myfood/Exceptions/DoisPedidosEmAberto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Projeto MyFood (2024.2)/src/br/ufal/ic/p2/myfood/Exceptions/DonoNaoPodeFazerPedidoException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Projeto MyFood (2024.2)/src/br/ufal/ic/p2/myfood/Exceptions/PedidoNaoEmAbertoException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Projeto MyFood (2024.2)/src/br/ufal/ic/p2/myfood/Exceptions/PedidoNaoEncontradoException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Projeto MyFood (2024.2)/src/br/ufal/ic/p2/myfood/Exceptions/ProdutoInvalidoException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Projeto MyFood (2024.2)/src/br/ufal/ic/p2/myfood/Exceptions/ProdutoNaoPertenceAEmpresaException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Projeto MyFood (2024.2)/src/br/ufal/ic/p2/myfood/Exceptions/RemoverPedidoFechado.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Projeto MyFood (2024.2)/src/br/ufal/ic/p2/myfood/Pedido.java" afterDir="false" />
+    <list default="true" id="dc10fdcd-3ee1-4acf-9691-ec1ea0dee54e" name="Changes" comment="3,5/8 (quase la)">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Projeto MyFood (2024.2)/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/Projeto MyFood (2024.2)/src/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Projeto MyFood (2024.2)/src/br/ufal/ic/p2/myfood/Facade.java" beforeDir="false" afterPath="$PROJECT_DIR$/Projeto MyFood (2024.2)/src/br/ufal/ic/p2/myfood/Facade.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Projeto MyFood (2024.2)/src/br/ufal/ic/p2/myfood/Pedidos.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Projeto MyFood (2024.2)/src/br/ufal/ic/p2/myfood/Sistema.java" beforeDir="false" afterPath="$PROJECT_DIR$/Projeto MyFood (2024.2)/src/br/ufal/ic/p2/myfood/Sistema.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/MyFood/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MyFood/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/MyFood/br/ufal/ic/p2/myfood/Facade.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MyFood/br/ufal/ic/p2/myfood/Facade.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/MyFood/br/ufal/ic/p2/myfood/Pedidos.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/MyFood/br/ufal/ic/p2/myfood/Sistema.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MyFood/br/ufal/ic/p2/myfood/Sistema.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -108,7 +92,11 @@
       <workItem from="1728841274254" duration="8632000" />
       <workItem from="1728856508785" duration="7067000" />
       <workItem from="1728876573721" duration="13402000" />
-      <workItem from="1728922850130" duration="10163000" />
+      <workItem from="1728922850130" duration="10251000" />
+      <workItem from="1728933297723" duration="1601000" />
+      <workItem from="1728939372980" duration="94000" />
+      <workItem from="1728940146236" duration="18000" />
+      <workItem from="1728940173298" duration="95000" />
     </task>
     <task id="LOCAL-00001" summary="0,5/8">
       <option name="closed" value="true" />
@@ -206,7 +194,23 @@
       <option name="project" value="LOCAL" />
       <updated>1728926126369</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="3,5/8">
+      <option name="closed" value="true" />
+      <created>1728933179307</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1728933179307</updated>
+    </task>
+    <task id="LOCAL-00014" summary="3,5/8 (quase la)">
+      <option name="closed" value="true" />
+      <created>1728934904242</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1728934904242</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -221,6 +225,8 @@
     <MESSAGE value="2/8" />
     <MESSAGE value="2/8 !!" />
     <MESSAGE value="3/8" />
-    <option name="LAST_COMMIT_MESSAGE" value="3/8" />
+    <MESSAGE value="3,5/8" />
+    <MESSAGE value="3,5/8 (quase la)" />
+    <option name="LAST_COMMIT_MESSAGE" value="3,5/8 (quase la)" />
   </component>
 </project>

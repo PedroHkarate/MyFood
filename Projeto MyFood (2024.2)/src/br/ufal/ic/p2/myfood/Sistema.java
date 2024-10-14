@@ -1,26 +1,26 @@
 package br.ufal.ic.p2.myfood;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import java.io.*;
-import java.lang.reflect.Type;
-import java.util.HashMap;
-import java.util.Map;
 import br.ufal.ic.p2.myfood.Exceptions.*;
-import java.util.ArrayList;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializationContext;
-import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonSerializer;
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.GsonBuilder;
-import java.util.List;
+import com.google.gson.reflect.TypeToken;
+import java.io.*;
 import java.io.IOException;
-import java.util.Locale;
+import java.lang.reflect.Type;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 
 
@@ -29,17 +29,21 @@ public class Sistema {
     private static final String FILE_PATH = "users.json";
     private Map<Integer, Usuario> usuarios;
     private Map<Integer, Empresa> empresas;
+    private Map<Integer, Pedido> pedidos;
     private int nextUserId;
     private int nextEmpresaId;
     private int nextProdutoId;
+    private int nextPedidoId;
 
 
     public Sistema() {
         usuarios = new HashMap<>();
         empresas = new HashMap<>();
+        pedidos =  new HashMap<>();
         nextUserId = 1;
         nextEmpresaId = 1;
         nextProdutoId = 1;
+        nextPedidoId = 1;
         configurarGson();
     }
 
@@ -51,8 +55,6 @@ public class Sistema {
         this.empresas.clear();
         salvarUsuarios();
     }
-
-
     private void configurarGson() {
         if (gson == null) {
             gson = new GsonBuilder()
@@ -61,8 +63,6 @@ public class Sistema {
                     .create();
         }
     }
-
-
     public class UsuarioTypeAdapter implements JsonDeserializer<Usuario>, JsonSerializer<Usuario> {
         @Override
         public Usuario deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
@@ -87,8 +87,6 @@ public class Sistema {
             return jsonObject;
         }
     }
-
-
     public static Sistema carregarDados(String caminhoArquivoUsuarios) throws IOException {
         Sistema sistema = new Sistema();
         sistema.configurarGson();
@@ -116,14 +114,10 @@ public class Sistema {
         }
         return sistema;
     }
-
-
     public void adicionarUsuario(Usuario user) {
         usuarios.put(user.getId(), user);
         salvarUsuarios();
     }
-
-
     public void salvarUsuarios() {
         try (Writer writer = new FileWriter(FILE_PATH)) {
             gson.toJson(usuarios, writer);
@@ -131,8 +125,6 @@ public class Sistema {
             e.printStackTrace();
         }
     }
-
-
     public Usuario criarUsuario(String nome, String email, String senha, String endereco) throws Exception {
         if (nome == null || nome.isEmpty()) {
             throw new NomeInvalidoException();
@@ -156,8 +148,6 @@ public class Sistema {
         salvarUsuarios();
         return usuarioC;
     }
-
-
     public Usuario criarUsuario(String nome, String email, String senha, String endereco, String cpf) throws Exception {
         if (nome == null || nome.isEmpty()) {
             throw new NomeInvalidoException();
@@ -184,8 +174,6 @@ public class Sistema {
         salvarUsuarios();
         return usuarioDono;
     }
-
-
     public int login(String email, String senha) throws Exception {
         if (email == null || email.isEmpty() || senha == null || senha.isEmpty()) {
             throw new LoginOuSenhaInvalidosException();
@@ -197,8 +185,6 @@ public class Sistema {
         }
         throw new LoginOuSenhaInvalidosException();
     }
-
-
     public String getAtributoUsuario(int id, String atributo) throws Exception {
         Usuario usuario1 = usuarios.get(id);
         if (usuario1 != null) {
@@ -224,8 +210,6 @@ public class Sistema {
             throw new UsuarioNaoCadastradoException();
         }
     }
-
-
     public class EmpresaTypeAdapter implements JsonDeserializer<Empresa> {
         @Override
         public Empresa deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
@@ -237,8 +221,6 @@ public class Sistema {
             return context.deserialize(json, Empresa.class);
         }
     }
-
-
     public int criarEmpresa(String tipoEmpresa, int donoId, String nome, String endereco, String tipoCozinha) throws Exception {
         Usuario dono = findUsuarioById(donoId);
         if (!(dono instanceof UsuarioDono)) {
@@ -259,8 +241,6 @@ public class Sistema {
         salvarEmpresas();
         return novaEmpresa.getId();
     }
-
-
     private void salvarEmpresas() {
         try (Writer writer = new FileWriter("empresas.json")) {
             gson.toJson(empresas, writer);
@@ -268,8 +248,6 @@ public class Sistema {
             e.printStackTrace();
         }
     }
-
-
     public String getAtributoEmpresa(int empresaId, String atributo) throws Exception {
         Empresa empresa = findEmpresaById(empresaId);
         if (empresa == null) {
@@ -295,8 +273,6 @@ public class Sistema {
                 throw new AtributoInvalidoException();
         }
     }
-
-
     public String getEmpresasDoUsuario(int idDono) throws Exception {
         Usuario dono = findUsuarioById(idDono);
         if (!(dono instanceof UsuarioDono)) {
@@ -314,8 +290,6 @@ public class Sistema {
         resultado.append("]}");
         return resultado.toString();
     }
-
-
     public int getIdEmpresa(int idDono, String nome, int indice) throws Exception {
         if (nome == null || nome.isEmpty()) {
             throw new NomeInvalidoException();
@@ -341,8 +315,6 @@ public class Sistema {
         }
         return empresasDoDono.get(indice).getId();
     }
-
-
     private Usuario findUsuarioById(int id) throws UsuarioNaoCadastradoException {
         Usuario usuario = usuarios.get(id);
         if (usuario == null) {
@@ -350,13 +322,9 @@ public class Sistema {
         }
         return usuario;
     }
-
-
     private Empresa findEmpresaById(int id) {
         return empresas.get(id);
     }
-
-
     public int criarProduto(int empresaId, String nome, float valor, String categoria) throws Exception {
         Empresa empresa = findEmpresaById(empresaId);
         if (empresa == null) {
@@ -381,8 +349,6 @@ public class Sistema {
         salvarEmpresas();
         return novoProduto.getId();
     }
-
-
     public void editarProduto(int produtoId, String nome, float valor, String categoria) throws Exception {
         if (nome == null || nome.isEmpty()) {
             throw new NomeInvalidoException();
@@ -407,8 +373,6 @@ public class Sistema {
         }
         salvarEmpresas();
     }
-
-
     public String getProduto(String nome, int empresaId, String atributo) throws Exception {
         Empresa empresa = findEmpresaById(empresaId);
         if (empresa == null) {
@@ -432,8 +396,6 @@ public class Sistema {
                 throw new AtributoNaoExisteException();
         }
     }
-
-
     public String listarProdutos(int empresaId) throws Exception {
         Empresa empresa = findEmpresaById(empresaId);
         if (empresa == null) {
@@ -453,4 +415,145 @@ public class Sistema {
         resultado.append("]}");
         return resultado.toString();
     }
+    public int criarPedido(int clienteId, int empresaId) throws Exception {
+        Usuario cliente = findUsuarioById(clienteId);
+        if (cliente == null || cliente instanceof UsuarioDono) {
+            throw new DonoNaoPodeFazerPedidoException();
+        }
+        Empresa empresa = findEmpresaById(empresaId);
+        if (empresa == null) {
+            throw new EmpresaNaoCadastradaException();
+        }
+        for (Pedido pedido : pedidos.values()) {
+            if (pedido.getCliente().getId() == clienteId && pedido.getEmpresa().getId() == empresaId && pedido.getEstado().equals("aberto")) {
+                throw new DoisPedidosEmAberto();
+            }
+        }
+        Pedido novoPedido = new Pedido(nextPedidoId++, cliente, empresa);
+        pedidos.put(novoPedido.getNumero(), novoPedido);
+        salvarPedidos();
+        return novoPedido.getNumero();
+    }
+    public void adicionarProduto(int numeroPedido, int produtoId) throws Exception {
+        Pedido pedido = findPedidoById(numeroPedido);
+        if (pedido == null) {
+            throw new PedidoNaoEmAbertoException();
+        }
+        if (pedido.getEstado().equals("preparando")) {
+            throw new AdicionarPedidoFechado();
+        }
+        if (!pedido.getEstado().equals("aberto")) {
+            throw new PedidoNaoEncontradoException();
+        }
+        Produto produto = findProdutoById(produtoId);
+        if (produto == null || !pedido.getEmpresa().getProdutos().contains(produto)) {
+            throw new ProdutoNaoPertenceAEmpresaException();
+        }
+        pedido.adicionarProduto(produto);
+        salvarPedidos();
+    }
+    public void fecharPedido(int numeroPedido) throws Exception {
+        Pedido pedido = findPedidoById(numeroPedido);
+        if (pedido == null) {
+            throw new PedidoNaoEncontradoException();
+        }
+        pedido.setEstado("preparando");
+        salvarPedidos();
+    }
+    public void removerProduto(int numeroPedido, String nomeProduto) throws Exception {
+        Pedido pedido = findPedidoById(numeroPedido);
+        if (pedido == null) {
+            throw new PedidoNaoEncontradoException();
+        }
+        if (pedido.getEstado().equals("preparando")) {
+            throw new RemoverPedidoFechado();
+        }
+        if (nomeProduto == null || nomeProduto.isEmpty()) {
+            throw new ProdutoInvalidoException();
+        }
+        Produto produto = null;
+        for (Produto p : pedido.getProdutos()) {
+            if (p.getNome().equals(nomeProduto)) {
+                produto = p;
+                break;
+            }
+        }
+        if (produto == null) {
+            throw new ProdutoNaoEncontradoException();
+        }
+        pedido.getProdutos().remove(produto);
+        salvarPedidos();
+    }
+    private void salvarPedidos() {
+        try (Writer writer = new FileWriter("pedidos.json")) {
+            gson.toJson(pedidos, writer);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    public Pedido findPedidoById(int pedidoId) {
+        return pedidos.get(pedidoId);
+    }
+    public Produto findProdutoById(int produtoId) {
+        for (Empresa empresa : empresas.values()) {
+            Produto produto = empresa.findProdutoById(produtoId);
+            if (produto != null) {
+                return produto;
+            }
+        }
+        return null;
+    }
+    public String getPedidos(int numeroPedido, String atributo) throws Exception {
+        Pedido pedido = findPedidoById(numeroPedido);
+        if (pedido == null) {
+            throw new PedidoNaoEncontradoException();
+        }
+        if (atributo == null || atributo.isEmpty()) {
+            throw new AtributoInvalidoException();
+        }
+        switch (atributo) {
+            case "cliente":
+                return pedido.getCliente().getNome();
+            case "empresa":
+                return pedido.getEmpresa().getNome();
+            case "estado":
+                return pedido.getEstado();
+            case "produtos":
+                StringBuilder produtosStr = new StringBuilder("{[");
+                for (Produto produto : pedido.getProdutos()) {
+                    produtosStr.append(produto.getNome()).append(", ");
+                }
+                if (produtosStr.length() > 2) {
+                    produtosStr.setLength(produtosStr.length() - 2);  // Remove a última vírgula e espaço
+                }
+                produtosStr.append("]}");
+                return produtosStr.toString();
+            case "valor":
+                return String.format(Locale.US, "%.2f", pedido.getProdutos().stream().mapToDouble(Produto::getValor).sum());
+            default:
+                throw new AtributoNaoExisteException();
+        }
+    }
+    public int getNumeroPedido(int clienteId, int empresaId, int indice) throws Exception {
+        Usuario cliente = findUsuarioById(clienteId);
+        if (cliente == null) {
+            throw new UsuarioNaoCadastradoException();
+        }
+        Empresa empresa = findEmpresaById(empresaId);
+        if (empresa == null) {
+            throw new EmpresaNaoCadastradaException();
+        }
+        List<Pedido> pedidosDoCliente = new ArrayList<>();
+        for (Pedido pedido : pedidos.values()) {
+            if (pedido.getCliente().getId() == clienteId && pedido.getEmpresa().getId() == empresaId) {
+                pedidosDoCliente.add(pedido);
+            }
+        }
+        if (indice < 0 || indice >= pedidosDoCliente.size()) {
+            throw new IndiceInvalidoException();
+        }
+        return pedidosDoCliente.get(indice).getNumero();
+    }
+
+
 }

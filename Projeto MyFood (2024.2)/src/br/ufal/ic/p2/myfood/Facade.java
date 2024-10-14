@@ -71,6 +71,30 @@ public class Facade {
         return sistema.listarProdutos(empresa);
     }
 
+    public int criarPedido(int cliente, int empresa) throws Exception {
+        return sistema.criarPedido(cliente, empresa);
+    }
+
+    public void adicionarProduto(int numeroPedido, int produtoId) throws Exception {
+        sistema.adicionarProduto(numeroPedido, produtoId);
+    }
+
+    public void fecharPedido(int numeroPedido) throws Exception {
+        sistema.fecharPedido(numeroPedido);
+    }
+
+    public void removerProduto(int numeroPedido, String nomeProduto) throws Exception {
+        sistema.removerProduto(numeroPedido, nomeProduto);
+    }
+
+    public String getPedidos(int pedido, String atributo) throws Exception {
+        return sistema.getPedidos(pedido, atributo);
+    }
+
+    public int getNumeroPedido(int cliente, int empresa, int indice) throws Exception {
+        return sistema.getNumeroPedido(cliente, empresa, indice);
+    }
+
     public Sistema getSistema() {
         return sistema;
     }

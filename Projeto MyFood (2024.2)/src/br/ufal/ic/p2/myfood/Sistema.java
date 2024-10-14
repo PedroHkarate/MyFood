@@ -1,13 +1,16 @@
 package br.ufal.ic.p2.myfood;
 
 import java.util.ArrayList;
-import java.util.Objects;
-import java.beans.XMLEncoder;
+/*import java.beans.XMLEncoder;
 import java.beans.XMLDecoder;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
+import java.io.FileOutputStream;*/
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import java.io.*;
+import java.lang.reflect.Type;
 import java.io.IOException;
 import br.ufal.ic.p2.myfood.Exceptions.*;
 
@@ -18,6 +21,9 @@ public class Sistema {
     private ArrayList<Produto> produtos;
     private ArrayList<String> secoesAtivas;
     private ArrayList<Empresa> empresas;
+    private ArrayList<Usuario> users;
+    private static final String FILE_PATH = "users.json";
+    private Gson gson;
 
 
     public Sistema(){
@@ -27,6 +33,8 @@ public class Sistema {
         produtos = new ArrayList<>();
         secoesAtivas = new ArrayList<>();
         empresas = new ArrayList<>();
+        gson = new Gson();
+        users = carregarUsuarios();
     }
 
 
@@ -38,7 +46,7 @@ public class Sistema {
     }
 
 
-    public void salvarDados(String caminhoArquivo) throws IOException {
+    /*public void salvarDados(String caminhoArquivo) throws IOException {
         try (XMLEncoder encoder = new XMLEncoder(new BufferedOutputStream(new FileOutputStream(caminhoArquivo)))) {
             encoder.writeObject(this);
         }
@@ -49,10 +57,41 @@ public class Sistema {
         try (XMLDecoder decoder = new XMLDecoder(new BufferedInputStream(new FileInputStream(caminhoArquivo)))) {
             return (Sistema) decoder.readObject();
         }
+    }*/
+
+    private ArrayList<Usuario> carregarUsuarios() {
+        try (Reader reader = new FileReader(FILE_PATH)) {
+            Type listType = new TypeToken<ArrayList<Usuario>>() {}.getType();
+            ArrayList<Usuario> lista = gson.fromJson(reader, listType);
+            return lista != null ? lista : new ArrayList<>();
+        } catch (FileNotFoundException e) {
+            // Arquivo não existe, retorna lista vazia
+            return new ArrayList<>();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return new ArrayList<>();
+        }
+    }
+
+    public void salvarUsuarios() {
+        try (Writer writer = new FileWriter(FILE_PATH)) {
+            gson.toJson(users, writer);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void adicionarUsuario(Usuario user) {
+        users.add(user);
+        salvarUsuarios();
+    }
+
+    public ArrayList<Usuario> getUsuarios() {
+        return users;
     }
 
 
-    public void criarUsuario(String nome, String email, String senha, String endereco) throws Exception {
+    public Usuario criarUsuario(String nome, String email, String senha, String endereco) throws Exception {
         if (nome == null || nome.isEmpty()) {
             throw new NomeInvalidoException();
         }
@@ -71,10 +110,11 @@ public class Sistema {
         }
         Usuario usuarioC = new UsuarioCliente(nome, email, senha, endereco);
         usuarios.add(usuarioC);
+        return usuarioC;
     }
 
 
-    public void criarUsuario(String nome, String email, String senha, String endereco, String cpf) throws Exception {
+    public Usuario criarUsuario(String nome, String email, String senha, String endereco, String cpf) throws Exception {
         if (nome == null || nome.isEmpty()) {
             throw new NomeInvalidoException();
         }
@@ -97,6 +137,7 @@ public class Sistema {
 
         Usuario usuarioDono = new UsuarioDono(nome, email, senha, endereco, cpf);
         usuarios.add(usuarioDono);
+        return usuarioDono;
     }
 
 

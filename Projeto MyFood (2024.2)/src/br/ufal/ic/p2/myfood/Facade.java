@@ -11,13 +11,7 @@ public class Facade {
         this.sistema = new Sistema();
     }*/
 
-    public Facade() {
-        try {
-            this.sistema = Sistema.carregarDados("sistema.xml");
-        } catch (IOException e) {
-            this.sistema = new Sistema();
-        }
-    }
+    public Facade() { this.sistema = new Sistema(); }
 
     public void zerarSistema() {
         sistema.zerarSistema();
@@ -25,10 +19,12 @@ public class Facade {
 
     public void criarUsuario(String nome, String email, String senha, String endereco) throws Exception {
         sistema.criarUsuario(nome, email, senha, endereco);
+        sistema.adicionarUsuario(sistema.criarUsuario(nome, email, senha, endereco));
     }
 
     public void criarUsuario(String nome, String email, String senha, String endereco, String cpf) throws Exception {
         sistema.criarUsuario(nome, email, senha, endereco, cpf);
+        sistema.adicionarUsuario(sistema.criarUsuario(nome, email, senha, endereco, cpf));
     }
 
     public String getAtributoUsuario(int id, String atributo) throws Exception {
@@ -56,6 +52,6 @@ public class Facade {
     }
 
     public void encerrarSistema() throws IOException {
-        sistema.salvarDados("sistema.xml");
+        sistema.salvarUsuarios();
     }
 }

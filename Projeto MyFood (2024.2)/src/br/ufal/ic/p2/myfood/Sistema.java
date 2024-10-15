@@ -16,6 +16,9 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -264,28 +267,6 @@ public class Sistema {
         return novaEmpresa.getId();
     }
 
-    //Criação de Mercado
-    public int criarEmpresa(String tipoEmpresa, int donoId, String nome, String endereco, String abre, String fecha, String tipoMercado) throws Exception{
-        Usuario dono = findUsuarioById(donoId);
-        if (!(dono instanceof UsuarioDono)) {
-            throw new UsuarioNaoPodeCriarEmpresaException();
-        }
-        for (Empresa empresa : empresas.values()) {
-            if (empresa.getNome().equals(nome)) {
-                if (empresa.getDono().getId() != donoId) {
-                    throw new EmpresaComMesmoNomeDonoDiferenteException();
-                }
-                if (empresa.getDono().getId() == donoId && empresa.getEndereco().equals(endereco)) {
-                    throw new EmpresaComMesmoNomeEEnderecoException();
-                }
-            }
-        }
-        Mercado novaEmpresa = new Mercado(nextEmpresaId++, nome, endereco, tipoMercado, abre, fecha, dono);
-        empresas.put(novaEmpresa.getId(), novaEmpresa);
-        salvarEmpresas();
-        return novaEmpresa.getId();
-    }
-
     //Criação de Farmácia
     public int criarEmpresa(String tipoEmpresa, int donoId, String nome, String endereco, Boolean aberto24Horas, int numeroFuncionarios) throws Exception{
         Usuario dono = findUsuarioById(donoId);
@@ -315,6 +296,7 @@ public class Sistema {
             e.printStackTrace();
         }
     }
+
     public String getAtributoEmpresa(int empresaId, String atributo) throws Exception {
         Empresa empresa = findEmpresaById(empresaId);
         if (empresa == null) {
@@ -328,9 +310,29 @@ public class Sistema {
                 return empresa.getNome();
             case "endereco":
                 return empresa.getEndereco();
+            case "tipo":
+                return empresa.getTipo();
             case "tipoCozinha":
                 if (empresa instanceof Restaurante) {
                     return ((Restaurante) empresa).getTipoCozinha();
+                } else {
+                    throw new AtributoInvalidoException();
+                }
+            case "abre":
+                if (empresa instanceof Mercado) {
+                    return ((Mercado) empresa).getAbre();
+                } else {
+                    throw new AtributoInvalidoException();
+                }
+            case "fecha":
+                if (empresa instanceof Mercado) {
+                    return ((Mercado) empresa).getFecha();
+                } else {
+                    throw new AtributoInvalidoException();
+                }
+            case "tipomercado":
+                if (empresa instanceof Mercado) {
+                    return ((Mercado) empresa).getTipoMercado();
                 } else {
                     throw new AtributoInvalidoException();
                 }
@@ -622,4 +624,107 @@ public class Sistema {
         return pedidosDoCliente.get(indice).getNumero();
     }
 
+    //Criação de Mercado
+    public int criarEmpresa(String tipoEmpresa, int donoId, String nome, String endereco, String abre, String fecha, String tipoMercado) throws Exception{
+        Usuario dono = findUsuarioById(donoId);
+        if (!(dono instanceof UsuarioDono)) {
+            throw new UsuarioNaoPodeCriarEmpresaException();
+        }
+        if (tipoEmpresa == null || tipoEmpresa.isEmpty()) {
+            throw new TipoEmpresaInvalidoException();
+        }
+        if (tipoMercado == null || tipoMercado.isEmpty()) {
+            throw new TipoMercadoInvalido();
+        }
+        if (nome == null || nome.isEmpty()) {
+            throw new NomeInvalidoException();
+        }
+        if (endereco == null || endereco.isEmpty()) {
+            throw new EnderecoEmpresaInvalido();
+        }
+        if (abre == null || fecha == null) {
+            throw new HorarioInvalidoException();
+        }
+        if (abre.isEmpty() || fecha.isEmpty()){
+            throw new FormatoDeHoraInvalidoException();
+        }
+        if (!abre.matches("\\d{2}:\\d{2}") || !fecha.matches("\\d{2}:\\d{2}")) {
+            throw new FormatoDeHoraInvalidoException();
+        }
+        try {
+            int abreHour = Integer.parseInt(abre.split(":")[0]);
+            int abreMinute = Integer.parseInt(abre.split(":")[1]);
+            int fechaHour = Integer.parseInt(fecha.split(":")[0]);
+            int fechaMinute = Integer.parseInt(fecha.split(":")[1]);
+            if (abreHour > 23 || abreMinute > 59 || fechaHour > 23 || fechaMinute > 59) {
+                throw new HorarioInvalidoException();
+            }
+            LocalTime abreTime = LocalTime.of(abreHour, abreMinute);
+            LocalTime fechaTime = LocalTime.of(fechaHour, fechaMinute);
+            if (abreTime.isAfter(fechaTime)) {
+                throw new HorarioInvalidoException();
+            }
+        } catch (NumberFormatException e) {
+            throw new FormatoDeHoraInvalidoException();
+        }
+
+        if (tipoMercado == null || tipoMercado.isEmpty() ||
+                (!tipoMercado.equalsIgnoreCase("supermercado") &&
+                        !tipoMercado.equalsIgnoreCase("minimercado") &&
+                        !tipoMercado.equalsIgnoreCase("atacadista"))) {
+            throw new TipoEmpresaInvalidoException();
+        }
+
+        for (Empresa empresa : empresas.values()) {
+            if (empresa.getNome().equals(nome)) {
+                if (empresa.getDono().getId() != donoId) {
+                    throw new EmpresaComMesmoNomeDonoDiferenteException();
+                }
+                if (empresa.getDono().getId() == donoId && empresa.getEndereco().equals(endereco)) {
+                    throw new EmpresaComMesmoNomeEEnderecoException();
+                }
+            }
+        }
+        Mercado novaEmpresa = new Mercado(nextEmpresaId++, nome, endereco, tipoMercado, abre, fecha, dono);
+        empresas.put(novaEmpresa.getId(), novaEmpresa);
+        salvarEmpresas();
+        return novaEmpresa.getId();
+    }
+
+
+    public void alterarFuncionamento(int mercadoId, String abre, String fecha) throws Exception {
+        Mercado mercado = findMercadoById(mercadoId);
+        if (abre == null || abre.isEmpty() || fecha == null || fecha.isEmpty()) {
+            throw new HorarioInvalidoException();
+        }
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+        LocalTime abreTime;
+        LocalTime fechaTime;
+        try {
+            abreTime = LocalTime.parse(abre, formatter);
+            fechaTime = LocalTime.parse(fecha, formatter);
+        } catch (DateTimeParseException e) {
+            throw new FormatoDeHoraInvalidoException();
+        }
+        if (abreTime.getHour() > 23 || abreTime.getMinute() > 59 || fechaTime.getHour() > 23 || fechaTime.getMinute() > 59) {
+            throw new HorarioInvalidoException();
+        }
+        mercado.setHorarioFuncionamento(abre, fecha);
+        salvarMercados();
+    }
+    public Mercado findMercadoById(int mercadoId) throws MercadoNaoEncontradoException {
+        for (Empresa empresa : empresas.values()) {
+            if (empresa instanceof Mercado && empresa.getId() == mercadoId) {
+                return (Mercado) empresa;
+            }
+        }
+        throw new MercadoNaoEncontradoException();
+    }
+    public void salvarMercados() throws IOException {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("mercados.dat"))) {
+            oos.writeObject(empresas);
+        } catch (IOException e) {
+            throw new IOException("Error saving markets", e);
+        }
+    }
 }

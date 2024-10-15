@@ -5,11 +5,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="dc10fdcd-3ee1-4acf-9691-ec1ea0dee54e" name="Changes" comment="4/8">
+      <change afterPath="$PROJECT_DIR$/Projeto MyFood (2024.2)/src/br/ufal/ic/p2/myfood/Exceptions/EnderecoEmpresaInvalido.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Projeto MyFood (2024.2)/src/br/ufal/ic/p2/myfood/Exceptions/FormatoDeHoraInvalidoException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Projeto MyFood (2024.2)/src/br/ufal/ic/p2/myfood/Exceptions/HorarioInvalidoException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Projeto MyFood (2024.2)/src/br/ufal/ic/p2/myfood/Exceptions/MercadoNaoEncontradoException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Projeto MyFood (2024.2)/src/br/ufal/ic/p2/myfood/Exceptions/NaoEMercadoValidoException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Projeto MyFood (2024.2)/src/br/ufal/ic/p2/myfood/Exceptions/TipoMercadoInvalido.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Projeto MyFood (2024.2)/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/Projeto MyFood (2024.2)/src/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Projeto MyFood (2024.2)/src/br/ufal/ic/p2/myfood/Exceptions/TipoEmpresaInvalidoException.java" beforeDir="false" afterPath="$PROJECT_DIR$/Projeto MyFood (2024.2)/src/br/ufal/ic/p2/myfood/Exceptions/TipoEmpresaInvalidoException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Projeto MyFood (2024.2)/src/br/ufal/ic/p2/myfood/Facade.java" beforeDir="false" afterPath="$PROJECT_DIR$/Projeto MyFood (2024.2)/src/br/ufal/ic/p2/myfood/Facade.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Projeto MyFood (2024.2)/src/br/ufal/ic/p2/myfood/Mercado.java" beforeDir="false" afterPath="$PROJECT_DIR$/Projeto MyFood (2024.2)/src/br/ufal/ic/p2/myfood/Mercado.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Projeto MyFood (2024.2)/src/br/ufal/ic/p2/myfood/Sistema.java" beforeDir="false" afterPath="$PROJECT_DIR$/Projeto MyFood (2024.2)/src/br/ufal/ic/p2/myfood/Sistema.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/MyFood/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MyFood/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/MyFood/br/ufal/ic/p2/myfood/Facade.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MyFood/br/ufal/ic/p2/myfood/Facade.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/MyFood/br/ufal/ic/p2/myfood/Farmacia.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MyFood/br/ufal/ic/p2/myfood/Farmacia.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/MyFood/br/ufal/ic/p2/myfood/Mercado.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MyFood/br/ufal/ic/p2/myfood/Mercado.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/MyFood/br/ufal/ic/p2/myfood/Sistema.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MyFood/br/ufal/ic/p2/myfood/Sistema.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/us5_1.txt" beforeDir="false" afterPath="$PROJECT_DIR$/tests/us5_1.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,26 +63,27 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.Main.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "main",
-    "ignore.virus.scanning.warn.message": "true",
-    "kotlin-language-version-configured": "true",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="br.ufal.ic.p2.myfood.Exceptions" />
       <recent name="br.ufal.ic.p2.myfood" />
     </key>
   </component>
@@ -105,7 +119,12 @@
       <workItem from="1728940173298" duration="95000" />
       <workItem from="1728941117414" duration="219000" />
       <workItem from="1728945809195" duration="64000" />
-      <workItem from="1728945880353" duration="3421000" />
+      <workItem from="1728945880353" duration="3645000" />
+      <workItem from="1728960236202" duration="12992000" />
+      <workItem from="1728973416143" duration="150000" />
+      <workItem from="1729012498324" duration="316000" />
+      <workItem from="1729015925865" duration="442000" />
+      <workItem from="1729017295058" duration="10507000" />
     </task>
     <task id="LOCAL-00001" summary="0,5/8">
       <option name="closed" value="true" />
@@ -227,7 +246,15 @@
       <option name="project" value="LOCAL" />
       <updated>1728941295450</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="4/8">
+      <option name="closed" value="true" />
+      <created>1728950750927</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1728950750927</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -246,5 +273,20 @@
     <MESSAGE value="3,5/8 (quase la)" />
     <MESSAGE value="4/8" />
     <option name="LAST_COMMIT_MESSAGE" value="4/8" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="java.lang.StackOverflowError" package="java.lang" />
+          <option name="timeStamp" value="1" />
+        </breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+    <watches-manager>
+      <configuration name="Application">
+        <watch expression="typeOfT" />
+      </configuration>
+    </watches-manager>
   </component>
 </project>

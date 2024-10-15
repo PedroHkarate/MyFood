@@ -103,6 +103,11 @@ public class Facade {
         return sistema.getNumeroPedido(cliente, empresa, indice);
     }
 
+    public void alterarFuncionamento(int mercadoId, String abre, String fecha) throws Exception {
+        sistema.alterarFuncionamento(mercadoId, abre, fecha);
+    }
+
+
     public Sistema getSistema() {
         return sistema;
     }

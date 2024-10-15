@@ -710,7 +710,7 @@ public class Sistema {
             throw new HorarioInvalidoException();
         }
         mercado.setHorarioFuncionamento(abre, fecha);
-        salvarMercados();
+        salvarEmpresas();
     }
     public Mercado findMercadoById(int mercadoId) throws MercadoNaoEncontradoException {
         for (Empresa empresa : empresas.values()) {
@@ -719,12 +719,5 @@ public class Sistema {
             }
         }
         throw new MercadoNaoEncontradoException();
-    }
-    public void salvarMercados() throws IOException {
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("mercados.dat"))) {
-            oos.writeObject(empresas);
-        } catch (IOException e) {
-            throw new IOException("Error saving markets", e);
-        }
     }
 }

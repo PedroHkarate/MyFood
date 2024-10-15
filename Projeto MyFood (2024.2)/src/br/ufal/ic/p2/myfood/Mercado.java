@@ -7,7 +7,7 @@ public class Mercado extends Empresa {
     private String horarioAbertura;
     private String horarioFechamento;
 
-    public Mercado(int id, String nome, String endereco, String abre, String fecha, String tipoMercado,Usuario dono) {
+    public Mercado(int id, String nome, String endereco, String abre, String fecha, String tipoMercado, Usuario dono) {
         super(id, nome, endereco, "mercado",dono);
         this.abre = abre;
         this.fecha = fecha;

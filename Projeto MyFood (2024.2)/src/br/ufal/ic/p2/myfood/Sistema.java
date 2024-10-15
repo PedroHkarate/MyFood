@@ -691,27 +691,34 @@ public class Sistema {
         return novaEmpresa.getId();
     }
 
-
     public void alterarFuncionamento(int mercadoId, String abre, String fecha) throws Exception {
         Mercado mercado = findMercadoById(mercadoId);
         if (abre == null || abre.isEmpty() || fecha == null || fecha.isEmpty()) {
             throw new HorarioInvalidoException();
         }
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+
         LocalTime abreTime;
         LocalTime fechaTime;
+
         try {
             abreTime = LocalTime.parse(abre, formatter);
             fechaTime = LocalTime.parse(fecha, formatter);
         } catch (DateTimeParseException e) {
             throw new FormatoDeHoraInvalidoException();
         }
-        if (abreTime.getHour() > 23 || abreTime.getMinute() > 59 || fechaTime.getHour() > 23 || fechaTime.getMinute() > 59) {
+        if (abreTime.getHour() > 23 || abreTime.getMinute() > 59 ||
+                fechaTime.getHour() > 23 || fechaTime.getMinute() > 59) {
+            throw new HorarioInvalidoException(); //teste que era pra cair nesse if esta caindo no if da linha 708
+        }
+        if (abreTime.isAfter(fechaTime)) {
             throw new HorarioInvalidoException();
         }
         mercado.setHorarioFuncionamento(abre, fecha);
         salvarEmpresas();
     }
+
+
     public Mercado findMercadoById(int mercadoId) throws MercadoNaoEncontradoException {
         for (Empresa empresa : empresas.values()) {
             if (empresa instanceof Mercado && empresa.getId() == mercadoId) {

@@ -4,8 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dc10fdcd-3ee1-4acf-9691-ec1ea0dee54e" name="Changes" comment="3,5/8 (quase la)">
+    <list default="true" id="dc10fdcd-3ee1-4acf-9691-ec1ea0dee54e" name="Changes" comment="4/8">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Projeto MyFood (2024.2)/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/Projeto MyFood (2024.2)/src/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Projeto MyFood (2024.2)/src/br/ufal/ic/p2/myfood/Sistema.java" beforeDir="false" afterPath="$PROJECT_DIR$/Projeto MyFood (2024.2)/src/br/ufal/ic/p2/myfood/Sistema.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/MyFood/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MyFood/Main.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/MyFood/br/ufal/ic/p2/myfood/Sistema.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MyFood/br/ufal/ic/p2/myfood/Sistema.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -47,21 +50,24 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.Main.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "main",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="br.ufal.ic.p2.myfood" />
@@ -97,6 +103,9 @@
       <workItem from="1728939372980" duration="94000" />
       <workItem from="1728940146236" duration="18000" />
       <workItem from="1728940173298" duration="95000" />
+      <workItem from="1728941117414" duration="219000" />
+      <workItem from="1728945809195" duration="64000" />
+      <workItem from="1728945880353" duration="3421000" />
     </task>
     <task id="LOCAL-00001" summary="0,5/8">
       <option name="closed" value="true" />
@@ -210,7 +219,15 @@
       <option name="project" value="LOCAL" />
       <updated>1728934904242</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="4/8">
+      <option name="closed" value="true" />
+      <created>1728941295450</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1728941295450</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -227,6 +244,7 @@
     <MESSAGE value="3/8" />
     <MESSAGE value="3,5/8" />
     <MESSAGE value="3,5/8 (quase la)" />
-    <option name="LAST_COMMIT_MESSAGE" value="3,5/8 (quase la)" />
+    <MESSAGE value="4/8" />
+    <option name="LAST_COMMIT_MESSAGE" value="4/8" />
   </component>
 </project>

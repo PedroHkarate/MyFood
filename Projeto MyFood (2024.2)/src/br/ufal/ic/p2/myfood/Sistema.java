@@ -53,6 +53,7 @@ public class Sistema {
         this.nextEmpresaId = 1;
         this.usuarios.clear();
         this.empresas.clear();
+        this.pedidos.clear();
         salvarUsuarios();
     }
     private void configurarGson() {
@@ -87,8 +88,6 @@ public class Sistema {
             return jsonObject;
         }
     }
-
-
     public static Sistema carregarDados(String caminhoArquivoUsuarios) throws IOException {
         Sistema sistema = new Sistema();
         sistema.configurarGson();
@@ -128,12 +127,8 @@ public class Sistema {
             }
         } catch (FileNotFoundException e) {
         }
-
-
         return sistema;
     }
-
-
     public void adicionarUsuario(Usuario user) {
         usuarios.put(user.getId(), user);
         salvarUsuarios();

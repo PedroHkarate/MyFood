@@ -232,6 +232,8 @@ public class Sistema {
             String tipo = jsonObject.get("tipo").getAsString();
             if (tipo.equals("restaurante")) {
                 return context.deserialize(json, Restaurante.class);
+            } else if (tipo.equals("mercado")) {
+                return context.deserialize(json, Mercado.class);
             }
             return context.deserialize(json, Empresa.class);
         }
@@ -256,6 +258,28 @@ public class Sistema {
         salvarEmpresas();
         return novaEmpresa.getId();
     }
+
+    public int criarEmpresa(String tipoEmpresa, int donoId, String nome, String endereco, String abre, String fecha, String tipoMercado) throws Exception{
+        Usuario dono = findUsuarioById(donoId);
+        if (!(dono instanceof UsuarioDono)) {
+            throw new UsuarioNaoPodeCriarEmpresaException();
+        }
+        for (Empresa empresa : empresas.values()) {
+            if (empresa.getNome().equals(nome)) {
+                if (empresa.getDono().getId() != donoId) {
+                    throw new EmpresaComMesmoNomeDonoDiferenteException();
+                }
+                if (empresa.getDono().getId() == donoId && empresa.getEndereco().equals(endereco)) {
+                    throw new EmpresaComMesmoNomeEEnderecoException();
+                }
+            }
+        }
+        Mercado novaEmpresa = new Mercado(nextEmpresaId++, nome, endereco, tipoMercado, abre, fecha, dono);
+        empresas.put(novaEmpresa.getId(), novaEmpresa);
+        salvarEmpresas();
+        return novaEmpresa.getId();
+    }
+
     private void salvarEmpresas() {
         try (Writer writer = new FileWriter("empresas.json")) {
             gson.toJson(empresas, writer);

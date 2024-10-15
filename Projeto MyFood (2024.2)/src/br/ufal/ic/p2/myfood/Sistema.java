@@ -235,9 +235,14 @@ public class Sistema {
             } else if (tipo.equals("mercado")) {
                 return context.deserialize(json, Mercado.class);
             }
+            else if (tipo.equals("farmacia")) {
+                return context.deserialize(json, Farmacia.class);
+            }
             return context.deserialize(json, Empresa.class);
         }
     }
+
+    //Criação de Restaurante
     public int criarEmpresa(String tipoEmpresa, int donoId, String nome, String endereco, String tipoCozinha) throws Exception {
         Usuario dono = findUsuarioById(donoId);
         if (!(dono instanceof UsuarioDono)) {
@@ -259,6 +264,7 @@ public class Sistema {
         return novaEmpresa.getId();
     }
 
+    //Criação de Mercado
     public int criarEmpresa(String tipoEmpresa, int donoId, String nome, String endereco, String abre, String fecha, String tipoMercado) throws Exception{
         Usuario dono = findUsuarioById(donoId);
         if (!(dono instanceof UsuarioDono)) {
@@ -275,6 +281,28 @@ public class Sistema {
             }
         }
         Mercado novaEmpresa = new Mercado(nextEmpresaId++, nome, endereco, tipoMercado, abre, fecha, dono);
+        empresas.put(novaEmpresa.getId(), novaEmpresa);
+        salvarEmpresas();
+        return novaEmpresa.getId();
+    }
+
+    //Criação de Farmácia
+    public int criarEmpresa(String tipoEmpresa, int donoId, String nome, String endereco, Boolean aberto24Horas, int numeroFuncionarios) throws Exception{
+        Usuario dono = findUsuarioById(donoId);
+        if (!(dono instanceof UsuarioDono)) {
+            throw new UsuarioNaoPodeCriarEmpresaException();
+        }
+        for (Empresa empresa : empresas.values()) {
+            if (empresa.getNome().equals(nome)) {
+                if (empresa.getDono().getId() != donoId) {
+                    throw new EmpresaComMesmoNomeDonoDiferenteException();
+                }
+                if (empresa.getDono().getId() == donoId && empresa.getEndereco().equals(endereco)) {
+                    throw new EmpresaComMesmoNomeEEnderecoException();
+                }
+            }
+        }
+        Farmacia novaEmpresa = new Farmacia(nextEmpresaId++, nome, endereco, aberto24Horas, numeroFuncionarios, dono);
         empresas.put(novaEmpresa.getId(), novaEmpresa);
         salvarEmpresas();
         return novaEmpresa.getId();

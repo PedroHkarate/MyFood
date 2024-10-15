@@ -43,6 +43,10 @@ public class Facade {
         return sistema.criarEmpresa(tipoEmpresa, donoId, nome, endereco, abre, fecha, tipoMercado);
     }
 
+    public int criarEmpresa(String tipoEmpresa, int donoId, String nome, String endereco, Boolean aberto24Horas, int numeroFuncionarios) throws Exception{
+        return sistema.criarEmpresa(tipoEmpresa, donoId, nome, endereco, aberto24Horas, numeroFuncionarios);
+    }
+
     public String getEmpresasDoUsuario(int idDono) throws Exception {
         return sistema.getEmpresasDoUsuario(idDono);
     }

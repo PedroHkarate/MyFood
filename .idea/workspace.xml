@@ -4,25 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dc10fdcd-3ee1-4acf-9691-ec1ea0dee54e" name="Changes" comment="4/8">
-      <change afterPath="$PROJECT_DIR$/Projeto MyFood (2024.2)/src/br/ufal/ic/p2/myfood/Exceptions/EnderecoEmpresaInvalido.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Projeto MyFood (2024.2)/src/br/ufal/ic/p2/myfood/Exceptions/FormatoDeHoraInvalidoException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Projeto MyFood (2024.2)/src/br/ufal/ic/p2/myfood/Exceptions/HorarioInvalidoException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Projeto MyFood (2024.2)/src/br/ufal/ic/p2/myfood/Exceptions/MercadoNaoEncontradoException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Projeto MyFood (2024.2)/src/br/ufal/ic/p2/myfood/Exceptions/NaoEMercadoValidoException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Projeto MyFood (2024.2)/src/br/ufal/ic/p2/myfood/Exceptions/TipoMercadoInvalido.java" afterDir="false" />
+    <list default="true" id="dc10fdcd-3ee1-4acf-9691-ec1ea0dee54e" name="Changes" comment="4/8 (10/7 erros)">
+      <change afterPath="$PROJECT_DIR$/Projeto MyFood (2024.2)/src/br/ufal/ic/p2/myfood/Exceptions/Coringa.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Projeto MyFood (2024.2)/src/br/ufal/ic/p2/myfood/Exceptions/NaoEUmMercadoValidoException.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Projeto MyFood (2024.2)/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/Projeto MyFood (2024.2)/src/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Projeto MyFood (2024.2)/src/br/ufal/ic/p2/myfood/Exceptions/TipoEmpresaInvalidoException.java" beforeDir="false" afterPath="$PROJECT_DIR$/Projeto MyFood (2024.2)/src/br/ufal/ic/p2/myfood/Exceptions/TipoEmpresaInvalidoException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Projeto MyFood (2024.2)/src/br/ufal/ic/p2/myfood/Facade.java" beforeDir="false" afterPath="$PROJECT_DIR$/Projeto MyFood (2024.2)/src/br/ufal/ic/p2/myfood/Facade.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Projeto MyFood (2024.2)/src/br/ufal/ic/p2/myfood/Mercado.java" beforeDir="false" afterPath="$PROJECT_DIR$/Projeto MyFood (2024.2)/src/br/ufal/ic/p2/myfood/Mercado.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Projeto MyFood (2024.2)/src/br/ufal/ic/p2/myfood/Sistema.java" beforeDir="false" afterPath="$PROJECT_DIR$/Projeto MyFood (2024.2)/src/br/ufal/ic/p2/myfood/Sistema.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/MyFood/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MyFood/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/MyFood/br/ufal/ic/p2/myfood/Exceptions/TipoEmpresaInvalidoException.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MyFood/br/ufal/ic/p2/myfood/Exceptions/TipoEmpresaInvalidoException.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/MyFood/br/ufal/ic/p2/myfood/Facade.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MyFood/br/ufal/ic/p2/myfood/Facade.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/MyFood/br/ufal/ic/p2/myfood/Farmacia.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MyFood/br/ufal/ic/p2/myfood/Farmacia.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/MyFood/br/ufal/ic/p2/myfood/Mercado.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MyFood/br/ufal/ic/p2/myfood/Mercado.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/MyFood/br/ufal/ic/p2/myfood/Sistema.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MyFood/br/ufal/ic/p2/myfood/Sistema.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/us5_1.txt" beforeDir="false" afterPath="$PROJECT_DIR$/tests/us5_1.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/MyFood/br/ufal/ic/p2/myfood/UsuarioEntregador.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MyFood/br/ufal/ic/p2/myfood/UsuarioEntregador.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -124,7 +116,8 @@
       <workItem from="1728973416143" duration="150000" />
       <workItem from="1729012498324" duration="316000" />
       <workItem from="1729015925865" duration="442000" />
-      <workItem from="1729017295058" duration="10507000" />
+      <workItem from="1729017295058" duration="13576000" />
+      <workItem from="1729049070875" duration="3949000" />
     </task>
     <task id="LOCAL-00001" summary="0,5/8">
       <option name="closed" value="true" />
@@ -254,7 +247,39 @@
       <option name="project" value="LOCAL" />
       <updated>1728950750927</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="4/8 (12/7 erros)">
+      <option name="closed" value="true" />
+      <created>1729027973524</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1729027973524</updated>
+    </task>
+    <task id="LOCAL-00018" summary="4/8 (11/7 erros)">
+      <option name="closed" value="true" />
+      <created>1729033805557</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1729033805557</updated>
+    </task>
+    <task id="LOCAL-00019" summary="4/8 (11/7 erros)">
+      <option name="closed" value="true" />
+      <created>1729033813314</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1729033813314</updated>
+    </task>
+    <task id="LOCAL-00020" summary="4/8 (10/7 erros)">
+      <option name="closed" value="true" />
+      <created>1729034655719</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1729034655719</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -272,7 +297,10 @@
     <MESSAGE value="3,5/8" />
     <MESSAGE value="3,5/8 (quase la)" />
     <MESSAGE value="4/8" />
-    <option name="LAST_COMMIT_MESSAGE" value="4/8" />
+    <MESSAGE value="4/8 (12/7 erros)" />
+    <MESSAGE value="4/8 (11/7 erros)" />
+    <MESSAGE value="4/8 (10/7 erros)" />
+    <option name="LAST_COMMIT_MESSAGE" value="4/8 (10/7 erros)" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

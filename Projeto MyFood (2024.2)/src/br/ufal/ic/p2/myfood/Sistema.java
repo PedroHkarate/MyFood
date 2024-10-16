@@ -50,7 +50,6 @@ public class Sistema {
         configurarGson();
     }
 
-
     public void zerarSistema() {
         this.nextUserId = 1;
         this.nextEmpresaId = 1;
@@ -143,8 +142,7 @@ public class Sistema {
             e.printStackTrace();
         }
     }
-
-    //Criação Usuario Simples
+    //usuario
     public Usuario criarUsuario(String nome, String email, String senha, String endereco) throws Exception {
         if (nome == null || nome.isEmpty()) {
             throw new NomeInvalidoException();
@@ -168,8 +166,7 @@ public class Sistema {
         salvarUsuarios();
         return usuarioC;
     }
-
-    //Criação Usuario Dono
+    //dono
     public Usuario criarUsuario(String nome, String email, String senha, String endereco, String cpf) throws Exception {
         if (nome == null || nome.isEmpty()) {
             throw new NomeInvalidoException();
@@ -196,8 +193,7 @@ public class Sistema {
         salvarUsuarios();
         return usuarioDono;
     }
-
-    //Criação Usuario Entregador
+    //entregador
     public Usuario criarUsuario(String nome, String email, String senha, String endereco, String veiculo, String placa) throws Exception {
         if (nome == null || nome.isEmpty()) {
             throw new NomeInvalidoException();
@@ -279,8 +275,7 @@ public class Sistema {
             return context.deserialize(json, Empresa.class);
         }
     }
-
-    //Criação de Restaurante
+    //restaurante
     public int criarEmpresa(String tipoEmpresa, int donoId, String nome, String endereco, String tipoCozinha) throws Exception {
         Usuario dono = findUsuarioById(donoId);
         if (!(dono instanceof UsuarioDono)) {
@@ -301,8 +296,7 @@ public class Sistema {
         salvarEmpresas();
         return novaEmpresa.getId();
     }
-
-    //Criação de Farmácia
+    //farmacia
     public int criarEmpresa(String tipoEmpresa, int donoId, String nome, String endereco, Boolean aberto24Horas, int numeroFuncionarios) throws Exception{
         Usuario dono = findUsuarioById(donoId);
         if (!(dono instanceof UsuarioDono)) {
@@ -326,7 +320,6 @@ public class Sistema {
         salvarEmpresas();
         return novaEmpresa.getId();
     }
-
     private void salvarEmpresas() {
         try (Writer writer = new FileWriter("empresas.json")) {
             gson.toJson(empresas, writer);
@@ -334,7 +327,6 @@ public class Sistema {
             e.printStackTrace();
         }
     }
-
     public String getAtributoEmpresa(int empresaId, String atributo) throws Exception {
         Empresa empresa = findEmpresaById(empresaId);
         if (empresa == null) {
@@ -384,7 +376,6 @@ public class Sistema {
                 throw new AtributoInvalidoException();
         }
     }
-
     public String getEmpresasDoUsuario(int idDono) throws Exception {
         Usuario dono = findUsuarioById(idDono);
         if (!(dono instanceof UsuarioDono)) {
@@ -666,8 +657,15 @@ public class Sistema {
         }
         return pedidosDoCliente.get(indice).getNumero();
     }
-
-    //Criação de Mercado
+    public Mercado findMercadoById(int mercadoId) throws MercadoNaoEncontradoException {
+        for (Empresa empresa : empresas.values()) {
+            if (empresa instanceof Mercado && empresa.getId() == mercadoId) {
+                return (Mercado) empresa;
+            }
+        }
+        throw new MercadoNaoEncontradoException();
+    }
+    //mercado
     public int criarEmpresa(String tipoEmpresa, int donoId, String nome, String endereco, String abre, String fecha, String tipoMercado) throws Exception{
         Usuario dono = findUsuarioById(donoId);
         if (!(dono instanceof UsuarioDono)) {
@@ -733,40 +731,62 @@ public class Sistema {
         salvarEmpresas();
         return novaEmpresa.getId();
     }
-
     public void alterarFuncionamento(int mercadoId, String abre, String fecha) throws Exception {
-        Mercado mercado = findMercadoById(mercadoId);
-        if (abre == null || abre.isEmpty() || fecha == null || fecha.isEmpty()) {
+        // Busca a empresa com o ID fornecido
+        Empresa empresa = findEmpresaById(mercadoId);
+
+        // Verifica se a empresa é um mercado
+        if (!(empresa instanceof Mercado)) {
+            throw new IllegalArgumentException("Nao e um mercado valido");
+        }
+
+        // Cast seguro para Mercado
+        Mercado mercado = (Mercado) empresa;
+
+        // Validação de nulos
+        if (abre == null || fecha == null) {
             throw new HorarioInvalidoException();
         }
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
 
-        LocalTime abreTime;
-        LocalTime fechaTime;
-
-        try {
-            abreTime = LocalTime.parse(abre, formatter);
-            fechaTime = LocalTime.parse(fecha, formatter);
-        } catch (DateTimeParseException e) {
+        // Validação de strings vazias
+        if (abre.isEmpty() || fecha.isEmpty()) {
             throw new FormatoDeHoraInvalidoException();
         }
-        if (abreTime.getHour() > 23 || abreTime.getMinute() > 59 || fechaTime.getHour() > 23 || fechaTime.getMinute() > 59) {
-            throw new HorarioInvalidoException(); //teste que era pra cair nesse if esta caindo no if da linha 708
-        }
-        if (abreTime.isAfter(fechaTime)) {
-            throw new HorarioInvalidoException();
-        }
-        mercado.setHorarioFuncionamento(abre, fecha);
-        salvarEmpresas();
-    }
 
+        // Validação de formato (HH:mm)
+        if (!abre.matches("\\d{2}:\\d{2}") || !fecha.matches("\\d{2}:\\d{2}")) {
+            throw new FormatoDeHoraInvalidoException();
+        }
 
-    public Mercado findMercadoById(int mercadoId) throws MercadoNaoEncontradoException {
-        for (Empresa empresa : empresas.values()) {
-            if (empresa instanceof Mercado && empresa.getId() == mercadoId) {
-                return (Mercado) empresa;
+        try {
+            // Extrai horas e minutos
+            int abreHour = Integer.parseInt(abre.split(":")[0]);
+            int abreMinute = Integer.parseInt(abre.split(":")[1]);
+            int fechaHour = Integer.parseInt(fecha.split(":")[0]);
+            int fechaMinute = Integer.parseInt(fecha.split(":")[1]);
+
+            // Validação de limites para horas e minutos
+            if (abreHour > 23 || abreMinute > 59 || fechaHour > 23 || fechaMinute > 59) {
+                throw new HorarioInvalidoException();
             }
+
+            // Converte as strings para LocalTime
+            LocalTime abreTime = LocalTime.of(abreHour, abreMinute);
+            LocalTime fechaTime = LocalTime.of(fechaHour, fechaMinute);
+
+            // Verifica se o horário de abertura é depois do de fechamento
+            if (abreTime.isAfter(fechaTime)) {
+                throw new HorarioInvalidoException();
+            }
+
+            // Atualiza os horários no objeto mercado
+            mercado.setHorarioFuncionamento(abre, fecha);
+
+            // Salva as alterações no repositório ou banco de dados
+            salvarEmpresas();
+        } catch (NumberFormatException e) {
+            // Captura qualquer erro ao tentar converter as partes de horas e minutos
+            throw new FormatoDeHoraInvalidoException();
         }
-        throw new MercadoNaoEncontradoException();
     }
 }

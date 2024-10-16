@@ -202,13 +202,21 @@ public class Sistema {
         if (endereco == null || endereco.isEmpty()) {
             throw new EnderecoInvalidoException();
         }
-        // o programa precisa verificar se o usuario é tipo entregador antes de verificar se placa/veiculo é null
-        // se não um usuario dono/cliente cai na exceções embaixo
         if(veiculo == null || veiculo.isEmpty()) { throw new VeiculoInvalidoException();}
         if(placa == null || placa.isEmpty()) { throw new PlacaInvalidaException();}
+
+        for (Usuario usuarioExistente : usuarios.values()) {
+            if (usuarioExistente instanceof UsuarioEntregador) {
+                UsuarioEntregador entregadorExistente = (UsuarioEntregador) usuarioExistente;
+                if (entregadorExistente.getPlaca().equals(placa)) {
+                    throw new PlacaInvalidaException();
+                }
+            }
+        }
+
         for (Usuario usuarioExistente : usuarios.values()) {
             if (usuarioExistente.getEmail().equals(email)) {
-                throw new EmailJaExisteException();
+                throw new EmailJaExisteException(); //o caso da linha 107 esta caindo aqui
             }
         }
         UsuarioEntregador usuarioE = new UsuarioEntregador(nextUserId++, nome, email, senha, endereco, veiculo, placa);

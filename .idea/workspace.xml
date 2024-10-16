@@ -4,16 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dc10fdcd-3ee1-4acf-9691-ec1ea0dee54e" name="Changes" comment="6/8 (7_1 = 2, 7_2 = 4)">
+    <list default="true" id="dc10fdcd-3ee1-4acf-9691-ec1ea0dee54e" name="Changes" comment="7/8">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Projeto MyFood (2024.2)/src/br/ufal/ic/p2/myfood/Exceptions/UsuarioNaoEUmEntregadorException.java" beforeDir="false" afterPath="$PROJECT_DIR$/Projeto MyFood (2024.2)/src/br/ufal/ic/p2/myfood/Exceptions/UsuarioNaoEUmEntregadorException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Projeto MyFood (2024.2)/src/br/ufal/ic/p2/myfood/Facade.java" beforeDir="false" afterPath="$PROJECT_DIR$/Projeto MyFood (2024.2)/src/br/ufal/ic/p2/myfood/Facade.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Projeto MyFood (2024.2)/src/br/ufal/ic/p2/myfood/Sistema.java" beforeDir="false" afterPath="$PROJECT_DIR$/Projeto MyFood (2024.2)/src/br/ufal/ic/p2/myfood/Sistema.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Projeto MyFood (2024.2)/src/br/ufal/ic/p2/myfood/UsuarioEntregador.java" beforeDir="false" afterPath="$PROJECT_DIR$/Projeto MyFood (2024.2)/src/br/ufal/ic/p2/myfood/UsuarioEntregador.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/MyFood/br/ufal/ic/p2/myfood/Empresa.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MyFood/br/ufal/ic/p2/myfood/Empresa.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/MyFood/br/ufal/ic/p2/myfood/Facade.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MyFood/br/ufal/ic/p2/myfood/Facade.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/MyFood/br/ufal/ic/p2/myfood/Sistema.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MyFood/br/ufal/ic/p2/myfood/Sistema.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/MyFood/br/ufal/ic/p2/myfood/UsuarioEntregador.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MyFood/br/ufal/ic/p2/myfood/UsuarioEntregador.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/us7_1.txt" beforeDir="false" afterPath="$PROJECT_DIR$/tests/us7_1.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/us8_1.txt" beforeDir="false" afterPath="$PROJECT_DIR$/tests/us8_1.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/us8_2.txt" beforeDir="false" afterPath="$PROJECT_DIR$/tests/us8_2.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -117,7 +114,7 @@
       <workItem from="1729015925865" duration="442000" />
       <workItem from="1729017295058" duration="13576000" />
       <workItem from="1729049070875" duration="8902000" />
-      <workItem from="1729093345043" duration="2352000" />
+      <workItem from="1729093345043" duration="4063000" />
     </task>
     <task id="LOCAL-00001" summary="0,5/8">
       <option name="closed" value="true" />
@@ -295,7 +292,15 @@
       <option name="project" value="LOCAL" />
       <updated>1729059344989</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="7/8">
+      <option name="closed" value="true" />
+      <created>1729095745746</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1729095745747</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -318,7 +323,8 @@
     <MESSAGE value="4/8 (10/7 erros)" />
     <MESSAGE value="6/8" />
     <MESSAGE value="6/8 (7_1 = 2, 7_2 = 4)" />
-    <option name="LAST_COMMIT_MESSAGE" value="6/8 (7_1 = 2, 7_2 = 4)" />
+    <MESSAGE value="7/8" />
+    <option name="LAST_COMMIT_MESSAGE" value="7/8" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

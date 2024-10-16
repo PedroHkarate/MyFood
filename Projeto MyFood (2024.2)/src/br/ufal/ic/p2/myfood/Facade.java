@@ -125,12 +125,10 @@ public class Facade {
         return "{" + entregadores.toString() + "}";
     }
 
-
     public String getEmpresas(int entregadorId) throws Exception {
         List<String> empresas = sistema.getEmpresas(entregadorId);
         return "{" + empresas.toString() + "}";
     }
-
 
     public Sistema getSistema() {
         return sistema;

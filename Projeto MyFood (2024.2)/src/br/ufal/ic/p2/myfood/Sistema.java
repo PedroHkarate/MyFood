@@ -16,8 +16,6 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -115,9 +113,6 @@ public class Sistema {
             }
         } catch (FileNotFoundException e) {
         }
-
-        //se der problema no 4_1 ou 4_2 verificar isso aq e verificar zerarSistema
-
         try (Reader reader = new FileReader("pedidos.json")) {
             Type mapType = new TypeToken<Map<Integer, Pedido>>() {}.getType();
             Map<Integer, Pedido> loadedPedidos = gson.fromJson(reader, mapType);
@@ -807,8 +802,8 @@ public class Sistema {
         if (entregador.getPlaca() == null || entregador.getPlaca().isEmpty()) {
             throw new PlacaInvalidaException();
         }
-
         empresa.adicionarEntregador(entregador);
+        salvarEmpresas();
     }
     public List<String> getEntregadores(int empresaId) throws Exception {
         Empresa empresa = empresas.get(empresaId);

@@ -1,7 +1,6 @@
 package br.ufal.ic.p2.myfood;
 
 import br.ufal.ic.p2.myfood.Exceptions.ProdutoNaoCadastradoException;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +11,7 @@ public class Empresa {
     private String tipo;
     private Usuario dono;
     private List<Produto> produtos;
+    private List<UsuarioEntregador> entregadores;
 
     public Empresa(int id, String nome, String endereco, String tipo, Usuario dono) {
         this.id = id;
@@ -20,6 +20,7 @@ public class Empresa {
         this.tipo = tipo;
         this.dono = dono;
         this.produtos = new ArrayList<>();
+        this.entregadores = new ArrayList<>();
     }
 
     public int getId() {
@@ -84,5 +85,13 @@ public class Empresa {
             nomesProdutos.add(produto.getNome());
         }
         return nomesProdutos;
+    }
+
+    public void adicionarEntregador(UsuarioEntregador entregador) {
+        entregadores.add(entregador);
+    }
+
+    public List<UsuarioEntregador> getEntregadores() {
+        return entregadores;
     }
 }

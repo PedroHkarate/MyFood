@@ -7,7 +7,6 @@ public class UsuarioEntregador extends Usuario {
 
     public UsuarioEntregador(int id, String nome, String email, String senha, String endereco, String veiculo, String placa) {
         super(id, nome, email, senha, endereco, "Entregador");
-
         this.veiculo = veiculo;
         this.placa = placa;
     }

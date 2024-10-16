@@ -1,6 +1,7 @@
 package br.ufal.ic.p2.myfood;
 
 import java.io.IOException;
+import java.util.List;
 
 public class Facade {
     private Sistema sistema;
@@ -17,19 +18,19 @@ public class Facade {
         sistema.zerarSistema();
     }
 
-    //Usuário Simples
+    //usuario
     public void criarUsuario(String nome, String email, String senha, String endereco) throws Exception {
         Usuario usuario = sistema.criarUsuario(nome, email, senha, endereco);
         sistema.adicionarUsuario(usuario);
     }
 
-    //Dono
+    //dono
     public void criarUsuario(String nome, String email, String senha, String endereco, String cpf) throws Exception {
         Usuario usuario = sistema.criarUsuario(nome, email, senha, endereco, cpf);
         sistema.adicionarUsuario(usuario);
     }
 
-    //Entregador
+    //entregador
     public void criarUsuario(String nome, String email, String senha, String endereco, String veiculo, String placa) throws Exception {
         Usuario usuario = sistema.criarUsuario(nome, email, senha, endereco, veiculo, placa);
         sistema.adicionarUsuario(usuario);
@@ -113,6 +114,21 @@ public class Facade {
 
     public void alterarFuncionamento(int mercadoId, String abre, String fecha) throws Exception {
         sistema.alterarFuncionamento(mercadoId, abre, fecha);
+    }
+
+    public void cadastrarEntregador(int empresaId, int entregadorId) throws Exception {
+        sistema.cadastrarEntregador(empresaId, entregadorId);
+    }
+
+    public String getEntregadores(int empresaId) throws Exception {
+        List<String> entregadores = sistema.getEntregadores(empresaId);
+        return "{" + entregadores.toString() + "}";
+    }
+
+
+    public String getEmpresas(int entregadorId) throws Exception {
+        List<String> empresas = sistema.getEmpresas(entregadorId);
+        return "{" + empresas.toString() + "}";
     }
 
 

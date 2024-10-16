@@ -56,7 +56,7 @@ expectError "Usuario nao cadastrado." getAtributoUsuario id=9999 atributo="nome"
 
 criarUsuario nome="Rodrigo" email="rodrigo@ufal.com.br" senha="123senha" endereco="Rua Exemplo N 123" veiculo="moto" placa="BRA 1234"
 
-# Se a senha estiver correta, a sessão é aberta e o teste passa sem erros. 
+# Se a senha estiver correta, a sessão é aberta e o teste passa sem erros.
 # Se existir algum erro, o programa vai lançar uma exceção e o EasyAccept vai acusar erro nessa linha.
 id1=login email="rodrigo@ufal.com.br" senha="123senha"
 
@@ -83,8 +83,8 @@ id3=login email="rodrigo2@ufal.com.br" senha="123senha"
 expect "Rodrigo" getAtributoUsuario id=${id1} atributo="nome"
 expect "rodrigo@ufal.com.br" getAtributoUsuario id=${id1} atributo="email"
 expect "Rua Exemplo N 123" getAtributoUsuario id=${id1} atributo="endereco"
-expect "moto" getAtributoUsuario id=${id1} atributo="veiculo" 
-expect "BRA 1234" getAtributoUsuario id=${id1} atributo="placa" 
+expect "moto" getAtributoUsuario id=${id1} atributo="veiculo"
+expect "BRA 1234" getAtributoUsuario id=${id1} atributo="placa"
 
 # Validando dados ao criar o usuário.
 expectError "Nome invalido" criarUsuario nome=  email="carlos@ufal.com.br" senha="123senha" endereco="Rua Exemplo N 123" veiculo="moto" placa="BRA 4567"

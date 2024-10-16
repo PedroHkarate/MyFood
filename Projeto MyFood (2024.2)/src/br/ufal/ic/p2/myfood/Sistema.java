@@ -24,7 +24,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-
+import java.util.stream.Collectors;
 
 
 public class Sistema {
@@ -207,6 +207,8 @@ public class Sistema {
         if (endereco == null || endereco.isEmpty()) {
             throw new EnderecoInvalidoException();
         }
+        // o programa precisa verificar se o usuario é tipo entregador antes de verificar se placa/veiculo é null
+        // se não um usuario dono/cliente cai na exceções embaixo
         if(veiculo == null || veiculo.isEmpty()) { throw new VeiculoInvalidoException();}
         if(placa == null || placa.isEmpty()) { throw new PlacaInvalidaException();}
         for (Usuario usuarioExistente : usuarios.values()) {
@@ -788,5 +790,43 @@ public class Sistema {
             // Captura qualquer erro ao tentar converter as partes de horas e minutos
             throw new FormatoDeHoraInvalidoException();
         }
+    }
+    public void cadastrarEntregador(int empresaId, int entregadorId) throws Exception {
+        Empresa empresa = empresas.get(empresaId);
+        if (empresa == null) {
+            throw new EmpresaNaoEncontradaException();
+        }
+        Usuario usuario = findUsuarioById(entregadorId);
+        if (!(usuario instanceof UsuarioEntregador)) {
+            throw new UsuarioNaoEUmEntregadorException();
+        }
+        UsuarioEntregador entregador = (UsuarioEntregador) usuario;
+        if (entregador.getVeiculo() == null || entregador.getVeiculo().isEmpty()) {
+            throw new VeiculoInvalidoException();
+        }
+        if (entregador.getPlaca() == null || entregador.getPlaca().isEmpty()) {
+            throw new PlacaInvalidaException();
+        }
+
+        empresa.adicionarEntregador(entregador);
+    }
+    public List<String> getEntregadores(int empresaId) throws Exception {
+        Empresa empresa = empresas.get(empresaId);
+        if (empresa == null) {
+            throw new EmpresaNaoEncontradaException();
+        }
+        return empresa.getEntregadores().stream()
+                .map(UsuarioEntregador::getEmail)
+                .collect(Collectors.toList());
+    }
+    public List<String> getEmpresas(int entregadorId) throws Exception {
+        Usuario entregador = findUsuarioById(entregadorId);
+        if (!(entregador instanceof UsuarioEntregador)) {
+            throw new UsuarioNaoEUmEntregadorException();
+        }
+        return empresas.values().stream()
+                .filter(empresa -> empresa.getEntregadores().contains(entregador))
+                .map(empresa -> String.format("[%s, %s]", empresa.getNome(), empresa.getEndereco()))
+                .collect(Collectors.toList());
     }
 }

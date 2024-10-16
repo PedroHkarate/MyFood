@@ -17,13 +17,21 @@ public class Facade {
         sistema.zerarSistema();
     }
 
+    //Usuário Simples
     public void criarUsuario(String nome, String email, String senha, String endereco) throws Exception {
         Usuario usuario = sistema.criarUsuario(nome, email, senha, endereco);
         sistema.adicionarUsuario(usuario);
     }
 
+    //Dono
     public void criarUsuario(String nome, String email, String senha, String endereco, String cpf) throws Exception {
         Usuario usuario = sistema.criarUsuario(nome, email, senha, endereco, cpf);
+        sistema.adicionarUsuario(usuario);
+    }
+
+    //Entregador
+    public void criarUsuario(String nome, String email, String senha, String endereco, String veiculo, String placa) throws Exception {
+        Usuario usuario = sistema.criarUsuario(nome, email, senha, endereco, veiculo, placa);
         sistema.adicionarUsuario(usuario);
     }
 
@@ -51,7 +59,7 @@ public class Facade {
         return sistema.getEmpresasDoUsuario(idDono);
     }
 
-    public String getAtributoEmpresa(int empresaId, String atributo) throws Exception {
+    public String getAtributoEmpresa(int empresaId, String atributo) throws Exception{
         return sistema.getAtributoEmpresa(empresaId, atributo);
     }
 

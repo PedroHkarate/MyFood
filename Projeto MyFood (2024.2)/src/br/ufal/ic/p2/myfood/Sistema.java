@@ -143,6 +143,8 @@ public class Sistema {
             e.printStackTrace();
         }
     }
+
+    //Criação Usuario Simples
     public Usuario criarUsuario(String nome, String email, String senha, String endereco) throws Exception {
         if (nome == null || nome.isEmpty()) {
             throw new NomeInvalidoException();
@@ -166,6 +168,8 @@ public class Sistema {
         salvarUsuarios();
         return usuarioC;
     }
+
+    //Criação Usuario Dono
     public Usuario criarUsuario(String nome, String email, String senha, String endereco, String cpf) throws Exception {
         if (nome == null || nome.isEmpty()) {
             throw new NomeInvalidoException();
@@ -192,6 +196,33 @@ public class Sistema {
         salvarUsuarios();
         return usuarioDono;
     }
+
+    //Criação Usuario Entregador
+    public Usuario criarUsuario(String nome, String email, String senha, String endereco, String veiculo, String placa) throws Exception {
+        if (nome == null || nome.isEmpty()) {
+            throw new NomeInvalidoException();
+        }
+        if (email == null || !email.contains("@")) {
+            throw new EmailInvalidoException();
+        }
+        if (senha == null || senha.isEmpty()) {
+            throw new SenhaInvalidaException();
+        }
+        if (endereco == null || endereco.isEmpty()) {
+            throw new EnderecoInvalidoException();
+        }
+        if(veiculo == null || veiculo.isEmpty()) { throw new VeiculoInvalidoException();}
+        if(placa == null || placa.isEmpty()) { throw new PlacaInvalidaException();}
+        for (Usuario usuarioExistente : usuarios.values()) {
+            if (usuarioExistente.getEmail().equals(email)) {
+                throw new EmailJaExisteException();
+            }
+        }
+        UsuarioEntregador usuarioE = new UsuarioEntregador(nextUserId++, nome, email, senha, endereco, veiculo, placa);
+        usuarios.put(usuarioE.getId(), usuarioE);
+        salvarUsuarios();
+        return usuarioE;
+    }
     public int login(String email, String senha) throws Exception {
         if (email == null || email.isEmpty() || senha == null || senha.isEmpty()) {
             throw new LoginOuSenhaInvalidosException();
@@ -215,6 +246,10 @@ public class Sistema {
                     return usuario1.getSenha();
                 case "endereco":
                     return usuario1.getEndereco();
+                case "veiculo":
+                    if(usuario1 instanceof UsuarioEntregador) return ((UsuarioEntregador) usuario1).getVeiculo();
+                case "placa":
+                    if(usuario1 instanceof UsuarioEntregador) return ((UsuarioEntregador) usuario1).getPlaca();
                 case "cpf":
                     if (usuario1 instanceof UsuarioDono) {
                         return ((UsuarioDono) usuario1).getCpf();
@@ -273,6 +308,9 @@ public class Sistema {
         if (!(dono instanceof UsuarioDono)) {
             throw new UsuarioNaoPodeCriarEmpresaException();
         }
+        if (tipoEmpresa == null || tipoEmpresa.isEmpty()) { throw new TipoEmpresaInvalidoException(); }
+        if(nome == null || nome.isEmpty()|| nome.equals("")) { throw new NomeInvalidoException(); }
+        if(endereco == null || endereco.equals("") || endereco.isEmpty() || endereco.equals(" ")) { throw new EnderecoEmpresaInvalido(); }
         for (Empresa empresa : empresas.values()) {
             if (empresa.getNome().equals(nome)) {
                 if (empresa.getDono().getId() != donoId) {
@@ -330,18 +368,23 @@ public class Sistema {
                 } else {
                     throw new AtributoInvalidoException();
                 }
-            case "tipomercado":
-                if (empresa instanceof Mercado) {
+            case "tipoMercado":
+                if (empresa instanceof Mercado){
                     return ((Mercado) empresa).getTipoMercado();
                 } else {
                     throw new AtributoInvalidoException();
                 }
+            case "aberto24Horas":
+                if(empresa instanceof Farmacia) return Boolean.toString(((Farmacia) empresa).getAberto24Horas());
+            case "numeroFuncionarios":
+                if(empresa instanceof Farmacia) return String.valueOf(((Farmacia) empresa).getNumeroFuncionarios());
             case "dono":
                 return empresa.getDono().getNome();
             default:
                 throw new AtributoInvalidoException();
         }
     }
+
     public String getEmpresasDoUsuario(int idDono) throws Exception {
         Usuario dono = findUsuarioById(idDono);
         if (!(dono instanceof UsuarioDono)) {
@@ -373,11 +416,11 @@ public class Sistema {
                 empresasDoDono.add(empresa);
             }
         }
+        if (indice <= -1) {
+            throw new IndiceInvalidoException();
+        }
         if (empresasDoDono.isEmpty()) {
             throw new NaoExisteEmpresaComEsseNomeException();
-        }
-        if (indice < 0) {
-            throw new IndiceInvalidoException();
         }
         if (indice >= empresasDoDono.size()) {
             throw new IndiceMaiorException();
@@ -685,7 +728,7 @@ public class Sistema {
                 }
             }
         }
-        Mercado novaEmpresa = new Mercado(nextEmpresaId++, nome, endereco, tipoMercado, abre, fecha, dono);
+        Mercado novaEmpresa = new Mercado(nextEmpresaId++, nome, endereco, abre, fecha, tipoMercado, dono);
         empresas.put(novaEmpresa.getId(), novaEmpresa);
         salvarEmpresas();
         return novaEmpresa.getId();
@@ -707,8 +750,7 @@ public class Sistema {
         } catch (DateTimeParseException e) {
             throw new FormatoDeHoraInvalidoException();
         }
-        if (abreTime.getHour() > 23 || abreTime.getMinute() > 59 ||
-                fechaTime.getHour() > 23 || fechaTime.getMinute() > 59) {
+        if (abreTime.getHour() > 23 || abreTime.getMinute() > 59 || fechaTime.getHour() > 23 || fechaTime.getMinute() > 59) {
             throw new HorarioInvalidoException(); //teste que era pra cair nesse if esta caindo no if da linha 708
         }
         if (abreTime.isAfter(fechaTime)) {

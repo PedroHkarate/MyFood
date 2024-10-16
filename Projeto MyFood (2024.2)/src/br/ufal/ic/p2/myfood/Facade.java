@@ -130,6 +130,18 @@ public class Facade {
         return "{" + empresas.toString() + "}";
     }
 
+    public void liberarPedido(int numero) throws Exception {
+        sistema.liberarPedido(numero);
+    }
+
+    public int obterPedido(int entregadorId) throws Exception {
+        return sistema.obterPedido(entregadorId);
+    }
+
+    public int criarEntrega(int pedido, int entregador, String destino) throws Exception {
+        return sistema.criarEntrega(pedido, entregador, destino);
+    }
+
     public Sistema getSistema() {
         return sistema;
     }

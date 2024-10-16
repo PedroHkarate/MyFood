@@ -23,6 +23,10 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.io.FileWriter;
+import java.io.FileReader;
+import java.io.FileNotFoundException;
+
 
 
 public class Sistema {
@@ -31,29 +35,37 @@ public class Sistema {
     private Map<Integer, Usuario> usuarios;
     private Map<Integer, Empresa> empresas;
     private Map<Integer, Pedido> pedidos;
+    private Map<Integer, Entrega> entregas;
     private int nextUserId;
     private int nextEmpresaId;
     private int nextProdutoId;
     private int nextPedidoId;
+    private int nextEntregaId;
 
 
     public Sistema() {
         usuarios = new HashMap<>();
         empresas = new HashMap<>();
         pedidos =  new HashMap<>();
+        entregas = new HashMap<>();
         nextUserId = 1;
         nextEmpresaId = 1;
         nextProdutoId = 1;
         nextPedidoId = 1;
+        nextEntregaId = 1;
         configurarGson();
     }
 
     public void zerarSistema() {
         this.nextUserId = 1;
         this.nextEmpresaId = 1;
+        this.nextProdutoId = 1;
+        this.nextPedidoId = 1;
+        this.nextEntregaId = 1;
         this.usuarios.clear();
         this.empresas.clear();
         this.pedidos.clear();
+        this.entregas.clear();
         salvarUsuarios();
     }
     private void configurarGson() {
@@ -121,6 +133,18 @@ public class Sistema {
                     sistema.pedidos.put(pedido.getNumero(), pedido);
                 }
                 sistema.nextPedidoId = loadedPedidos.keySet().stream().max(Integer::compare).orElse(0) + 1;
+            }
+        } catch (FileNotFoundException e) {
+        }
+
+        try (Reader reader = new FileReader("entregas.json")) {
+            Type mapType = new TypeToken<Map<Integer, Entrega>>() {}.getType();
+            Map<Integer, Entrega> loadedEntregas = gson.fromJson(reader, mapType);
+            if (loadedEntregas != null) {
+                for (Entrega entrega : loadedEntregas.values()) {
+                    sistema.entregas.put(entrega.getId(), entrega);
+                }
+                sistema.nextEntregaId = loadedEntregas.keySet().stream().max(Integer::compare).orElse(0) + 1;
             }
         } catch (FileNotFoundException e) {
         }
@@ -216,7 +240,7 @@ public class Sistema {
 
         for (Usuario usuarioExistente : usuarios.values()) {
             if (usuarioExistente.getEmail().equals(email)) {
-                throw new EmailJaExisteException(); //o caso da linha 107 esta caindo aqui
+                throw new EmailJaExisteException();
             }
         }
         UsuarioEntregador usuarioE = new UsuarioEntregador(nextUserId++, nome, email, senha, endereco, veiculo, placa);
@@ -737,60 +761,36 @@ public class Sistema {
         return novaEmpresa.getId();
     }
     public void alterarFuncionamento(int mercadoId, String abre, String fecha) throws Exception {
-        // Busca a empresa com o ID fornecido
         Empresa empresa = findEmpresaById(mercadoId);
-
-        // Verifica se a empresa é um mercado
         if (!(empresa instanceof Mercado)) {
             throw new IllegalArgumentException("Nao e um mercado valido");
         }
-
-        // Cast seguro para Mercado
         Mercado mercado = (Mercado) empresa;
-
-        // Validação de nulos
         if (abre == null || fecha == null) {
             throw new HorarioInvalidoException();
         }
-
-        // Validação de strings vazias
         if (abre.isEmpty() || fecha.isEmpty()) {
             throw new FormatoDeHoraInvalidoException();
         }
-
-        // Validação de formato (HH:mm)
         if (!abre.matches("\\d{2}:\\d{2}") || !fecha.matches("\\d{2}:\\d{2}")) {
             throw new FormatoDeHoraInvalidoException();
         }
-
         try {
-            // Extrai horas e minutos
             int abreHour = Integer.parseInt(abre.split(":")[0]);
             int abreMinute = Integer.parseInt(abre.split(":")[1]);
             int fechaHour = Integer.parseInt(fecha.split(":")[0]);
             int fechaMinute = Integer.parseInt(fecha.split(":")[1]);
-
-            // Validação de limites para horas e minutos
             if (abreHour > 23 || abreMinute > 59 || fechaHour > 23 || fechaMinute > 59) {
                 throw new HorarioInvalidoException();
             }
-
-            // Converte as strings para LocalTime
             LocalTime abreTime = LocalTime.of(abreHour, abreMinute);
             LocalTime fechaTime = LocalTime.of(fechaHour, fechaMinute);
-
-            // Verifica se o horário de abertura é depois do de fechamento
             if (abreTime.isAfter(fechaTime)) {
                 throw new HorarioInvalidoException();
             }
-
-            // Atualiza os horários no objeto mercado
             mercado.setHorarioFuncionamento(abre, fecha);
-
-            // Salva as alterações no repositório ou banco de dados
             salvarEmpresas();
         } catch (NumberFormatException e) {
-            // Captura qualquer erro ao tentar converter as partes de horas e minutos
             throw new FormatoDeHoraInvalidoException();
         }
     }
@@ -831,5 +831,130 @@ public class Sistema {
                 .filter(empresa -> empresa.getEntregadores().contains(entregador))
                 .map(empresa -> String.format("[%s, %s]", empresa.getNome(), empresa.getEndereco()))
                 .collect(Collectors.toList());
+    }
+
+    public void liberarPedido(int numero) throws Exception {
+        Pedido pedido = pedidos.get(numero);
+        if (pedido == null) {
+            throw new PedidoNaoEncontradoException();
+        }
+        if (pedido.getEstado().equals("pronto")) {
+            throw new PedidoJaLiberadoException();
+        }
+        if (!pedido.getEstado().equals("preparando")) {
+            throw new NaoEPossivelLiberarUmProdutoQueNaoEstaSendoPreparadoException();
+        }
+        pedido.setEstado("pronto");
+    }
+
+
+    public int obterPedido(int entregadorId) throws Exception {
+        Usuario usuario = findUsuarioById(entregadorId);
+        if (!(usuario instanceof UsuarioEntregador)) {
+            throw new UsuarioNaoEUmEntregadorException();
+        }
+        List<Pedido> pedidosProntos = pedidos.values().stream()
+                .filter(pedido -> pedido.getEstado().equals("pronto"))
+                .sorted((p1, p2) -> {
+                    if (p1.getEmpresa().getTipo().equals("farmacia") && !p2.getEmpresa().getTipo().equals("farmacia")) {
+                        return -1;
+                    } else if (!p1.getEmpresa().getTipo().equals("farmacia") && p2.getEmpresa().getTipo().equals("farmacia")) {
+                        return 1;
+                    } else {
+                        return Integer.compare(p1.getNumero(), p2.getNumero());
+                    }
+                })
+                .collect(Collectors.toList());
+        for (Pedido pedido : pedidosProntos) {
+            if (pedido.getEmpresa().getEntregadores().contains(usuario)) {
+                return pedido.getNumero();
+            }
+        }
+        throw new EntregadorNaoEstaEmNenhumaEmpresaException();
+    }
+
+
+    public int criarEntrega(int pedidoId, int entregadorId, String destino) throws Exception {
+        Pedido pedido = pedidos.get(pedidoId);
+        if (pedido == null) {
+            throw new PedidoNaoEncontradoException();
+        }
+        if (!pedido.getEstado().equals("pronto")) {
+            throw new Exception("Pedido nao esta pronto para entrega");
+        }
+        Usuario usuario = findUsuarioById(entregadorId);
+        if (!(usuario instanceof UsuarioEntregador)) {
+            throw new Exception("Nao e um entregador valido");
+        }
+        Entrega entrega = new Entrega(nextEntregaId++, pedido.getCliente().getNome(), pedido.getEmpresa().getNome(), pedido.getNumero(), entregadorId, destino, pedido.getProdutos().stream().map(Produto::getNome).collect(Collectors.toList()));
+        entregas.put(entrega.getId(), entrega);
+        pedido.setEstado("entregando");
+        salvarEntregas();
+        return entrega.getId();
+    }
+
+
+    public String getEntrega(int id, String atributo) throws Exception {
+        Entrega entrega = entregas.get(id);
+        if (entrega == null) {
+            throw new Coringa();//remover
+        }
+        switch (atributo.toLowerCase()) {
+            case "cliente":
+                return entrega.getCliente();
+            case "empresa":
+                return entrega.getEmpresa();
+            case "pedido":
+                return String.valueOf(entrega.getPedido());
+            case "entregador":
+                return String.valueOf(entrega.getEntregador());
+            case "destino":
+                return entrega.getDestino();
+            case "produtos":
+                return entrega.getProdutos().toString();
+            default:
+                throw new AtributoInvalidoException();
+        }
+    }
+
+    public int getIdEntrega(int pedidoId) throws Exception {
+        for (Entrega entrega : entregas.values()) {
+            if (entrega.getPedido() == pedidoId) {
+                return entrega.getId();
+            }
+        }
+        throw new Coringa();//remover
+    }
+
+    public void entregar(int entregaId) throws Exception {
+        Entrega entrega = entregas.get(entregaId);
+        if (entrega == null) {
+            throw new Coringa();//remover
+        }
+        Pedido pedido = pedidos.get(entrega.getPedido());
+        if (pedido == null) {
+            throw new PedidoNaoEncontradoException();
+        }
+
+        pedido.setEstado("entregue");
+        entregas.remove(entregaId);
+
+        salvarEntregas();
+    }
+
+    public void salvarEntregas() throws IOException {
+        try (FileWriter writer = new FileWriter("entregas.json")) {
+            gson.toJson(entregas, writer);
+        } catch (IOException e) {
+            throw new IOException("Erro ao salvar entregas", e);
+        }
+    }
+
+    public void carregarEntregas() throws IOException, ClassNotFoundException {
+        try (FileReader reader = new FileReader("entregas.json")) {
+            entregas = gson.fromJson(reader, new TypeToken<Map<Integer, Entrega>>(){}.getType());
+        } catch (FileNotFoundException e) {
+            entregas = new HashMap<>();
+        }
     }
 }

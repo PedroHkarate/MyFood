@@ -1,30 +1,14 @@
 package br.ufal.ic.p2.myfood;
 
 import br.ufal.ic.p2.myfood.Exceptions.*;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonDeserializer;
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParseException;
-import com.google.gson.JsonSerializationContext;
-import com.google.gson.JsonSerializer;
+import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 import java.io.*;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.FileReader;
-import java.io.IOException;
 import java.lang.reflect.Type;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -140,7 +124,6 @@ public class Sistema {
         }
         if(veiculo == null || veiculo.isEmpty()) { throw new VeiculoInvalidoException();}
         if(placa == null || placa.isEmpty()) { throw new PlacaInvalidaException();}
-
         for (Usuario usuarioExistente : usuarios.values()) {
             if (usuarioExistente instanceof UsuarioEntregador) {
                 UsuarioEntregador entregadorExistente = (UsuarioEntregador) usuarioExistente;
@@ -149,7 +132,6 @@ public class Sistema {
                 }
             }
         }
-
         for (Usuario usuarioExistente : usuarios.values()) {
             if (usuarioExistente.getEmail().equals(email)) {
                 throw new EmailJaExisteException();
@@ -224,14 +206,12 @@ public class Sistema {
         } catch (NumberFormatException e) {
             throw new FormatoDeHoraInvalidoException();
         }
-
         if (tipoMercado == null || tipoMercado.isEmpty() ||
                 (!tipoMercado.equalsIgnoreCase("supermercado") &&
                         !tipoMercado.equalsIgnoreCase("minimercado") &&
                         !tipoMercado.equalsIgnoreCase("atacadista"))) {
             throw new TipoEmpresaInvalidoException();
         }
-
         for (Empresa empresa : empresas.values()) {
             if (empresa.getNome().equals(nome)) {
                 if (empresa.getDono().getId() != donoId) {
@@ -376,7 +356,6 @@ public class Sistema {
                 }
                 sistema.nextUserId = loadedUsers.keySet().stream().max(Integer::compare).orElse(0) + 1;
             }
-        } catch (FileNotFoundException e) {
         }
         try (Reader reader = new FileReader("empresas.json")) {
             Type mapType = new TypeToken<Map<Integer, Empresa>>() {}.getType();
@@ -387,7 +366,6 @@ public class Sistema {
                 }
                 sistema.nextEmpresaId = loadedEmpresas.keySet().stream().max(Integer::compare).orElse(0) + 1;
             }
-        } catch (FileNotFoundException e) {
         }
         try (Reader reader = new FileReader("pedidos.json")) {
             Type mapType = new TypeToken<Map<Integer, Pedido>>() {}.getType();
@@ -398,7 +376,6 @@ public class Sistema {
                 }
                 sistema.nextPedidoId = loadedPedidos.keySet().stream().max(Integer::compare).orElse(0) + 1;
             }
-        } catch (FileNotFoundException e) {
         }
         try (Reader reader = new FileReader("entregas.json")) {
             Type mapType = new TypeToken<Map<Integer, Entrega>>() {}.getType();
@@ -409,7 +386,6 @@ public class Sistema {
                 }
                 sistema.nextEntregaId = loadedEntregas.keySet().stream().max(Integer::compare).orElse(0) + 1;
             }
-        } catch (FileNotFoundException e) {
         }
         return sistema;
     }
@@ -924,17 +900,16 @@ public class Sistema {
         public Usuario deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
             JsonObject jsonObject = json.getAsJsonObject();
             String tipo = jsonObject.get("tipo").getAsString();
-
-            switch (tipo) {
-                case "Cliente":
-                    return context.deserialize(json, UsuarioCliente.class);
-                case "Dono":
-                    return context.deserialize(json, UsuarioDono.class);
-                case "Entregador":
-                    return context.deserialize(json, UsuarioEntregador.class);
-                default:
-                    throw new JsonParseException("Unknown element type: " + tipo);
+            if (tipo.equals("Cliente")) {
+                return context.deserialize(json, UsuarioCliente.class);
             }
+            if (tipo.equals("Dono")) {
+                return context.deserialize(json, UsuarioDono.class);
+            }
+            if (tipo.equals("Entregador")) {
+                return context.deserialize(json, UsuarioEntregador.class);
+            }
+            return null;
         }
         @Override
         public JsonElement serialize(Usuario src, Type typeOfSrc, JsonSerializationContext context) {

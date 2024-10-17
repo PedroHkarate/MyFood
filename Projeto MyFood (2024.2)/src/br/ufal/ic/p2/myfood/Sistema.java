@@ -879,12 +879,18 @@ public class Sistema {
         if (pedido == null) {
             throw new PedidoNaoEncontradoException();
         }
+
         if (!pedido.getEstado().equals("pronto")) {
-            throw new Exception("Pedido nao esta pronto para entrega");
+            throw new PedidoNaoEstaProntoParaEntregaException();
         }
         Usuario usuario = findUsuarioById(entregadorId);
         if (!(usuario instanceof UsuarioEntregador)) {
-            throw new Exception("Nao e um entregador valido");
+            throw new NaoEUmEntregadorValidoException();
+        }
+        for (Entrega e : entregas.values()) {
+            if (e.getEntregador() == entregadorId) {
+                throw new EntregadorAindaEmEntregaException();
+            }
         }
         Entrega entrega = new Entrega(nextEntregaId++, pedido.getCliente().getNome(), pedido.getEmpresa().getNome(), pedido.getNumero(), entregadorId, destino, pedido.getProdutos().stream().map(Produto::getNome).collect(Collectors.toList()));
         entregas.put(entrega.getId(), entrega);
@@ -894,10 +900,14 @@ public class Sistema {
     }
 
 
+
     public String getEntrega(int id, String atributo) throws Exception {
         Entrega entrega = entregas.get(id);
         if (entrega == null) {
-            throw new Coringa();//remover
+            throw new Coringa(); //remover
+        }
+        if (atributo == null || atributo.isEmpty()) {
+            throw new AtributoInvalidoException();
         }
         switch (atributo.toLowerCase()) {
             case "cliente":
@@ -911,11 +921,12 @@ public class Sistema {
             case "destino":
                 return entrega.getDestino();
             case "produtos":
-                return entrega.getProdutos().toString();
+                return "{" + entrega.getProdutos().toString() + "}";
             default:
-                throw new AtributoInvalidoException();
+                throw new AtributoNaoExisteException();
         }
     }
+
 
     public int getIdEntrega(int pedidoId) throws Exception {
         for (Entrega entrega : entregas.values()) {

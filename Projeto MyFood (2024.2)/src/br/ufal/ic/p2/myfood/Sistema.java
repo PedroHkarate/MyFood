@@ -100,6 +100,7 @@ public class Sistema {
             return jsonObject;
         }
     }
+
     public static Sistema carregarDados(String caminhoArquivoUsuarios) throws IOException {
         Sistema sistema = new Sistema();
         sistema.configurarGson();
@@ -136,7 +137,6 @@ public class Sistema {
             }
         } catch (FileNotFoundException e) {
         }
-
         try (Reader reader = new FileReader("entregas.json")) {
             Type mapType = new TypeToken<Map<Integer, Entrega>>() {}.getType();
             Map<Integer, Entrega> loadedEntregas = gson.fromJson(reader, mapType);
@@ -686,14 +686,6 @@ public class Sistema {
         }
         return pedidosDoCliente.get(indice).getNumero();
     }
-    public Mercado findMercadoById(int mercadoId) throws MercadoNaoEncontradoException {
-        for (Empresa empresa : empresas.values()) {
-            if (empresa instanceof Mercado && empresa.getId() == mercadoId) {
-                return (Mercado) empresa;
-            }
-        }
-        throw new MercadoNaoEncontradoException();
-    }
     //mercado
     public int criarEmpresa(String tipoEmpresa, int donoId, String nome, String endereco, String abre, String fecha, String tipoMercado) throws Exception{
         Usuario dono = findUsuarioById(donoId);
@@ -794,6 +786,7 @@ public class Sistema {
             throw new FormatoDeHoraInvalidoException();
         }
     }
+
     public void cadastrarEntregador(int empresaId, int entregadorId) throws Exception {
         Empresa empresa = empresas.get(empresaId);
         if (empresa == null) {
@@ -879,6 +872,7 @@ public class Sistema {
         }
         throw new NaoExistePedidoParaEntregaException();
     }
+
     public int criarEntrega(int pedidoId, int entregadorId, String destino) throws Exception {
         Pedido pedido = pedidos.get(pedidoId);
         if (pedido == null) {
@@ -901,9 +895,9 @@ public class Sistema {
         entregas.put(entrega.getId(), entrega);
         pedido.setEstado("entregando");
         salvarEntregas();
+        salvarPedidos();
         return entrega.getId();
     }
-
     public String getEntrega(int id, String atributo) throws Exception {
         Entrega entrega = entregas.get(id);
         if (entrega == null) {
@@ -949,19 +943,14 @@ public class Sistema {
         pedido.setEstado("entregue");
         entregas.remove(entregaId);
         salvarEntregas();
+        salvarPedidos();
     }
-    public void salvarEntregas() throws IOException {
+
+    public void salvarEntregas() {
         try (FileWriter writer = new FileWriter("entregas.json")) {
             gson.toJson(entregas, writer);
         } catch (IOException e) {
-            throw new IOException("Erro ao salvar entregas", e);
-        }
-    }
-    public void carregarEntregas() throws IOException {
-        try (FileReader reader = new FileReader("entregas.json")) {
-            entregas = gson.fromJson(reader, new TypeToken<Map<Integer, Entrega>>(){}.getType());
-        } catch (FileNotFoundException e) {
-            entregas = new HashMap<>();
+            e.printStackTrace();
         }
     }
 }

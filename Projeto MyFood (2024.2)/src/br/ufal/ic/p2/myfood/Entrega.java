@@ -7,17 +7,17 @@ public class Entrega {
     private String cliente;
     private String empresa;
     private int pedido;
-    private int entregador;
+    private String entregador;
     private String destino;
     private List<String> produtos;
 
-    public Entrega(int id, String cliente, String empresa, int pedido, int entregador, String destino, List<String> produtos) {
+    public Entrega(int id, String cliente, String empresa, int pedido, String entregador, String destino, List<String> produtos) {
         this.id = id;
         this.cliente = cliente;
         this.empresa = empresa;
         this.pedido = pedido;
         this.entregador = entregador;
-        this.destino = destino != null ? destino : cliente;  // Caso destino seja null, usa o endereço do cliente
+        this.destino = destino != null ? destino : cliente;
         this.produtos = produtos;
     }
 
@@ -37,10 +37,6 @@ public class Entrega {
         return pedido;
     }
 
-    public int getEntregador() {
-        return entregador;
-    }
-
     public String getDestino() {
         return destino;
     }
@@ -48,4 +44,9 @@ public class Entrega {
     public List<String> getProdutos() {
         return produtos;
     }
+
+    public String getEntregador() {
+        return entregador;
+    }
+
 }

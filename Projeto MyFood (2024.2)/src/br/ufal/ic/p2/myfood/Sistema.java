@@ -832,7 +832,6 @@ public class Sistema {
                 .map(empresa -> String.format("[%s, %s]", empresa.getNome(), empresa.getEndereco()))
                 .collect(Collectors.toList());
     }
-
     public void liberarPedido(int numero) throws Exception {
         Pedido pedido = pedidos.get(numero);
         if (pedido == null) {
@@ -846,12 +845,20 @@ public class Sistema {
         }
         pedido.setEstado("pronto");
     }
-
-
     public int obterPedido(int entregadorId) throws Exception {
         Usuario usuario = findUsuarioById(entregadorId);
         if (!(usuario instanceof UsuarioEntregador)) {
             throw new UsuarioNaoEUmEntregadorException();
+        }
+        boolean entregadorAssociado = false;
+        for (Empresa empresa : empresas.values()) {
+            if (empresa.getEntregadores().contains(usuario)) {
+                entregadorAssociado = true;
+                break;
+            }
+        }
+        if (!entregadorAssociado) {
+            throw new EntregadorNaoEstaEmNenhumaEmpresaException();
         }
         List<Pedido> pedidosProntos = pedidos.values().stream()
                 .filter(pedido -> pedido.getEstado().equals("pronto"))
@@ -870,16 +877,13 @@ public class Sistema {
                 return pedido.getNumero();
             }
         }
-        throw new EntregadorNaoEstaEmNenhumaEmpresaException();
+        throw new NaoExistePedidoParaEntregaException();
     }
-
-
     public int criarEntrega(int pedidoId, int entregadorId, String destino) throws Exception {
         Pedido pedido = pedidos.get(pedidoId);
         if (pedido == null) {
             throw new PedidoNaoEncontradoException();
         }
-
         if (!pedido.getEstado().equals("pronto")) {
             throw new PedidoNaoEstaProntoParaEntregaException();
         }
@@ -888,18 +892,17 @@ public class Sistema {
             throw new NaoEUmEntregadorValidoException();
         }
         for (Entrega e : entregas.values()) {
-            if (e.getEntregador() == entregadorId) {
+            if (e.getEntregador().equals(usuario.getNome())) {
                 throw new EntregadorAindaEmEntregaException();
             }
         }
-        Entrega entrega = new Entrega(nextEntregaId++, pedido.getCliente().getNome(), pedido.getEmpresa().getNome(), pedido.getNumero(), entregadorId, destino, pedido.getProdutos().stream().map(Produto::getNome).collect(Collectors.toList()));
+        String enderecoEntrega = (destino != null && !destino.isEmpty()) ? destino : pedido.getCliente().getEndereco();
+        Entrega entrega = new Entrega(nextEntregaId++, pedido.getCliente().getNome(), pedido.getEmpresa().getNome(), pedido.getNumero(), usuario.getNome(), enderecoEntrega, pedido.getProdutos().stream().map(Produto::getNome).collect(Collectors.toList()));
         entregas.put(entrega.getId(), entrega);
         pedido.setEstado("entregando");
         salvarEntregas();
         return entrega.getId();
     }
-
-
 
     public String getEntrega(int id, String atributo) throws Exception {
         Entrega entrega = entregas.get(id);
@@ -926,33 +929,27 @@ public class Sistema {
                 throw new AtributoNaoExisteException();
         }
     }
-
-
     public int getIdEntrega(int pedidoId) throws Exception {
         for (Entrega entrega : entregas.values()) {
             if (entrega.getPedido() == pedidoId) {
                 return entrega.getId();
             }
         }
-        throw new Coringa();//remover
+        throw new NaoExisteEntregaComEsseIdException();
     }
-
     public void entregar(int entregaId) throws Exception {
         Entrega entrega = entregas.get(entregaId);
         if (entrega == null) {
-            throw new Coringa();//remover
+            throw new NaoExisteNadaParaSerEntregueComEsseIdException();
         }
         Pedido pedido = pedidos.get(entrega.getPedido());
         if (pedido == null) {
             throw new PedidoNaoEncontradoException();
         }
-
         pedido.setEstado("entregue");
         entregas.remove(entregaId);
-
         salvarEntregas();
     }
-
     public void salvarEntregas() throws IOException {
         try (FileWriter writer = new FileWriter("entregas.json")) {
             gson.toJson(entregas, writer);
@@ -960,8 +957,7 @@ public class Sistema {
             throw new IOException("Erro ao salvar entregas", e);
         }
     }
-
-    public void carregarEntregas() throws IOException, ClassNotFoundException {
+    public void carregarEntregas() throws IOException {
         try (FileReader reader = new FileReader("entregas.json")) {
             entregas = gson.fromJson(reader, new TypeToken<Map<Integer, Entrega>>(){}.getType());
         } catch (FileNotFoundException e) {

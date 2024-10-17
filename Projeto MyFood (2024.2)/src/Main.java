@@ -18,7 +18,7 @@ public class Main {
                 "tests/us7_1.txt",
                 "tests/us7_2.txt",
                 "tests/us8_1.txt",
-                //"tests/us8_2.txt"
+                "tests/us8_2.txt"
         };
 
         for (String testFile : testFiles) {

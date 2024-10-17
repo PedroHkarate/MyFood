@@ -146,6 +146,14 @@ public class Facade {
         return sistema.getEntrega(id, atributo);
     }
 
+    public int getIdEntrega(int pedido) throws Exception {
+        return sistema.getIdEntrega(pedido);
+    }
+
+    public void entregar(int entrega) throws Exception {
+        sistema.entregar(entrega);
+    }
+
     public Sistema getSistema() {
         return sistema;
     }

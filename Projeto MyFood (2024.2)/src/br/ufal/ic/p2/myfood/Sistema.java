@@ -786,7 +786,6 @@ public class Sistema {
             throw new FormatoDeHoraInvalidoException();
         }
     }
-
     public void cadastrarEntregador(int empresaId, int entregadorId) throws Exception {
         Empresa empresa = empresas.get(empresaId);
         if (empresa == null) {
@@ -872,7 +871,6 @@ public class Sistema {
         }
         throw new NaoExistePedidoParaEntregaException();
     }
-
     public int criarEntrega(int pedidoId, int entregadorId, String destino) throws Exception {
         Pedido pedido = pedidos.get(pedidoId);
         if (pedido == null) {
@@ -886,7 +884,8 @@ public class Sistema {
             throw new NaoEUmEntregadorValidoException();
         }
         for (Entrega e : entregas.values()) {
-            if (e.getEntregador().equals(usuario.getNome())) {
+            Pedido pedidoDaEntrega = pedidos.get(e.getPedido());
+            if (e.getEntregador().equals(usuario.getNome()) && pedidoDaEntrega.getEstado().equals("entregando")) {
                 throw new EntregadorAindaEmEntregaException();
             }
         }
@@ -900,9 +899,6 @@ public class Sistema {
     }
     public String getEntrega(int id, String atributo) throws Exception {
         Entrega entrega = entregas.get(id);
-        if (entrega == null) {
-            throw new Coringa(); //remover
-        }
         if (atributo == null || atributo.isEmpty()) {
             throw new AtributoInvalidoException();
         }
@@ -941,11 +937,9 @@ public class Sistema {
             throw new PedidoNaoEncontradoException();
         }
         pedido.setEstado("entregue");
-        entregas.remove(entregaId);
         salvarEntregas();
         salvarPedidos();
     }
-
     public void salvarEntregas() {
         try (FileWriter writer = new FileWriter("entregas.json")) {
             gson.toJson(entregas, writer);

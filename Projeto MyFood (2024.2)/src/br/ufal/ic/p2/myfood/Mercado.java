@@ -33,7 +33,6 @@ public class Mercado extends Empresa {
     }
 
     public void setHorarioFuncionamento(String abre, String fecha) {
-        // Atualiza os mesmos atributos "abre" e "fecha"
         this.abre = abre;
         this.fecha = fecha;
     }

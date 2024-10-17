@@ -4,12 +4,42 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dc10fdcd-3ee1-4acf-9691-ec1ea0dee54e" name="Changes" comment="7/8 (7 erros no 8_2)">
+    <list default="true" id="dc10fdcd-3ee1-4acf-9691-ec1ea0dee54e" name="Changes" comment="8/8!">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Projeto MyFood (2024.2)/src/br/ufal/ic/p2/myfood/Exceptions/Coringa.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Projeto MyFood (2024.2)/src/br/ufal/ic/p2/myfood/Exceptions/FormatoEmailInvalidoException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Projeto MyFood (2024.2)/src/br/ufal/ic/p2/myfood/Exceptions/MercadoNaoEncontradoException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Projeto MyFood (2024.2)/src/br/ufal/ic/p2/myfood/Exceptions/NaoEMercadoValidoException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Projeto MyFood (2024.2)/src/br/ufal/ic/p2/myfood/Exceptions/NaoEUmMercadoValidoException.java" beforeDir="false" afterPath="$PROJECT_DIR$/Projeto MyFood (2024.2)/src/br/ufal/ic/p2/myfood/Exceptions/NaoEUmMercadoValidoException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Projeto MyFood (2024.2)/src/br/ufal/ic/p2/myfood/Facade.java" beforeDir="false" afterPath="$PROJECT_DIR$/Projeto MyFood (2024.2)/src/br/ufal/ic/p2/myfood/Facade.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Projeto MyFood (2024.2)/src/br/ufal/ic/p2/myfood/Farmacia.java" beforeDir="false" afterPath="$PROJECT_DIR$/Projeto MyFood (2024.2)/src/br/ufal/ic/p2/myfood/Farmacia.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Projeto MyFood (2024.2)/src/br/ufal/ic/p2/myfood/Mercado.java" beforeDir="false" afterPath="$PROJECT_DIR$/Projeto MyFood (2024.2)/src/br/ufal/ic/p2/myfood/Mercado.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Projeto MyFood (2024.2)/src/br/ufal/ic/p2/myfood/Pedido.java" beforeDir="false" afterPath="$PROJECT_DIR$/Projeto MyFood (2024.2)/src/br/ufal/ic/p2/myfood/Pedido.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Projeto MyFood (2024.2)/src/br/ufal/ic/p2/myfood/Pedidos.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Projeto MyFood (2024.2)/src/br/ufal/ic/p2/myfood/Restaurante.java" beforeDir="false" afterPath="$PROJECT_DIR$/Projeto MyFood (2024.2)/src/br/ufal/ic/p2/myfood/Restaurante.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Projeto MyFood (2024.2)/src/br/ufal/ic/p2/myfood/Sistema.java" beforeDir="false" afterPath="$PROJECT_DIR$/Projeto MyFood (2024.2)/src/br/ufal/ic/p2/myfood/Sistema.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Projeto MyFood (2024.2)/src/br/ufal/ic/p2/myfood/Usuario.java" beforeDir="false" afterPath="$PROJECT_DIR$/Projeto MyFood (2024.2)/src/br/ufal/ic/p2/myfood/Usuario.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Projeto MyFood (2024.2)/src/br/ufal/ic/p2/myfood/tests/us1_1.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Projeto MyFood (2024.2)/src/br/ufal/ic/p2/myfood/tests/us1_2.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Projeto MyFood (2024.2)/src/br/ufal/ic/p2/myfood/tests/us2_1.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Projeto MyFood (2024.2)/src/br/ufal/ic/p2/myfood/tests/us2_2.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Projeto MyFood (2024.2)/src/br/ufal/ic/p2/myfood/tests/us3_1.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Projeto MyFood (2024.2)/src/br/ufal/ic/p2/myfood/tests/us3_2.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Projeto MyFood (2024.2)/src/br/ufal/ic/p2/myfood/tests/us4_1.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Projeto MyFood (2024.2)/src/br/ufal/ic/p2/myfood/tests/us4_2.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/MyFood/br/ufal/ic/p2/myfood/Exceptions/FormatoEmailInvalidoException.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/MyFood/br/ufal/ic/p2/myfood/Facade.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MyFood/br/ufal/ic/p2/myfood/Facade.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/MyFood/br/ufal/ic/p2/myfood/Mercado.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MyFood/br/ufal/ic/p2/myfood/Mercado.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/MyFood/br/ufal/ic/p2/myfood/Restaurante.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MyFood/br/ufal/ic/p2/myfood/Restaurante.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/MyFood/br/ufal/ic/p2/myfood/Sistema.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MyFood/br/ufal/ic/p2/myfood/Sistema.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/MyFood/br/ufal/ic/p2/myfood/Usuario.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MyFood/br/ufal/ic/p2/myfood/Usuario.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/MyFood/br/ufal/ic/p2/myfood/tests/us1_1.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/MyFood/br/ufal/ic/p2/myfood/tests/us1_2.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/MyFood/br/ufal/ic/p2/myfood/tests/us2_1.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/MyFood/br/ufal/ic/p2/myfood/tests/us2_2.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/MyFood/br/ufal/ic/p2/myfood/tests/us3_1.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/MyFood/br/ufal/ic/p2/myfood/tests/us3_2.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/MyFood/br/ufal/ic/p2/myfood/tests/us4_1.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/MyFood/br/ufal/ic/p2/myfood/tests/us4_2.txt" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -115,7 +145,9 @@
       <workItem from="1729049070875" duration="8902000" />
       <workItem from="1729093345043" duration="4172000" />
       <workItem from="1729117925447" duration="4654000" />
-      <workItem from="1729130372188" duration="13572000" />
+      <workItem from="1729130372188" duration="13684000" />
+      <workItem from="1729144164701" duration="10000" />
+      <workItem from="1729176219581" duration="3127000" />
     </task>
     <task id="LOCAL-00001" summary="0,5/8">
       <option name="closed" value="true" />
@@ -341,7 +373,15 @@
       <option name="project" value="LOCAL" />
       <updated>1729136645753</updated>
     </task>
-    <option name="localTasksCounter" value="29" />
+    <task id="LOCAL-00029" summary="8/8!">
+      <option name="closed" value="true" />
+      <created>1729144146942</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1729144146942</updated>
+    </task>
+    <option name="localTasksCounter" value="30" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -370,7 +410,8 @@
     <MESSAGE value="7/8 (12 erros no 8_1)" />
     <MESSAGE value="7/8 (12 erros no 8_2)" />
     <MESSAGE value="7/8 (7 erros no 8_2)" />
-    <option name="LAST_COMMIT_MESSAGE" value="7/8 (7 erros no 8_2)" />
+    <MESSAGE value="8/8!" />
+    <option name="LAST_COMMIT_MESSAGE" value="8/8!" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -379,6 +420,11 @@
           <properties class="java.lang.StackOverflowError" package="java.lang" />
           <option name="timeStamp" value="1" />
         </breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/Projeto MyFood (2024.2)/src/br/ufal/ic/p2/myfood/Sistema.java</url>
+          <line>583</line>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
     <watches-manager>

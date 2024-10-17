@@ -5,7 +5,7 @@ public class Farmacia extends Empresa {
     private int numeroFuncionarios;
 
     public Farmacia(int id, String nome, String endereco, Boolean aberto24Horas, int numeroFuncionarios, Usuario dono) {
-        super(id, nome, endereco, "farmacia", dono);  // Use "farmacia" como tipo específico
+        super(id, nome, endereco, "farmacia", dono);
 
         this.aberto24Horas = aberto24Horas;
         this.numeroFuncionarios = numeroFuncionarios;

@@ -6,7 +6,7 @@ public class Usuario {
     private String email;
     private String senha;
     private String endereco;
-    private String tipo;  // Cliente, Dono ou Entregador
+    private String tipo;
 
     public Usuario(int id, String nome, String email, String senha, String endereco, String tipo) {
         this.id = id;
@@ -17,7 +17,6 @@ public class Usuario {
         this.tipo = tipo;
     }
 
-    // Getters e setters
     public int getId() {
         return id;
     }

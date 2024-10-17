@@ -45,10 +45,6 @@ public class Pedido {
         }
     }
 
-    public void fechar() {
-        estado = "fechado";
-    }
-
     public void setEstado(String estado) {
         this.estado = estado;
     }
